@@ -1,0 +1,108 @@
+% Единая схема элементов: ортографическая проекция трёхмерной геометрии.
+% Опорная плоскость z=0; линия узлов N; M перпендикулярен N в экваторе.
+% В орбите V = cos(i) M + sin(i) Z. Параметр u отсчитывается от N.
+\begin{tikzpicture}[course diagram,x=1mm,y=1mm]
+  \path[use as bounding box] (-40,-28) rectangle (40,27);
+  \def\kgNx{10}
+  \def\kgNy{-9.93464}
+  \def\kgMx{17.32051}
+  \def\kgMy{5.73576}
+  \def\kgZy{16.38304}
+  \def\kgVx{8.66025}
+  \def\kgVy{17.05601}
+  % a=1.2, e=0.25, omega=60 deg, i=60 deg; p=a(1-e^2)=1.125.
+  \tikzset{declare function={
+    kgr(\u)=1.125/(1+.25*cos(\u-60));
+    kgx(\u)=kgr(\u)*(\kgNx*cos(\u)+\kgVx*sin(\u));
+    kgy(\u)=kgr(\u)*(\kgNy*cos(\u)+\kgVy*sin(\u));
+  }}
+  \coordinate (kgF) at (0,0);
+  \coordinate (kgA) at ({kgx(0)},{kgy(0)});
+  \coordinate (kgD) at ({kgx(180)},{kgy(180)});
+  \coordinate (kgP) at ({kgx(60)},{kgy(60)});
+  \coordinate (kgS) at ({kgx(135)},{kgy(135)});
+
+  % Часть орбитальной плоскости ниже экватора.
+  \fill[courseaccent!12!coursepaper]
+    plot[domain=180:360,samples=91,variable=\u] ({kgx(\u)},{kgy(\u)}) -- cycle;
+  \draw[orbit line,densely dashed,draw=courseaccent!65!coursepaper]
+    plot[domain=180:360,samples=91,variable=\u] ({kgx(\u)},{kgy(\u)});
+
+  % Экваториальная плоскость и её контур.
+  \fill[courseink!9!coursepaper,opacity=.88] (0,0) ellipse (30 and 17.2073);
+  \draw[draw=coursemuted!45!coursepaper,line width=.45pt]
+    (0,0) ellipse (30 and 17.2073);
+
+  % Полуплоскость z>0: восходящий узел -> перицентр -> КА -> нисходящий узел.
+  \fill[courseaccent!20!coursepaper,opacity=.86]
+    plot[domain=0:180,samples=91,variable=\u] ({kgx(\u)},{kgy(\u)}) -- cycle;
+  \draw[orbit line,line width=1.05pt]
+    plot[domain=0:180,samples=91,variable=\u] ({kgx(\u)},{kgy(\u)});
+  \draw[draw=courseaccent!65!coursepaper,line width=.75pt,densely dashed]
+    plot[domain=180:360,samples=91,variable=\u] ({kgx(\u)},{kgy(\u)});
+
+  % Общая прямая плоскостей; оба узла лежат точно на этой прямой.
+  \draw[draw=courseink!75,line width=.7pt,dash pattern=on 3pt off 2pt]
+    ({-1.63*\kgNx},{-1.63*\kgNy}) -- ({1.73*\kgNx},{1.73*\kgNy});
+  \draw[draw=courseink,line width=.75pt] (kgD)--(kgA);
+
+  % X направлен к точке весеннего равноденствия; Omega=45 deg.
+  % Проекция X соответствует азимуту -105 deg, N — азимуту -60 deg.
+  \draw[vector line] (kgF)--(-8.41162,-17.9991);
+  \node[anchor=north east,inner sep=1pt] at (-8.3,-18.1) {$X$};
+  \draw[draw=courseaccent!80!courseink,line width=.65pt] (kgF)--(kgP);
+  \draw[draw=courseink,line width=.65pt] (kgF)--(kgS);
+
+  % Три угла с вершиной в фокусе: отдельные радиусы дуг.
+  \draw[angle line,draw=courseink]
+    plot[domain=-105:-60,samples=25,variable=\t]
+      ({10*cos(\t)},{10*.573576*sin(\t)});
+  \node[fill=courseink!9!coursepaper,inner sep=.35pt] at (.1,-8.0) {$\Omega$};
+  \draw[angle line,draw=courseaccent!75!courseink]
+    plot[domain=0:60,samples=31,variable=\t]
+      ({.43*(\kgNx*cos(\t)+\kgVx*sin(\t))},
+       {.43*(\kgNy*cos(\t)+\kgVy*sin(\t))});
+  \node[inner sep=.3pt,text=courseaccent!75!courseink] at (8.3,-.1) {$\omega$};
+  \draw[angle line,draw=courseink]
+    plot[domain=60:135,samples=31,variable=\t]
+      ({.60*(\kgNx*cos(\t)+\kgVx*sin(\t))},
+       {.60*(\kgNy*cos(\t)+\kgVy*sin(\t))});
+  \node[inner sep=.3pt] at (4.2,12.8) {$\nu$};
+
+  % Угол между плоскостями при узле: обе стороны перпендикулярны N.
+  \draw[draw=coursemuted,line width=.55pt]
+    (kgA)--++({.53*\kgMx},{.53*\kgMy});
+  \draw[draw=courseaccent!75!courseink,line width=.55pt]
+    (kgA)--++({.53*\kgVx},{.53*\kgVy});
+  \draw[angle line]
+    plot[domain=0:60,samples=31,variable=\t]
+      ({kgx(0)+.40*\kgMx*cos(\t)},
+       {kgy(0)+.40*(\kgMy*cos(\t)+\kgZy*sin(\t))});
+  \node[text=courseaccent,inner sep=.3pt] at (19.2,-4.9) {$i$};
+
+  % Направление движения соответствует возрастанию u и nu.
+  \draw[angle line,line width=1.05pt]
+    plot[domain=88:108,samples=20,variable=\u] ({kgx(\u)},{kgy(\u)});
+  \node[orbit point] at (kgA) {};
+  \node[orbit point,fill=coursepaper,draw=courseaccent,line width=.85pt] at (kgD) {};
+  \node[orbit point,inner sep=1.3pt] at (kgP) {};
+  \node[circle,fill=courseink,inner sep=1.7pt] at (kgS) {};
+  \node[circle,fill=coursepaper,draw=courseink,line width=.55pt,
+    inner sep=.3pt,font=\fontsize{9.5}{11.5}\selectfont] at (kgF) {$\oplus$};
+
+  % Вынесенные подписи; основной размер всех подписей — 9.5 pt.
+  \draw[aux line,draw=coursemuted] (kgD)--(-19,18);
+  \node[anchor=south,align=center,inner sep=.6pt] at (-22,18)
+    {Нисходящий\\узел};
+  \node[anchor=south,inner sep=1pt] at (kgS) {КА};
+  \draw[aux line,draw=coursemuted] (kgP)--(21,12.2);
+  \node[anchor=west,inner sep=.6pt] at (20,12.2) {Перицентр};
+  \draw[aux line,draw=coursemuted] (kgA)--(23,-19);
+  \node[anchor=north,align=center,inner sep=.6pt] at (26,-19)
+    {Восходящий\\узел};
+  \draw[aux line,draw=coursemuted] (-8.2,8.15)--(-24,10.8);
+  \node[anchor=east,align=right,inner sep=.6pt] at (-23.2,10.8)
+    {Линия\\узлов};
+  \node[text=coursemuted,inner sep=.6pt] at (-26,0) {Экватор};
+  \node[text=courseaccent,inner sep=.6pt] at (-24,-22) {Орбита};
+\end{tikzpicture}

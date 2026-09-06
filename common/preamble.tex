@@ -8,6 +8,7 @@
 \usepackage{PTSerif}
 \usepackage{amsmath,amsfonts,amssymb}
 \usepackage{graphicx,microtype,anyfontsize,tikz}
+\usepackage{ragged2e}
 \usetikzlibrary{arrows.meta,calc}
 
 \usetheme{default}
@@ -27,6 +28,15 @@
 \definecolor{coursemuted}{HTML}{6D6560}
 \definecolor{courserule}{HTML}{A9CADA}
 \definecolor{coursetint}{HTML}{EDF4F6}
+\tikzset{
+  course diagram/.style={font=\fontsize{9.5}{11.5}\selectfont,
+    line cap=round,line join=round,>=Latex},
+  orbit line/.style={draw=courseaccent,line width=1pt},
+  aux line/.style={draw=courserule,line width=.5pt},
+  vector line/.style={draw=courseink,line width=.65pt,->},
+  angle line/.style={draw=courseaccent,line width=.8pt,->},
+  orbit point/.style={circle,fill=courseaccent,inner sep=1.7pt}
+}
 \setbeamercolor{normal text}{fg=courseink,bg=coursepaper}
 \setbeamercolor{background canvas}{bg=coursepaper}
 \setbeamercolor{structure}{fg=courseaccent}

@@ -1,15 +1,479 @@
 % !TeX program = pdflatex
 % !TeX encoding = UTF-8
-\documentclass[9pt]{beamer}
+\documentclass[11pt,aspectratio=169,t]{beamer}
 \input{../common/preamble.tex}
 
+\setcounter{lecture}{1}
 \title{Введение}
-\date{2026--2027 учебный год}
+\date{8 сентября 2026 г.}
 
 \begin{document}
 
-\begin{frame}
+\begin{frame}[plain]
 \titlepage
+\end{frame}
+
+\begin{frame}{Группа курса}
+\centering
+\includegraphics[height=0.70\textheight,keepaspectratio]{images/qr.png}
+\end{frame}
+
+\begin{frame}{Система оценивания}
+Форма контроля: дифференцированный зачёт.
+
+\begin{columns}[T,onlytextwidth]
+  \begin{column}{0.47\textwidth}
+    \begin{block}{Баллы за работу}
+      Основные ДЗ: \textbf{до 5 баллов}.\\
+      Бонус за задачи со $*$: \textbf{до 1 балла}.\\
+      Зачёт: \textbf{до 5 баллов}.
+    \end{block}
+  \end{column}
+  \begin{column}{0.49\textwidth}
+    \begin{block}{Обязательное условие}
+      Сдать теоретический минимум.
+    \end{block}
+  \end{column}
+\end{columns}
+
+\medskip
+{\justifying
+Если теоретический минимум не сдан, итоговая оценка~---
+\textbf{2 (неудовлетворительно)}, независимо от баллов за ДЗ.
+\par}
+
+\begin{block}{Итог при сданном теоретическом минимуме}
+  $\text{Итог} = \min\bigl(10,\;\text{основные ДЗ} + \text{бонус} + \text{зачёт}\bigr)$.
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Кеплеровы элементы орбиты}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.43\textwidth}
+\begin{block}{Группы элементов}
+$a,e,\omega$ --- размер, форма и ориентация в плоскости орбиты.\par
+$i,\Omega$ --- ориентация плоскости орбиты в пространстве.\par
+$\nu$ --- положение на орбите.
+\end{block}
+Геоцентрическая система:\\
+$XY$ --- плоскость экватора;\\
+$X$ --- направление весеннего равноденствия.\par
+Эпоха элементов --- $t_0$.
+\end{column}
+\begin{column}{.55\textwidth}
+\centering
+\input{images/kepler-geometry.tex}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Большая полуось $a$: размер орбиты}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.47\textwidth}
+      \begin{block}{Геометрический смысл}
+        \justifying
+        Расстояние от центра эллипса до вершины большой оси.\par\smallskip
+        Длина; единицы --- м или км.\par
+        Направления отсчёта нет.
+      \end{block}
+      \begin{block}{Для эллиптической орбиты}
+        \(\displaystyle a=\frac{r_{\text{п}}+r_{\text{а}}}{2}>0.\)\par\medskip
+        \(r_{\text{п}}=a(1-e),\quad r_{\text{а}}=a(1+e).\)\par
+      \end{block}
+    \end{column}
+    \begin{column}{.49\textwidth}
+      \centering
+      \begin{tikzpicture}[course diagram,x=1mm,y=1mm]
+        \path[use as bounding box] (-31,-24) rectangle (34,27);
+        \draw[aux line] (-27,0)--(27,0);
+        \draw[orbit line] (0,0) ellipse[x radius=24,y radius=18];
+        \draw[aux line,dashed] (0,0)--(0,24);
+        \draw[aux line,dashed] (24,0)--(24,24);
+        \draw[courseaccent,line width=.7pt,<->] (0,23)--node[above] {$a$}(24,23);
+        \fill[courseink] (0,0) circle[radius=.65];
+        \node[below=1mm] at (0,0) {$O$};
+        \fill[courseaccent] (15.875,0) circle[radius=1.5];
+        \node[align=center,above=2mm] at (15.875,0) {Земля\\фокус $F$};
+        \fill[courseaccent] (24,0) circle[radius=.7];
+        \node[anchor=north west] at (24,-1) {П};
+        \fill[courseaccent] (-24,0) circle[radius=.7];
+        \node[anchor=north east] at (-24,-1) {А};
+        \draw[aux line,dashed] (-24,0)--(-24,-23);
+        \draw[aux line,dashed] (15.875,0)--(15.875,-23);
+        \draw[courseaccent,line width=.65pt,<->] (-24,-22)--node[fill=coursepaper,inner sep=.6pt] {$r_{\text{а}}$}(15.875,-22);
+        \draw[courseaccent,line width=.65pt,<->] (15.875,-7)--node[below,inner sep=.5pt] {$r_{\text{п}}$}(24,-7);
+      \end{tikzpicture}
+      \par\vspace{-1mm}
+      {\usebeamerfont{caption}\color{coursemuted}П --- перицентр; А --- апоцентр.\par
+      Радиусы отсчитываются от фокуса.\par}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Высотные области околоземных орбит}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.47\textwidth}
+      \begin{block}{Круговые орбиты: высота $h$}
+        \textbf{Низкие (LEO):} до $\sim 2000$ км.\par
+        \textbf{Средние (MEO):} $2000$--$35\,786$ км.\par
+        \textbf{Высокие:} выше $35\,786$ км.\par
+        Границы областей условные.
+      \end{block}
+      \begin{block}{Геостационарная орбита}
+        Круговая, экваториальная, движение прямое: $e=0$, $i=0$.\par
+        $h\approx35\,786$ км, $a\approx42\,164$ км.
+      \end{block}
+    \end{column}
+    \begin{column}{.49\textwidth}
+      \centering
+      \begin{tikzpicture}[course diagram,x=1mm,y=.8mm]
+        \path[use as bounding box] (-3,-7) rectangle (66,38);
+        \fill[coursetint] (3,0) rectangle (62,7);
+        \fill[coursetint!60!coursepaper] (3,7) rectangle (62,23);
+        \fill[coursetint!30!coursepaper] (3,23) rectangle (62,35);
+        \draw[vector line] (3,0)--(3,37) node[above right,inner sep=1pt] {$h$, км};
+        \draw[aux line] (3,0)--(62,0);
+        \draw[aux line,dashed] (3,7)--(62,7);
+        \draw[courseaccent,line width=.75pt] (3,23)--(62,23);
+        \node[anchor=west,fill=coursepaper,inner sep=.5pt] at (5,7) {$2000$};
+        \node[anchor=west,fill=coursepaper,inner sep=.5pt] at (5,23) {$35\,786$};
+        \node at (41,3.5) {Низкие};
+        \node at (41,15) {Средние};
+        \node at (41,30) {Высокие};
+        \node[text=coursemuted,anchor=north west] at (4,0) {Поверхность Земли};
+      \end{tikzpicture}
+      \par
+      {\usebeamerfont{caption}\color{coursemuted}Схема не в масштабе.\par}
+      \begin{block}{Высота над поверхностью}
+        Круговая: $h=a-R_\oplus$.\par
+        Эллиптическая: $h_{\text{п,а}}=a(1\mp e)-R_\oplus$.
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Эксцентриситет $e$: форма траектории}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.47\textwidth}
+      \begin{block}{Геометрический смысл}
+        \justifying
+        Характеризует форму траектории.\par\smallskip
+        Безразмерная величина; единиц и направления отсчёта нет.
+      \end{block}
+      \medskip
+        Для эллипса: \(\displaystyle e=\frac{c}{a}\).\par\medskip
+        $c$ --- расстояние от центра до фокуса.\par
+      \medskip
+      При $e<1$ траектория замкнута.\par\smallskip
+      При $e\ge1$ --- незамкнута.
+    \end{column}
+    \begin{column}{.49\textwidth}
+      \centering
+      \begin{tikzpicture}[course diagram,x=1mm,y=1mm]
+        \path[use as bounding box] (-1,-5) rectangle (68,49);
+        \node[align=center,text=courseaccent] at (15,46) {Окружность: $e=0$};
+        \draw[orbit line] (15,34) circle[radius=7];
+        \fill[courseaccent] (15,34) circle[radius=1.2];
+        \node[align=center,text=courseaccent] at (50,46) {Эллипс: $0<e<1$};
+        \draw[orbit line] (50,34) ellipse[x radius=10,y radius=6];
+        \fill[courseaccent] (58,34) circle[radius=1.2];
+        \draw[aux line] (50,34)--node[below,inner sep=.5pt] {$c$}(58,34);
+        \fill[courseink] (50,34) circle[radius=.5];
+        \node[align=center,text=courseaccent] at (15,20) {Парабола: $e=1$};
+        \draw[orbit line,domain=-9:9,samples=51,variable=\t] plot ({8+\t*\t/12},{6+\t});
+        \fill[courseaccent] (11,6) circle[radius=1.2];
+        \node[align=center,text=courseaccent] at (50,20) {Гипербола: $e>1$};
+        \draw[aux line,dashed] (41,6)--(56,17.25);
+        \draw[aux line,dashed] (41,6)--(56,-5.25);
+        \draw[orbit line,domain=-1.8:1.8,samples=61,variable=\t]
+          plot ({41+2*(exp(\t)+exp(-\t))},{6+1.5*(exp(\t)-exp(-\t))});
+        \fill[courseaccent] (46,6) circle[radius=1.2];
+      \end{tikzpicture}
+      \par
+      {\usebeamerfont{caption}\color{coursemuted}Голубая точка --- притягивающий центр.\par}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+
+% Определения углов: ESA Navipedia, Two-body Problem.
+% https://gssc.esa.int/navipedia/index.php?title=Two-body_Problem
+\begin{frame}{Аргумент перицентра $\omega$}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.43\textwidth}
+\begin{block}{Определение}
+\justifying
+Угол в плоскости орбиты от направления на восходящий узел до направления на перицентр.
+\end{block}
+\textbf{Направление отсчёта:} по направлению движения КА.
+\par\medskip
+\textbf{Единицы:} рад или градусы.\\
+$0\le\omega<2\pi$ \quad ($0$--$360^\circ$).
+\par\medskip
+Определяет ориентацию линии апсид в плоскости орбиты.
+\end{column}
+\begin{column}{.55\textwidth}
+\centering
+\begin{tikzpicture}[course diagram,x=1mm,y=1mm]
+  \path[use as bounding box] (-30,-33) rectangle (42,19);
+  % Фокус в начале координат; a = 22 мм, e = 0.5, omega = 55 градусов.
+  \pgfmathsetmacro{\ascendingradius}{16.5/(1+.5*cos(55))}
+  \pgfmathsetmacro{\descendingradius}{-16.5/(1-.5*cos(55))}
+  \coordinate (F) at (0,0);
+  \coordinate (P) at ({11*cos(55)},{11*sin(55)});
+  \coordinate (N) at (\ascendingradius,0);
+  \draw[aux line,dashed] (-29,0)--(30,0);
+  \node[anchor=south west,text=coursemuted] at (-29,1) {Линия узлов};
+  \begin{scope}[rotate=55]
+    \draw[orbit line] (-11,0) ellipse[x radius=22,y radius=19.05256];
+    \draw[orbit line,->,domain=225:255,samples=16,variable=\t]
+      plot ({-11+22*cos(\t)},{sqrt(363)*sin(\t)});
+  \end{scope}
+  \node[anchor=west,text=coursemuted] at (10,-27) {Движение};
+  \draw[vector line] (F)--(17,0);
+  \draw[vector line] (F)--(P);
+  \draw[angle line] (7,0) arc[start angle=0,end angle=55,radius=7];
+  \node[text=courseaccent,inner sep=.5pt] at (8.5,4.6) {$\omega$};
+  \fill[courseink] (F) circle[radius=.8];
+  \node[anchor=north east,inner sep=1mm] at (F) {Земля};
+  \fill[courseaccent] (P) circle[radius=.8];
+  \node[anchor=south west,inner sep=1mm] at (P) {Перицентр};
+  \fill[courseaccent] (N) circle[radius=.8];
+  \draw[courseaccent,fill=coursepaper,line width=.7pt]
+    (\descendingradius,0) circle[radius=.8];
+  \draw[aux line] (N)--(18,-6);
+  \node[anchor=west,align=left,inner sep=1mm] at (18,-7)
+    {Восходящий\\узел};
+\end{tikzpicture}
+\par
+{\usebeamerfont{caption}\color{coursemuted}Вид на плоскость орбиты.\par}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Наклонение $i$}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.43\textwidth}
+\begin{block}{Определение}
+\justifying
+Угол от плоскости экватора до плоскости орбиты.
+\end{block}
+\par
+\textbf{Отсчёт:} вокруг направления на восходящий узел, по правилу правой руки.
+\par
+$0\le i\le\pi$ рад \quad ($0$--$180^\circ$).
+\par
+\begin{tabular}{@{}ll@{}}
+$i<90^\circ$ & прямые орбиты;\\
+$i=90^\circ$ & полярные;\\
+$i>90^\circ$ & обратные;\\
+$i=0,\pi$ & экваториальные.
+\end{tabular}
+\end{column}
+\begin{column}{.55\textwidth}
+\centering
+\input{images/kepler-geometry.tex}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Долгота восходящего узла $\Omega$}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.43\textwidth}
+\begin{block}{Определение}
+\justifying
+Угол в плоскости экватора, отсчитываемый от направления весеннего равноденствия до направления на восходящий узел.
+\end{block}
+\textbf{Положительное направление:} от $+X$ к $+Y$, против часовой стрелки при наблюдении со стороны $+Z$.
+\par\medskip
+\textbf{Единицы:} рад или градусы.\\
+$0\le\Omega<2\pi$ \quad ($0$--$360^\circ$).
+\end{column}
+\begin{column}{.55\textwidth}
+\centering
+\input{images/kepler-geometry.tex}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Истинная аномалия $\nu$}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.43\textwidth}
+\begin{block}{Определение и отсчёт}
+\justifying
+Угол в плоскости орбиты, отсчитываемый в фокусе от направления на перицентр до радиус-вектора КА по направлению движения.
+\end{block}
+\textbf{Единицы:} рад или градусы.\\
+Для эллипса: $0\le\nu<2\pi$.
+\par
+Перицентр: $\nu=0$; апоцентр: $\nu=\pi$.
+\par
+$\displaystyle r=\frac{a(1-e^2)}{1+e\cos\nu}$.
+\end{column}
+\begin{column}{.55\textwidth}
+\centering
+\input{images/kepler-geometry.tex}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Варианты быстроменяющегося элемента}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.43\textwidth}
+\centering
+{\tikzset{every picture/.append style={scale=.85}}
+\input{images/kepler-anomalies.tex}
+}
+\par
+{\usebeamerfont{caption}\color{coursemuted}$C$ --- центр; $F$ --- фокус; П --- перицентр.\par}
+{\usebeamerfont{caption}\textbf{Уравнение Кеплера:}} $M=E-e\sin E$.\par
+\textbf{Итерации Ньютона:}\par
+$\displaystyle E_{k+1}=E_k+\frac{M-E_k+e\sin E_k}{1-e\cos E_k}.$\par
+{\usebeamerfont{caption}\color{coursemuted}$0\le e<1$; углы в радианах.\par}
+\end{column}
+\begin{column}{.55\textwidth}
+\textbf{$E$ --- эксцентрическая аномалия.}\\
+$E=\angle\text{П}CQ$, отсчёт по направлению движения. $Q$ --- точка вспомогательной окружности с абсциссой КА.
+\par\smallskip
+\textbf{$M$ --- средняя аномалия.}\\
+В задаче двух тел: $M=M_0+n(t-t_0)$.\\
+$n=2\pi/T$, $T$ --- период; $M=0$ в перицентре.
+\par\smallskip
+\textbf{$u=\omega+\nu$ --- аргумент широты.}\\
+От восходящего узла до КА по движению в плоскости орбиты.
+\par\smallskip
+\textbf{$\bar u=\omega+M$ --- средний аргумент широты.} Средняя фаза относительно узла.
+\end{column}
+\end{columns}
+\end{frame}
+
+% Вырождения: NASA/JPL, описание oscelt_c.
+% https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/oscelt_c.html
+\begin{frame}{Преимущества и ограничения}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.50\textwidth}
+\textcolor{courseaccent}{\textbf{Преимущества}}
+\begin{itemize}
+\item Физическая и геометрическая интерпретируемость элементов.
+\item Предварительное планирование миссий: оценка основных характеристик орбиты.
+\item Стандарты и совместимость: использование элементов в каталогах и расчётных средствах для обмена орбитальными данными.
+\end{itemize}
+\end{column}
+\begin{column}{.46\textwidth}
+\textcolor{courseaccent}{\textbf{Ограничения}}
+\begin{itemize}
+\item При $e=0$ аргумент перицентра $\omega$ и истинная аномалия $\nu$ по отдельности не определены.
+\item При $i=0$ или $\pi$ углы $\Omega$ и $\omega$ по отдельности не определены.
+\item Вблизи вырожденных случаев преобразование в угловые элементы плохо обусловлено: возрастает чувствительность к погрешностям исходных данных.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Декартовы элементы}
+\begin{block}{Определение}
+\justifying
+Положение и скорость КА задаются шестью компонентами в выбранной системе координат на эпоху $t_0$.
+\end{block}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\textcolor{courseaccent}{\textbf{Вектор состояния}}
+\par\smallskip
+$\mathbf y=(x,y,z,v_x,v_y,v_z)^{\mathsf T}.$
+\par\medskip
+$\mathbf r=(x,y,z)^{\mathsf T}$ --- радиус-вектор.\par
+$\mathbf v=(v_x,v_y,v_z)^{\mathsf T}$ --- скорость.
+\par\medskip
+\textbf{Единицы:}\par
+$x,y,z$ --- м или км;\par
+$v_x,v_y,v_z$ --- м/с или км/с.
+\end{column}
+\begin{column}{.48\textwidth}
+\textcolor{courseaccent}{\textbf{Отсчёт и свойства}}
+\begin{itemize}
+\item Компоненты --- знаковые проекции векторов $\mathbf r,\mathbf v$ на оси СК.
+\item В геоцентрической СК начало совпадает с центром масс Земли.
+\item Нет угловых вырождений при $e=0$ и $i=0,\pi$.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+% Набор (a,h,k,p,q,lambda) перенесён из прошлогодней лекции.
+% Он использует среднюю долготу; стандартный MEE использует фокальный
+% параметр вместо a и истинную долготу вместо lambda.
+% https://orekit.org/site-orekit-development/apidocs/org/orekit/files/ccsds/ndm/odm/ocm/OrbitElementsType.html
+\begingroup
+\setbeamerfont{frametitle}{size*={17.5pt}{23pt}}
+\begin{frame}{Модифицированные равноденственные элементы}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.49\textwidth}
+\begin{block}{Набор $(a,h,k,p,q,\lambda)$}
+\centering
+$\displaystyle
+\begin{aligned}
+h &= e\sin(\omega+I\Omega),\\
+k &= e\cos(\omega+I\Omega),\\
+p &= \bigl(\tan(i/2)\bigr)^I\sin\Omega,\\
+q &= \bigl(\tan(i/2)\bigr)^I\cos\Omega,\\
+\lambda &= M+\omega+I\Omega.
+\end{aligned}
+$\par
+\end{block}
+$a$ --- большая полуось, м или км;\par
+$h,k,p,q$ --- безразмерные;\par
+$\lambda$ --- средняя долгота, рад.
+\end{column}
+\begin{column}{.47\textwidth}
+\begin{block}{Ретроградный фактор}
+\centering
+$\displaystyle
+I=\begin{cases}
++1,&0\le i\le\pi/2,\\
+-1,&\pi/2<i\le\pi.
+\end{cases}
+$\par
+\end{block}
+\textbf{Особенности каждого набора:}\par\smallskip
+При $I=+1$: $\displaystyle\lim_{i\to\pi}\sqrt{p^2+q^2}=\infty.$\par\smallskip
+При $I=-1$: $\displaystyle\lim_{i\to0}\sqrt{p^2+q^2}=\infty.$\par\smallskip
+При указанном выборе $I$ набор регулярен для круговых и экваториальных орбит.
+\end{column}
+\end{columns}
+\end{frame}
+\endgroup
+
+% Радиально-трансверсальная СК: радиальная ось вдоль положения,
+% нормальная ось вдоль орбитального момента (QSW/RTN).
+% https://www.orekit.org/site-orekit-development/apidocs/org/orekit/frames/LOFType.html
+\begin{frame}{Орбитальная система координат}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.47\textwidth}
+\centering
+\input{images/orbital-frame.tex}
+\par\smallskip
+{\usebeamerfont{caption}\color{coursemuted}
+$\mathbf R$ --- радиус-вектор от центра Земли до центра масс КА.\par}
+\smallskip
+Правый базис: $\mathbf e_r\times\mathbf e_t=\mathbf e_z$.
+\end{column}
+\begin{column}{.49\textwidth}
+\begin{block}{Начало координат}
+$O$ --- центр масс КА.
+\end{block}
+\textbf{Радиальная ось $\mathbf e_r$.}\par
+Сонаправлена радиус-вектору $\mathbf R$.
+\par
+\textbf{Трансверсальная ось $\mathbf e_t$.}\par
+{\justifying
+Лежит в плоскости орбиты, перпендикулярна $\mathbf e_r$ и направлена в сторону движения КА.\par}
+\par
+\textbf{Нормальная ось $\mathbf e_z$.}\par
+{\justifying
+Перпендикулярна плоскости орбиты и дополняет оси до правой тройки.\par}
+\end{column}
+\end{columns}
 \end{frame}
 
 \end{document}

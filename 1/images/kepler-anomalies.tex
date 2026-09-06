@@ -1,0 +1,42 @@
+% Эллипс и вспомогательная окружность: a = 18 мм, e = 0.8, E = 120 градусов.
+% Q и КА имеют одинаковую абсциссу; F — правый фокус, П — перицентр.
+\begin{tikzpicture}[course diagram,x=1mm,y=1mm]
+  \path[use as bounding box] (-29,-19) rectangle (25,21);
+  \coordinate (C) at (0,0);
+  \coordinate (F) at (14.4,0);
+  \coordinate (P) at (18,0);
+  \coordinate (Q) at (-9,15.58846);
+  \coordinate (K) at (-9,9.35307);
+
+  % Вспомогательная окружность сохраняет истинные пропорции.
+  \draw[coursemuted,line width=.5pt,dash pattern=on 2pt off 2pt]
+    (C) circle[radius=18];
+  \draw[orbit line] (C) ellipse[x radius=18,y radius=10.8];
+  \draw[aux line] (-19.5,0)--(21.5,0);
+  \draw[coursemuted,line width=.6pt] (C)--(Q);
+  \draw[coursemuted,line width=.5pt,dashed] (-9,0)--(Q);
+  \draw[vector line] (F)--(K);
+
+  % E отсчитывается при центре, nu — при фокусе от одного направления оси.
+  \draw[angle line] (4.5,0)
+    arc[start angle=0,end angle=120,radius=4.5];
+  \node[text=courseaccent,inner sep=.4mm,fill=coursepaper]
+    at (1.4,6.9) {$E$};
+  \draw[angle line] (20.4,0)
+    arc[start angle=0,end angle=158.21492,radius=6];
+  \node[text=courseaccent,inner sep=.4mm,fill=coursepaper]
+    at (15.8,8.1) {$\nu$};
+
+  \fill[courseink] (C) circle[radius=.55];
+  \fill[courseink] (F) circle[radius=.65];
+  \fill[courseaccent] (P) circle[radius=.6];
+  \draw[courseink,fill=coursepaper,line width=.65pt]
+    (Q) circle[radius=.7];
+  \fill[courseaccent] (K) circle[radius=.8];
+  \node[anchor=north,inner sep=1mm] at (C) {$C$};
+  \node[anchor=north,inner sep=1mm] at (F) {$F$};
+  \node[anchor=north west,inner sep=1mm] at (P) {П};
+  \node[anchor=south east,inner sep=1mm] at (Q) {$Q$};
+  \draw[coursemuted,line width=.5pt] (-20,9.35307)--(-10.1,9.35307);
+  \node[anchor=east,inner sep=1mm] at (-20,9.35307) {КА};
+\end{tikzpicture}
