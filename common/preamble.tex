@@ -1,0 +1,38 @@
+\usetheme{Madrid}
+\usefonttheme{serif}
+
+% Все презентации курса компилируются только pdflatex.
+\usepackage{iftex}
+\RequirePDFTeX
+\usepackage{cmap}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{microtype}
+
+\DeclareMathOperator{\sen}{sen}
+
+\setbeamertemplate{caption}[numbered]
+
+% Общие сведения о курсе
+\author[Автор]{Чиняев Владимир Николаевич}
+\newcommand{\coursename}{Введение в маневрирование} 
+\setbeamertemplate{navigation symbols}{} 
+\institute[]{Московский физико технический институт} 
+
+\bibliographystyle{apalike}
+
+% Название курса и номер слайда
+\setbeamertemplate{footline}{
+  \leavevmode%
+  \begin{beamercolorbox}[wd=\paperwidth,ht=2ex,dp=1ex]{palette primary}
+    \hspace{0.4cm}\usebeamerfont{footline}\coursename\hfill\usebeamerfont{footline}\insertframenumber\hspace{0.4cm}
+  \end{beamercolorbox}%
+}
+
+\setbeamerfont{footline}{size=\small}

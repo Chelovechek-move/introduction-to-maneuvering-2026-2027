@@ -1,0 +1,42 @@
+# Local instructions and build directories
+AGENTS.md
+build/
+
+# Generated lecture and homework PDFs (keep PDF illustrations)
+/[0-9]*/*.pdf
+/Homeworks/**/*.pdf
+!**/images/**/*.pdf
+
+# LaTeX auxiliary files, including accidental builds outside build/
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.dvi
+*.fdb_latexmk
+*.fls
+*.idx
+*.ilg
+*.ind
+*.lof
+*.log
+*.lot
+*.nav
+*.out
+*.run.xml
+*.snm
+*.synctex*
+*.toc
+*.vrb
+*.xdv
+
+# Editor backups and temporary files
+*~
+*.bak
+*.tmp
+*.swp
+*.swo
+.#*
+\#*#
+.DS_Store
+Thumbs.db
