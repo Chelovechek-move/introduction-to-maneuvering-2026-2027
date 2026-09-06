@@ -1,0 +1,31 @@
+{
+  "latex-workshop.latex.build.enableMagicComments": false,
+  "latex-workshop.latex.recipe.default": "pdflatex — build",
+  "latex-workshop.latex.outDir": "%DIR%/build",
+  "latex-workshop.latex.auxDir": "%DIR%/build",
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "pdflatex — build",
+      "tools": ["course-pdflatex", "course-pdf"]
+    }
+  ],
+  "latex-workshop.latex.tools": [
+    {
+      "name": "course-pdflatex",
+      "command": "latexmk",
+      "args": [
+        "-r",
+        "%WORKSPACE_FOLDER%/.latexmkrc",
+        "-synctex=1",
+        "-outdir=%OUTDIR%",
+        "-auxdir=%AUXDIR%",
+        "%DOC_EXT%"
+      ]
+    },
+    {
+      "name": "course-pdf",
+      "command": "cp",
+      "args": ["%OUTDIR%/%DOCFILE%.pdf", "%DIR%/%DOCFILE%.pdf"]
+    }
+  ]
+}
