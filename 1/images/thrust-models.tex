@@ -1,0 +1,35 @@
+% Схематические профили тяги. Стрелка J в первом поле обозначает
+% дельта-импульс силы, а не конечное значение тяги.
+\begin{tikzpicture}[course diagram,x=1mm,y=1mm]
+  \path[use as bounding box] (-3,-6) rectangle (144,24);
+  \foreach \offset in {0,50,100} {
+    \begin{scope}[xshift=\offset mm]
+      \draw[vector line] (0,0)--(41,0) node[below] {$t$};
+      \draw[vector line] (0,0)--(0,22) node[above right,inner sep=.5mm] {$F$};
+    \end{scope}
+  }
+  \draw[courseaccent,line width=1pt,->] (20,0)--(20,18);
+  \node[text=courseaccent,anchor=west] at (22,16) {$J$};
+  \node[below=1mm] at (20,0) {$t_i$};
+  \begin{scope}[xshift=50mm]
+    \fill[coursetint] (8,0) rectangle (30,15);
+    \draw[orbit line] (1,0)--(8,0)--(8,15)--(30,15)--(30,0)--(39,0);
+    \node[text=courseaccent,above=1mm] at (19,15) {$F_0$};
+    \node[below=1mm] at (8,0) {$t_{\text{вкл}}$};
+    \node[below=1mm] at (30,0) {$t_{\text{выкл}}$};
+  \end{scope}
+  \begin{scope}[xshift=100mm]
+    \path[fill=coursetint]
+      (8,0).. controls (10,0) and (10,15) .. (14,15)
+      .. controls (18,15.6) and (22,12.5) .. (27,13.5)
+      .. controls (29,13.5) and (30,0) .. (35,0)--cycle;
+    \draw[aux line,dashed] (8,0)--(8,19);
+    \draw[aux line,dashed] (27,0)--(27,19);
+    \draw[orbit line] (1,0)--(8,0)
+      .. controls (10,0) and (10,15) .. (14,15)
+      .. controls (18,15.6) and (22,12.5) .. (27,13.5)
+      .. controls (29,13.5) and (30,0) .. (35,0)--(39,0);
+    \node[below=1mm] at (8,0) {$t_{\text{вкл}}$};
+    \node[below=1mm] at (27,0) {$t_{\text{выкл}}$};
+  \end{scope}
+\end{tikzpicture}

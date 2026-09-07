@@ -412,13 +412,13 @@ $v_x,v_y,v_z$ --- м/с или км/с.
 \begin{block}{Набор $(a,h,k,p,q,\lambda)$}
 \centering
 $\displaystyle
-\begin{aligned}
-h &= e\sin(\omega+I\Omega),\\
-k &= e\cos(\omega+I\Omega),\\
-p &= \bigl(\tan(i/2)\bigr)^I\sin\Omega,\\
-q &= \bigl(\tan(i/2)\bigr)^I\cos\Omega,\\
-\lambda &= M+\omega+I\Omega.
-\end{aligned}
+\begin{gathered}
+h = e\sin(\omega+I\Omega),\quad
+k = e\cos(\omega+I\Omega),\\[4pt]
+p = \left[\tan\frac{i}{2}\right]^I\sin\Omega,\quad
+q = \left[\tan\frac{i}{2}\right]^I\cos\Omega,\\[4pt]
+\lambda = M+\omega+I\Omega.
+\end{gathered}
 $\par
 \end{block}
 $a$ --- большая полуось, м или км;\par
@@ -474,6 +474,328 @@ $O$ --- центр масс КА.
 Перпендикулярна плоскости орбиты и дополняет оси до правой тройки.\par}
 \end{column}
 \end{columns}
+\end{frame}
+
+% Определение перенесено из прошлогодней вводной лекции.
+\begin{frame}{Задача маневрирования}
+\begin{block}{Определение}
+\justifying
+Маневрирование --- целенаправленное изменение параметров орбиты космического аппарата с помощью двигательной установки.
+\end{block}
+\begin{block}{Общая постановка}
+\justifying
+По заданным начальным данным определить параметры манёвров, обеспечивающих выполнение конечных условий при соблюдении установленных ограничений.
+\end{block}
+\textbf{Параметры манёвров:} моменты выполнения, направления и величины импульсов скорости либо характеристики включений ДУ.
+\par\medskip
+При оптимизации дополнительно задаётся \textbf{критерий качества}.
+\end{frame}
+
+\begin{frame}{Структура задачи маневрирования}
+\centering
+\input{images/maneuvering-structure.tex}
+\end{frame}
+
+% Состав воздействий: прошлогодний слайд «Силы, действующие на КА».
+% https://www.orekit.org/site-orekit-11.2/architecture/forces.html
+\begin{frame}{Силы, действующие на КА}
+Геоцентрическая СК с невращающимися осями:
+\par\smallskip
+\centerline{$\displaystyle\ddot{\mathbf r}=\mathbf a_0+\mathbf a_{\text{возм}}+\mathbf a_{\text{ДУ}}.$}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.47\textwidth}
+\begin{block}{Притяжение точечного центра}
+$\displaystyle\mathbf a_0=-\frac{\mu}{r^3}\mathbf r$,\quad $r=\|\mathbf r\|$.
+\par\smallskip
+$\mu$ --- гравитационный параметр Земли.
+\end{block}
+\begin{block}{Управляющее ускорение}
+$\displaystyle\mathbf a_{\text{ДУ}}=\frac{\mathbf F_{\text{ДУ}}}{m}$,\quad $m$ --- масса КА.
+\end{block}
+\end{column}
+\begin{column}{.49\textwidth}
+\begin{block}{Возмущающие ускорения}
+\begin{itemize}
+\item Несферичность поля Земли.
+\item Притяжение Луны и Солнца.
+\item Сопротивление атмосферы.
+\item Давление солнечного излучения.
+\end{itemize}
+\end{block}
+\end{column}
+\end{columns}
+Состав учитываемых воздействий зависит от орбиты, свойств КА, длительности прогноза и требуемой точности.
+\end{frame}
+
+\begin{frame}{Расчётная модель баллистики}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.30\textwidth}
+\begin{block}{Центральное поле}
+Только притяжение точечного центра.\par\smallskip
+Кеплерово движение.
+\end{block}
+\end{column}
+\begin{column}{.31\textwidth}
+\begin{block}{С возмущениями}
+Дополнительно, например, $J_2$ и сопротивление атмосферы.
+\end{block}
+\end{column}
+\begin{column}{.35\textwidth}
+\begin{block}{Линеаризованная}
+Приближение по малым отклонениям от опорного движения.
+\end{block}
+\end{column}
+\end{columns}
+\medskip
+\centering
+\begin{tikzpicture}[course diagram,x=1mm,y=1mm,
+  stage/.style={draw=courserule,fill=coursetint,text width=40mm,
+    minimum height=12mm,align=center,inner sep=1mm}]
+  \node[stage] (calculation) at (21,0) {Расчёт параметров\\манёвров};
+  \node[stage] (check) at (73,0) {Проверка в более\\полной модели};
+  \node[stage] (refine) at (125,0) {Уточнение\\параметров};
+  \draw[vector line] (calculation.east)--(check.west);
+  \draw[vector line] (check.east)--(refine.west);
+\end{tikzpicture}
+\par\medskip
+{\justifying
+Манёвр, рассчитанный в центральном поле, может служить исходным решением. Его применимость определяется по результатам проверки с учётом возмущений и исполнения ДУ.\par}
+\end{frame}
+
+\begin{frame}{Модель космического аппарата}
+Характеристики КА определяют допустимые управляющие воздействия.
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\begin{block}{Масса и ресурсы}
+Масса $m(t)$ и запас рабочего тела.\par
+Изменение массы при работе ДУ.
+\end{block}
+\begin{block}{Ориентация}
+Допустимые направления тяги.\par
+Время разворота и точность наведения.
+\end{block}
+\end{column}
+\begin{column}{.48\textwidth}
+\begin{block}{Двигательная установка}
+Тяга, удельный импульс, режимы.\par
+Расположение двигателей.
+\end{block}
+\begin{block}{Исполнение манёвра}
+Задержки срабатывания ДУ.\par
+Ошибки тяги, времени и направления.
+\end{block}
+\end{column}
+\end{columns}
+\smallskip
+Масса, форма и ориентация КА также влияют на аэродинамические силы и давление излучения.
+\end{frame}
+
+% Импульсная и конечная модели манёвра:
+% https://godot.io.esa.int/docs/tutorials2/propagation/04-impulsive-manoeuvres-and-events.html
+% https://godot.io.esa.int/docs/tutorials2/propagation/05-finite-manoeuvres-mass-and-thrust.html
+\begin{frame}{Модели двигательной установки}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.31\textwidth}\centering
+\textcolor{courseaccent}{\textbf{Импульсная модель}}
+\end{column}
+\begin{column}{.31\textwidth}\centering
+\textcolor{courseaccent}{\textbf{Постоянная тяга}}
+\end{column}
+\begin{column}{.34\textwidth}\centering
+\textcolor{courseaccent}{\textbf{Переходные процессы}}
+\end{column}
+\end{columns}
+\smallskip
+\centering
+\input{images/thrust-models.tex}
+\par
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.31\textwidth}
+$\mathbf r^+=\mathbf r^-$.\par
+$\mathbf v^+=\mathbf v^-+\Delta\mathbf v$.\par
+Параметры: $t_i$, $\Delta\mathbf v_i$.
+\end{column}
+\begin{column}{.31\textwidth}
+Конечная длительность.\par
+Мгновенное включение и выключение; $F=F_0$ между ними.
+\end{column}
+\begin{column}{.34\textwidth}
+Задержки, нарастание и спад тяги.\par
+Тяга может изменяться во время работы ДУ.
+\end{column}
+\end{columns}
+\smallskip
+{\usebeamerfont{caption}\color{coursemuted}
+Стрелка $J$ обозначает импульс силы $J=\int F(t)\,dt$, а не конечное значение тяги.\par}
+\end{frame}
+
+\begin{frame}{Условия задачи и критерий качества}
+Модель определяет возможное движение; условия задачи --- требуемый результат.
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\begin{block}{Начальные условия}
+Эпоха и начальное состояние КА.\par
+Состояния целей, доступные ресурсы и погрешности исходных данных.
+\end{block}
+\begin{block}{Ограничения}
+Безопасность, допустимые интервалы манёвров, технические и полётные условия.
+\end{block}
+\end{column}
+\begin{column}{.48\textwidth}
+\begin{block}{Конечные условия}
+Требуемое состояние в конечный момент или допустимая область на интервале движения.
+\end{block}
+\begin{block}{Критерий качества}
+Выбирает предпочтительное решение.\par
+Например, для импульсной модели:\par
+$\displaystyle J=\sum_i\|\Delta\mathbf v_i\|\to\min$.
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Переход}
+Перевод КА с начальной орбиты на заданную конечную орбиту.
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\begin{block}{Начальные условия}
+\justifying
+Начальная орбита и начальная эпоха.
+\end{block}
+\end{column}
+\begin{column}{.48\textwidth}
+\begin{block}{Конечные условия}
+\justifying
+Конечная орбита и конечная эпоха. Конечная эпоха может быть задана или оставаться свободной.
+\end{block}
+\end{column}
+\end{columns}
+\begin{block}{Возможные ограничения}
+\begin{itemize}
+\item Допустимые интервалы включений ДУ.
+\item Минимальная высота орбиты и доступный запас рабочего тела.
+\end{itemize}
+\end{block}
+\textbf{Критерий:} например, минимум расхода рабочего тела.
+\end{frame}
+
+\begin{frame}{Встреча}
+Перевод КА из начального состояния в заданное состояние.
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\begin{block}{Начальные условия}
+\justifying
+Начальное состояние КА и начальная эпоха.
+\end{block}
+\end{column}
+\begin{column}{.48\textwidth}
+\begin{block}{Конечные условия}
+\justifying
+Конечное состояние КА и конечная эпоха.
+\end{block}
+\end{column}
+\end{columns}
+\begin{block}{Возможные ограничения}
+\begin{itemize}
+\item Допустимые направления и скорость сближения.
+\item Безопасность промежуточного движения и ресурсы КА.
+\end{itemize}
+\end{block}
+\textbf{Критерий:} например, минимум расхода рабочего тела.
+\end{frame}
+
+% При оценке вероятности столкновения учитываются неопределённости состояний.
+% https://www.nasa.gov/cara/step-3-close-approach-risk-mitigation/
+\begin{frame}{Уклонение}
+Изменение движения КА для предотвращения опасного сближения.
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\begin{block}{Начальные условия}
+\justifying
+Состояния объектов и их ковариации; начальная эпоха.
+\end{block}
+\end{column}
+\begin{column}{.48\textwidth}
+\begin{block}{Конечные условия}
+\justifying
+Допустимый риск столкновения на заданном интервале.
+\end{block}
+\end{column}
+\end{columns}
+\begin{block}{Возможные ограничения}
+\begin{itemize}
+\item Сроки подготовки, ресурсы и допустимое нарушение основной миссии.
+\item Отсутствие новых опасных сближений после манёвра.
+\end{itemize}
+\end{block}
+\textbf{Критерий:} например, минимум расхода или отклонения от рабочей орбиты.
+\end{frame}
+
+\begin{frame}{Формирование конфигурации}
+Размещение КА спутниковой системы по заданным орбитальным позициям.
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\begin{block}{Начальные условия}
+\justifying
+Состояния всех КА после выведения или разведения; доступные ресурсы каждого аппарата.
+\end{block}
+\end{column}
+\begin{column}{.48\textwidth}
+\begin{block}{Конечные условия}
+\justifying
+Заданные орбиты и фазовые соотношения КА. Например, требуемые разности $\Omega$ и средней долготы $\lambda$.
+\end{block}
+\end{column}
+\end{columns}
+\begin{block}{Возможные ограничения}
+\begin{itemize}
+\item Срок формирования и индивидуальные ресурсы КА.
+\item Безопасные расстояния и доступные интервалы манёвров.
+\end{itemize}
+\end{block}
+\textbf{Критерий:} например, минимум суммарного расхода рабочего тела.
+\end{frame}
+
+\begin{frame}{Поддержание конфигурации}
+Сохранение требуемой конфигурации спутниковой системы при возмущениях.
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\begin{block}{Начальные условия}
+\justifying
+Фактические состояния КА, отклонения от номинальной конфигурации и прогноз их изменения.
+\end{block}
+\end{column}
+\begin{column}{.48\textwidth}
+\begin{block}{Конечные условия}
+\justifying
+Отклонения от заданной конфигурации не превышают допустимых значений на всём интервале поддержания.
+\end{block}
+\end{column}
+\end{columns}
+\begin{block}{Возможные ограничения}
+\begin{itemize}
+\item Частота коррекций, интервалы включений и ресурсы каждого КА.
+\item Безопасные расстояния и требования основной миссии.
+\end{itemize}
+\end{block}
+\textbf{Критерий:} например, минимум расхода за интервал поддержания.
+\end{frame}
+
+\begin{frame}{Источники}
+\setbeamertemplate{bibliography item}{\insertbiblabel}
+\begin{thebibliography}{9}
+\bibitem{Ovchinnikov}
+Овчинников М. Ю. Введение в динамику космического полета // М.: МФТИ. – 2016.
+
+\bibitem{Vallado}
+Vallado D. A. Fundamentals of astrodynamics and applications. – Springer Science \& Business Media, 2001. – Т. 12.
+
+\bibitem{Eliasberg}
+Эльясберг П. Е. Введение в теорию полета искусственных спутников Земли. – 1965.
+
+\bibitem{Baranov}
+Баранов А. А. Маневрирование космических аппаратов в окрестности круговой орбиты // М.: Спутник. – 2016.
+\end{thebibliography}
 \end{frame}
 
 \end{document}

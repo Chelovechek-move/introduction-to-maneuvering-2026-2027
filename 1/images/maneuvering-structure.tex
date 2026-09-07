@@ -1,0 +1,28 @@
+\begin{tikzpicture}[course diagram,x=1mm,y=1mm,
+  task card/.style={draw=courserule,fill=coursetint,line width=.6pt,
+    minimum height=10mm,text width=29mm,align=center,inner sep=1.5mm},
+  model card/.style={task card,text width=57mm},
+  connection/.style={draw=courseaccent,line width=.7pt,->}]
+  \path[use as bounding box] (-1,-1) rectangle (144,56);
+  \node[anchor=west,text=coursemuted,inner sep=0pt] at (0,54)
+    {Конкретная задача};
+  \node[task card] (initial) at (16,45) {Начальные\\условия};
+  \node[task card] (target) at (52,45) {Конечные\\условия};
+  \node[task card] (limits) at (88,45) {Ограничения};
+  \node[task card,draw=courseaccent] (cost) at (124,45) {Критерий\\качества};
+
+  \draw[courseaccent,line width=.7pt] (initial.south)--(16,37)--(124,37)--(cost.south);
+  \draw[courseaccent,line width=.7pt] (target.south)--(52,37);
+  \draw[courseaccent,line width=.7pt] (limits.south)--(88,37);
+  \node[text=coursemuted,fill=coursepaper,inner sep=.6mm] at (70,33)
+    {Модель расчёта манёвров};
+  \node[model card] (ballistic) at (33,23) {\textbf{Модель баллистики}\\Силы и принятые приближения};
+  \node[model card] (spacecraft) at (107,23) {\textbf{Модель КА}\\Двигатели, ориентация, ресурсы};
+  \draw[connection] (33,37)--(ballistic.north);
+  \draw[connection] (107,37)--(spacecraft.north);
+  \draw[connection,<->] (ballistic.east)--(spacecraft.west);
+  \node[task card,text width=133mm] (dynamics) at (70,5)
+    {\textbf{Баллистика}\\Неуправляемое движение КА под действием сил};
+  \draw[connection] (ballistic.south)--(33,10);
+  \draw[connection] (spacecraft.south)--(107,10);
+\end{tikzpicture}
