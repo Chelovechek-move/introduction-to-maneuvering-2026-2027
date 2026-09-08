@@ -78,7 +78,7 @@ $X$ --- направление весеннего равноденствия.\pa
         Направления отсчёта нет.
       \end{block}
       \begin{block}{Для эллиптической орбиты}
-        \(\displaystyle a=\frac{r_{\text{п}}+r_{\text{а}}}{2}>0.\)\par\medskip
+        \(\displaystyle a=(r_{\text{п}}+r_{\text{а}})/2>0.\)\par\medskip
         \(r_{\text{п}}=a(1-e),\quad r_{\text{а}}=a(1+e).\)\par
       \end{block}
     \end{column}
@@ -357,7 +357,7 @@ $n=2\pi/T$, $T$ --- период; $M=0$ в перицентре.
 \begin{itemize}
 \item Физическая и геометрическая интерпретируемость элементов.
 \item Предварительное планирование миссий: оценка основных характеристик орбиты.
-\item Стандарты и совместимость: использование элементов в каталогах и расчётных средствах для обмена орбитальными данными.
+\item Стандарты и совместимость: использование элементов в каталогах (TLE) и расчётных средствах для обмена орбитальными данными.
 \end{itemize}
 \end{column}
 \begin{column}{.46\textwidth}
@@ -529,20 +529,16 @@ $\displaystyle\mathbf a_{\text{ДУ}}=\frac{\mathbf F_{\text{ДУ}}}{m}$,\quad $
 
 \begin{frame}{Расчётная модель баллистики}
 \begin{columns}[T,onlytextwidth]
-\begin{column}{.30\textwidth}
-\begin{block}{Центральное поле}
-Только притяжение точечного центра.\par\smallskip
-Кеплерово движение.
+\begin{column}{.48\textwidth}
+\begin{block}{Состав воздействий}
+Притяжение точечного центра.\par\smallskip
+Учёт выбранных возмущений: например, $J_2$ и сопротивления атмосферы.
 \end{block}
 \end{column}
-\begin{column}{.31\textwidth}
-\begin{block}{С возмущениями}
-Дополнительно, например, $J_2$ и сопротивление атмосферы.
-\end{block}
-\end{column}
-\begin{column}{.35\textwidth}
-\begin{block}{Линеаризованная}
-Приближение по малым отклонениям от опорного движения.
+\begin{column}{.48\textwidth}
+\begin{block}{Представление уравнений}
+Нелинейные уравнения движения.\par\smallskip
+Линеаризация относительно опорного движения.
 \end{block}
 \end{column}
 \end{columns}
@@ -638,12 +634,12 @@ $\mathbf v^+=\mathbf v^-+\Delta\mathbf v$.\par
 Состояния целей, доступные ресурсы и погрешности исходных данных.
 \end{block}
 \begin{block}{Ограничения}
-Безопасность, допустимые интервалы манёвров, технические и полётные условия.
+Требования на интервале движения: безопасность, допустимые интервалы манёвров, технические и полётные условия.
 \end{block}
 \end{column}
 \begin{column}{.48\textwidth}
 \begin{block}{Конечные условия}
-Требуемое состояние в конечный момент или допустимая область на интервале движения.
+Требования к состоянию КА в конечный момент. Конечная эпоха может быть задана или оставаться свободной.
 \end{block}
 \begin{block}{Критерий качества}
 Выбирает предпочтительное решение.\par
@@ -718,12 +714,13 @@ $\displaystyle J=\sum_i\|\Delta\mathbf v_i\|\to\min$.
 \begin{column}{.48\textwidth}
 \begin{block}{Конечные условия}
 \justifying
-Допустимый риск столкновения на заданном интервале.
+Конечное состояние отдельно не предписывается.
 \end{block}
 \end{column}
 \end{columns}
 \begin{block}{Возможные ограничения}
 \begin{itemize}
+\item Допустимый риск столкновения на заданном интервале.
 \item Сроки подготовки, ресурсы и допустимое нарушение основной миссии.
 \item Отсутствие новых опасных сближений после манёвра.
 \end{itemize}
@@ -759,21 +756,23 @@ $\displaystyle J=\sum_i\|\Delta\mathbf v_i\|\to\min$.
 \begin{frame}{Поддержание конфигурации}
 Сохранение требуемой конфигурации спутниковой системы при возмущениях.
 \begin{columns}[T,onlytextwidth]
-\begin{column}{.48\textwidth}
+\begin{column}{.60\textwidth}
 \begin{block}{Начальные условия}
 \justifying
 Фактические состояния КА, отклонения от номинальной конфигурации и прогноз их изменения.
 \end{block}
 \end{column}
-\begin{column}{.48\textwidth}
+\begin{column}{.36\textwidth}
 \begin{block}{Конечные условия}
 \justifying
-Отклонения от заданной конфигурации не превышают допустимых значений на всём интервале поддержания.
+Отдельные требования к конечному состоянию не задаются.
 \end{block}
 \end{column}
 \end{columns}
 \begin{block}{Возможные ограничения}
 \begin{itemize}
+\setlength{\itemsep}{0pt}
+\item Допустимые отклонения от конфигурации на всём интервале.
 \item Частота коррекций, интервалы включений и ресурсы каждого КА.
 \item Безопасные расстояния и требования основной миссии.
 \end{itemize}
@@ -795,6 +794,9 @@ Vallado D. A. Fundamentals of astrodynamics and applications. – Springer Scien
 
 \bibitem{Baranov}
 Баранов А. А. Маневрирование космических аппаратов в окрестности круговой орбиты // М.: Спутник. – 2016.
+
+\bibitem{Danielson}
+Danielson D. A., Sagovac C. P., Neta B., Early L. W. – Monterey: Naval Postgraduate School, 1995.
 \end{thebibliography}
 \end{frame}
 
