@@ -1,0 +1,40 @@
+% Составляющие возмущений и среднее изменение на двух интервалах.
+\begin{tikzpicture}[course diagram,x=1mm,y=1mm]
+\path[use as bounding box] (-5,-5) rectangle (142,34);
+\draw[vector line] (0,0)--(137,0) node[right] {$t$};
+\draw[vector line] (0,0)--(0,30) node[above] {$c$};
+% Вековая составляющая, сумма с долгой периодикой и полное изменение.
+\draw[coursemuted,line width=.65pt] (0,10)--(134,{10+.033*134});
+\draw[courserule,line width=1.1pt] plot[domain=0:134,samples=220]
+ (\x,{10+.033*\x+11.5*sin(3.3*\x)});
+\draw[courseaccent,line width=.7pt] plot[domain=0:134,samples=700]
+ (\x,{10+.033*\x+11.5*sin(3.3*\x)+1.2*sin(42*\x)});
+\foreach \x/\lab in {8/1,25/2,53/3,68/4}{
+ \draw[courseink,line width=.45pt] (\x,-1)--(\x,{12+.033*\x+11.5*sin(3.3*\x)});
+ \node[below] at (\x,-1) {$t_{\lab}$};
+}
+\coordinate (A) at (8,{10+.033*8+11.5*sin(26.4)});
+\coordinate (B) at (25,{10+.033*25+11.5*sin(82.5)});
+\coordinate (C) at (53,{10+.033*53+11.5*sin(174.9)});
+\coordinate (D) at (68,{10+.033*68+11.5*sin(224.4)});
+\draw[courseink,line width=1.5pt] (A)--(B) (C)--(D);
+% Выноски среднего изменения заканчиваются точно на выделенных отрезках.
+\node[align=center,text width=29mm,inner sep=0pt] (m1) at (18,29)
+ {Среднее\\изменение};
+\draw[vector line] (m1.south)--($(A)!.5!(B)$);
+\node[align=center,text width=26mm,inner sep=0pt] (m2) at (65,19)
+ {Среднее\\изменение};
+\draw[vector line] (m2.south)--($(C)!.5!(D)$);
+\node[align=left,anchor=north west,text width=85mm,inner sep=0pt] (sum) at (49,33)
+ {Короткопериодические +\\долгопериодические + вековые};
+% Выноска к гребню короткопериодического колебания, выше гладкой кривой.
+\draw[vector line] ($(sum.south west)+(2,0)$)--
+ (45,{10+.033*45+11.5*sin(148.5)+1.2*sin(1890)});
+\node[align=center,inner sep=0pt] (sec) at (123,10.5) {Вековые};
+\draw[vector line] (sec.north)--(123,{10+.033*123});
+\node[align=center,text width=36mm,inner sep=0pt] (lp) at (121,4.2)
+ {Долгопериодические\\и вековые};
+% В этой точке полная кривая расположена выше гладкой: выноска их не пересекает.
+\draw[vector line] (lp.west) to[out=170,in=0]
+ (96,{10+.033*96+11.5*sin(316.8)});
+\end{tikzpicture}

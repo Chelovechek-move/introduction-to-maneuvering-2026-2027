@@ -1,0 +1,14 @@
+\begin{tikzpicture}[course diagram,x=1mm,y=.43mm]
+  \path[use as bounding box] (-9,-7) rectangle (139,29);
+  \fill[coursetint] (0,0) rectangle (120,10);
+  \draw[vector line] (0,0)--(128,0) node[right] {$M$};
+  \draw[vector line] (0,0)--(0,26) node[above] {$F$};
+  \draw[courseink,line width=.8pt] (0,10)--(120,10);
+  \draw[courseaccent,line width=1pt]
+    plot[domain=0:120,samples=180] (\x,{10+7*cos(3*\x)});
+  \draw[aux line,dashed] (120,0)--(120,22);
+  \node[below] at (0,0) {$0$};
+  \node[below] at (120,0) {$2\pi$};
+  \node[anchor=west] at (121,10) {$A$};
+  \node[text=courseaccent] at (32,23) {$A+B\cos M$};
+\end{tikzpicture}

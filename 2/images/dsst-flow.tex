@@ -1,0 +1,19 @@
+\begin{tikzpicture}[course diagram,x=1mm,y=1mm,
+  flowbox/.style={draw=courserule,fill=coursetint,text width=61mm,
+    minimum height=13mm,align=center,inner sep=1.5mm}]
+  \path[use as bounding box] (-1,-3) rectangle (147,56);
+  \node[flowbox] (input) at (32,47)
+    {\textbf{Начальное состояние}\\$\mathbf r_0,\mathbf v_0\ \to\ \hat{\mathbf c}_0$};
+  \node[flowbox] (mean) at (112,47)
+    {\textbf{Средние элементы}\\$\hat{\mathbf c}_0\ \to\ \bar{\mathbf c}_0$};
+  \node[flowbox] (integrate) at (112,23)
+    {\textbf{Численное интегрирование}\\$\bar{\mathbf c}_0\ \to\ \bar{\mathbf c}(t)$};
+  \node[flowbox] (restore) at (32,23)
+    {\textbf{Восстановление поправок}\\$\bar{\mathbf c}(t)\ \to\ \hat{\mathbf c}(t)$};
+  \draw[vector line] (input.east)--(mean.west);
+  \draw[vector line] (mean.south)--(integrate.north)
+    node[midway,left,text=coursemuted] {Усреднённые уравнения};
+  \draw[vector line] (integrate.west)--(restore.east);
+  \draw[vector line] (restore.south)--(32,3);
+  \node[anchor=north,align=center] at (32,2) {$\mathbf r(t),\ \mathbf v(t)$};
+\end{tikzpicture}

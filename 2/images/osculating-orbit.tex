@@ -1,0 +1,19 @@
+% Локальная волнистая дуга и касательная кеплерова орбита.
+% При u=0 совпадают положение и направление касательной.
+\begin{tikzpicture}[course diagram,x=.88mm,y=.88mm]
+\path[use as bounding box] (-37,-27) rectangle (30,29);
+\draw[orbit line] plot[domain=0:360,samples=220]
+ ({21*cos(\x)/(1+.35*cos(\x))},{21*sin(\x)/(1+.35*cos(\x))});
+\coordinate (P) at ({21*cos(40)/(1+.35*cos(40))},{21*sin(40)/(1+.35*cos(40))});
+% Касательная единичного направления (-sin nu,e+cos nu), нормаль к ней.
+\begin{scope}[shift={(P)},x={(-.43912mm,.76208mm)},y={(.76208mm,.43912mm)}]
+\draw[courseink,dashed,line width=.85pt]
+ plot[domain=-29:16,samples=180] (\x,{.007*\x^2+2.3*(1-cos(16*\x))});
+\draw[vector line] (0,0)--(10,0) node[above left] {$\mathbf v(t_*)$};
+\end{scope}
+\filldraw[fill=coursetint,draw=courserule] (0,0) circle (2.6);
+\node[below] at (0,-2.6) {Земля};
+\draw[vector line] (0,0)--(P) node[pos=.55,above left] {$\mathbf r(t_*)$};
+\node[orbit point] at (P) {};
+\node[anchor=west] at ($(P)+(2,0)$) {$t_*$};
+\end{tikzpicture}

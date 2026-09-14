@@ -1,0 +1,659 @@
+% !TeX program = pdflatex
+% !TeX encoding = UTF-8
+\documentclass[11pt,aspectratio=169,t]{beamer}
+\input{../common/preamble.tex}
+\usepackage{booktabs,array,tabularx}
+
+\setcounter{lecture}{2}
+\title{Методы прогноза баллистического движения}
+\date{15 сентября 2026 г.}
+
+\begin{document}
+
+% 1
+\begin{frame}[plain]
+\titlepage
+\end{frame}
+
+% Переработка исходных слайдов 2--13 по лекции 11 (2025--2026).
+\begin{frame}{Вековые возмущения}
+\centering\input{images/element-variations.tex}\par
+\begin{block}{Определение}
+\justifying
+Вековые возмущения --- изменения орбитальных элементов, монотонно накапливающиеся со временем. Могут быть линейными по времени или пропорциональными какой-то степени времени.
+\end{block}
+\end{frame}
+
+\begin{frame}{Долгопериодические возмущения}
+\centering\input{images/element-variations.tex}\par
+\begin{block}{Определение}
+\justifying
+Долгопериодические возмущения --- периодические изменения орбитальных элементов, период которых существенно больше орбитального периода спутника (обычно, на один или два порядка).
+\end{block}
+\end{frame}
+
+\begin{frame}{Короткопериодические возмущения}
+\centering\input{images/element-variations.tex}\par
+\begin{block}{Определение}
+\justifying
+Короткопериодические возмущения --- периодические изменения орбитальных элементов, период которых сравним с орбитальным периодом спутника или меньше.
+\end{block}
+\end{frame}
+
+\begin{frame}{Возмущения и точность прогноза}
+\begin{block}{Вековые изменения}
+\justifying
+Приводят к неограниченному накоплению ошибки прогноза. Являются главной причиной деградации аналитических теорий на больших интервалах прогноза.
+\end{block}
+\begin{block}{Долгопериодические изменения}
+\justifying
+Обычно связаны с изменением ориентации линии узлов и линии апсид. Характерный период определяется орбитой и действующими возмущениями.
+\end{block}
+\begin{block}{Короткопериодические изменения}
+\justifying
+Обусловлены зависимостью возмущающих воздействий от быстрой переменной. При интегрировании необходимо разрешать эти изменения, поэтому они диктуют величину шага.
+\end{block}
+\end{frame}
+
+\begin{frame}{Быстрые и медленные переменные}
+\justifying
+Необходимо разделять орбитальные элементы на быстрые и медленные переменные в зависимости от их относительной скорости изменения.
+\begin{block}{Быстрые переменные}
+\justifying
+Переменные, существенно изменяющиеся за один орбитальный период даже в отсутствие возмущений. Например: аномалии $M$, $E$, $\nu$ изменяются за виток на $2\pi$; декартовы координаты.
+\end{block}
+\begin{block}{Медленные переменные}
+\justifying
+Переменные, изменения которых за один виток малы и обусловлены возмущающими воздействиями. В невозмущённой задаче такие элементы будут постоянными. Например: кеплеровы элементы орбиты $a$, $e$, $i$, $\Omega$, $\omega$.
+\end{block}
+\end{frame}
+
+\begin{frame}{Оскулирующая орбита}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.51\textwidth}
+\begin{block}{Определение}
+\justifying
+Оскулирующая орбита --- орбита задачи двух тел, определяемая фактическими положением и скоростью КА на рассматриваемую эпоху $t_*$. По ней КА двигался бы при исчезновении возмущающих сил.
+\end{block}
+\justifying
+Её элементы называются \textbf{оскулирующими}. Они зависят от времени и содержат вековые, долго- и короткопериодические изменения.
+
+\end{column}
+\begin{column}{.47\textwidth}\centering
+\input{images/osculating-orbit.tex}\par
+{\usebeamerfont{caption}Голубой эллипс --- оскулирующая орбита; штриховая дуга --- возмущённая траектория, схематически.\par}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Средние элементы}
+\begin{block}{Средние элементы}
+\justifying
+Элементы, получаемые усреднением оскулирующих элементов по выбранному интервалу времени или угла с исключением короткопериодических вариаций. Они описывают долговременное поведение орбиты.
+\end{block}
+\begin{itemize}
+\item \textbf{Интервал усреднения:} диапазон времени или выбранного угла.
+\item \textbf{Переменная усреднения:} время, истинная, эксцентрическая или средняя аномалия, долгота.
+\end{itemize}
+\justifying
+Произвольное сглаживание временного ряда не заменяет преобразования, согласованного с уравнениями эволюции средних элементов и периодическими поправками.
+\end{frame}
+
+\begin{frame}{Пример}
+\setlength{\abovedisplayskip}{5pt}\setlength{\belowdisplayskip}{5pt}
+\justifying
+Пусть $x$ --- один из орбитальных элементов. Он может быть представлен в виде обрезанного ряда:
+\[
+x=x_0+\dot x_1(t-t_0)+K_1\cos(2\omega)
++K_2\sin(2\nu+\omega)+K_3\cos(2\nu).
+\]
+\par\noindent
+{\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\dimexpr\textwidth-2pt\relax}{@{}p{.30\textwidth}>{\raggedright\arraybackslash}X@{}}
+$x_0$ & Начальное значение.\\
+$\dot x_1(t-t_0)$ & Вековое изменение со скоростью $\dot x_1$.\\
+$K_1\cos(2\omega)$ & Долгопериодический член: медленный угол $\omega$.\\
+$K_2\sin(2\nu+\omega)$ & Смешанный член: быстрая $\nu$ и медленная $\omega$.\\
+$K_3\cos(2\nu)$ & Короткопериодический член: быстрая переменная $\nu$.
+\end{tabularx}\par}
+\medskip\justifying
+$K_1$, $K_2$, $K_3$ --- постоянные, специфические для конкретного метода; обычно выражаются в виде сумм или произведений полиномов от $a$, $e$ или $i$.
+\end{frame}
+
+\begin{frame}{Однократное усреднение}
+\setlength{\abovedisplayskip}{4pt}\setlength{\belowdisplayskip}{4pt}
+\justifying
+В приведённом примере усредним зависимость по быстрой фазе $\nu$ на $[0,2\pi]$. Параметры $t$, $\omega$, $x_0$, $\dot x_1$ и $K_i$ фиксируются.
+\[
+\bar x^{(1)}(t,\omega)=\frac{1}{2\pi}\int_0^{2\pi}x(t,\nu,\omega)\,d\nu.
+\]
+Короткопериодический и смешанный члены имеют нулевое среднее:
+\par
+{\centering $\int_0^{2\pi}\cos(2\nu)\,d\nu=0,\qquad
+\int_0^{2\pi}\sin(2\nu+\omega)\,d\nu=0.$\par}
+\begin{block}{Однократно усреднённый элемент}
+\centering
+$\displaystyle\bar x^{(1)}=x_0+\dot x_1(t-t_0)+K_1\cos(2\omega).$\par
+\end{block}
+\justifying
+Сохраняются вековая и долгопериодическая части. Это усреднение по фазе: усреднение по времени на эллиптической орбите имеет другой вес, поскольку $\nu$ изменяется неравномерно.
+\end{frame}
+
+\begin{frame}{Двукратное усреднение}
+\setlength{\abovedisplayskip}{4pt}\setlength{\belowdisplayskip}{4pt}
+\justifying
+Дополнительно усредним результат по медленному углу $\omega$ на $[0,2\pi]$, фиксируя $t$, $x_0$, $\dot x_1$ и $K_1$:
+\[
+\bar x^{(2)}(t)=\frac{1}{2\pi}\int_0^{2\pi}\bar x^{(1)}(t,\omega)\,d\omega.
+\]
+Долгопериодический член исчезает, поскольку
+$\int_0^{2\pi}\cos(2\omega)\,d\omega=0$.
+\begin{block}{Двукратно усреднённый элемент}
+\centering
+$\displaystyle\bar x^{(2)}=x_0+\dot x_1(t-t_0).$\par
+\end{block}
+\justifying
+Сохраняется вековой член; два этапа усреднения --- по $\nu$ и $\omega$.\par\smallskip
+Одному физическому состоянию КА могут соответствовать различные наборы средних элементов в разных теориях. Сопоставлять такие наборы следует через восстановленные оскулирующие элементы или декартово состояние.
+\end{frame}
+
+\begin{frame}{Точность прогноза и измерений}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.65\textwidth}\centering
+\input{images/prediction-accuracy.tex}
+\end{column}
+\begin{column}{.33\textwidth}
+{\usebeamerfont{caption}\raggedright
+\textcolor{courseaccent}{1. Аналитический прогноз}\par
+\textcolor{courseaccent}{2. Аналитическая аппроксимация наблюдений}\par
+\textcolor{courseaccent}{3. Аналитическая теория}\par
+4. РЛС низкой точности\par
+5. Интерферометр\par
+6. Численный прогноз\par
+7. РЛС высокой точности\par
+8. Численная теория\par
+9. Лазерные измерения\par}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Аналитические методы: определение}
+\setlength{\abovedisplayskip}{4pt}\setlength{\belowdisplayskip}{4pt}
+\begin{block}{Определение}
+\justifying
+Аналитические методы прогноза используют приближённое решение уравнений движения, явно зависящее от времени и начальных параметров. В теориях возмущений решение представляют рядами по малым параметрам и гармоникам угловых переменных.
+\end{block}
+\[
+\mathbf x(t)\approx\mathbf X^{(N)}(\mathbf c_0,t;\boldsymbol\varepsilon).
+\]
+\justifying
+$N$ --- порядок принятого приближения; $\mathbf c_0$ --- параметры, согласованные с теорией; $\boldsymbol\varepsilon$ --- малые параметры возмущений.\par\smallskip
+Состояние вычисляют по готовым выражениям. Точность ограничена усечением рядов, допущениями модели и интервалом применимости.
+\end{frame}
+
+\begin{frame}{Аналитические методы: сравнение}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\begin{block}{Преимущества}
+\begin{itemize}
+\item Высокая скорость многократного вычисления состояния по готовым формулам.
+\item Одно семейство выражений для множества начальных условий в области применимости теории.
+\item Явное выделение влияния возмущений и зависимости от параметров орбиты.
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{.48\textwidth}
+\begin{block}{Недостатки}
+\begin{itemize}
+\item Сложность вывода и проверки выражений высоких порядков.
+\item Расширение набора сил требует переработки аналитической теории.
+\item Ограничения по параметрам орбиты и времени; накопление ошибки неучтённых вековых членов.
+\end{itemize}
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Численные методы: определение}
+\setlength{\abovedisplayskip}{4pt}\setlength{\belowdisplayskip}{4pt}
+\begin{block}{Определение}
+\justifying
+Численные методы прогноза определяют движение последовательным интегрированием уравнений для вектора состояния при заданных начальных условиях и выбранных моделях сил.
+\end{block}
+\[
+\dot{\mathbf x}=\mathbf f(\mathbf x,t),\qquad
+\mathbf x(t_0)=\mathbf x_0,\qquad
+\mathbf x=(\mathbf r^{\mathsf T},\mathbf v^{\mathsf T})^{\mathsf T}.
+\]
+\justifying
+Шаг, порядок метода и допуски выбираются исходя из требуемой численной точности и характерных времён изменения правых частей.\par\smallskip
+Погрешность прогноза включает ошибки интегрирования и округления, а также ошибки начального состояния и моделей сил. Уменьшение шага влияет только на численную составляющую.
+\end{frame}
+
+\begin{frame}{Численные методы: сравнение}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\begin{block}{Преимущества}
+\begin{itemize}
+\item Возможность учитывать сложные модели гравитационных и негравитационных воздействий.
+\item Управление численной погрешностью через порядок метода, шаг и допуски.
+\item Опорная траектория для проверки приближённых теорий при согласованных моделях сил.
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{.48\textwidth}
+\begin{block}{Недостатки}
+\begin{itemize}
+\item Значительные затраты на длительный прогноз и массовые расчёты.
+\item Шаг должен разрешать орбитальное движение и короткопериодические эффекты.
+\item Отсутствие явной зависимости от начальных параметров; накопление численных ошибок.
+\end{itemize}
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Полуаналитические методы}
+\begin{block}{Определение}
+\justifying
+Полуаналитические методы прогноза сочетают аналитическое преобразование уравнений движения и выделение периодических поправок с численным интегрированием уравнений для средних элементов.
+\end{block}
+\begin{enumerate}
+\item Из уравнений изменения оскулирующих элементов исключают короткопериодические члены усреднением по быстрой переменной.
+\item Усреднённые уравнения интегрируют численно, сохраняя вековую и долгопериодическую эволюцию.
+\item В требуемые моменты времени восстанавливают короткопериодические поправки и вычисляют оскулирующее состояние.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Полуаналитические методы: сравнение}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\begin{block}{Преимущества}
+\begin{itemize}
+\item Исключение короткой периодики из интегрируемых правых частей допускает увеличение шага.
+\item Снижение вычислительных затрат при длительном прогнозе и многовариантных расчётах.
+\item Восстановление оскулирующего состояния с учётом периодических поправок.
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{.48\textwidth}
+\begin{block}{Недостатки}
+\begin{itemize}
+\item Сложность вывода, реализации и проверки усреднённых уравнений и поправок.
+\item Одновременное присутствие аналитической и численной погрешностей.
+\item Зависимость от состава моделей сил, порядка теории и корректного учёта резонансных членов.
+\end{itemize}
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Метод возмущений: определение}
+\setlength{\abovedisplayskip}{4pt}\setlength{\belowdisplayskip}{4pt}
+\begin{block}{Определение}
+\justifying
+Метод возмущений --- совокупность математических приёмов построения приближённого решения задачи с малыми возмущающими воздействиями на основе известного решения соответствующей невозмущённой задачи.
+\end{block}
+\[
+\dot{\mathbf x}=\mathbf f_0(\mathbf x,t)
++\varepsilon_1\mathbf f_1(\mathbf x,t)+\varepsilon_2\mathbf f_2(\mathbf x,t),
+\qquad |\varepsilon_1|,|\varepsilon_2|\ll1.
+\]
+\justifying
+$\mathbf f_0$ описывает невозмущённое движение; $\varepsilon_1\mathbf f_1$ и $\varepsilon_2\mathbf f_2$ --- возмущающие воздействия. Параметры $\varepsilon_1$, $\varepsilon_2$ безразмерны.\par\smallskip
+При $\varepsilon_1=\varepsilon_2=0$ решение известно. Влияние возмущений определяется последовательным вычислением поправок к этому решению.
+\end{frame}
+
+\begin{frame}{Разложение решения и порядок теории}
+Приближение к истинному решению может быть выражено как степенной ряд малых параметров:
+\setlength{\abovedisplayskip}{4pt}\setlength{\belowdisplayskip}{4pt}
+\[
+\begin{aligned}
+\mathbf x(t;\varepsilon_1,\varepsilon_2) =
+\mathbf x_0(t) &+ \varepsilon_1\boldsymbol\alpha_1(t) + \frac{\varepsilon_1^2}{2}\boldsymbol\alpha_2(t) + \dots \\
+&+ \varepsilon_2\boldsymbol\beta_1(t) + \frac{\varepsilon_2^2}{2}\boldsymbol\beta_2(t) + \dots \\
+&+\varepsilon_1\varepsilon_2\boldsymbol\gamma_{11}(t) + \dots
+\end{aligned}
+\]
+\justifying
+$\mathbf x_0(t)$ --- невозмущённое решение; коэффициенты --- поправки, определяемые подстановкой ряда в уравнения движения и сопоставлением одинаковых порядков малости.
+
+При одинаковом порядке $\varepsilon_1$, $\varepsilon_2$ первый порядок включает линейные члены; второй --- также квадратичные и смешанный член $\varepsilon_1\varepsilon_2$.
+
+\end{frame}
+
+\begin{frame}{Малые параметры}
+\begin{block}{Примеры малых параметров}
+\begin{itemize}
+\item Коэффициенты гармоник гравитационного потенциала $J_2$, $J_3$, $C_{lm}$, $S_{lm}$.
+\item Отношение больших полуосей КА и третьего тела $a/a_3$ для возмущений от третьих тел.
+\item Базразмерная плотность для атмосферного сопротивления.
+\item Безразмерное ускорение тяги ДУ для манёвров.
+\item Безразмерный солнечный поток для давления солнечного излучения.
+\end{itemize}
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Метод вариации параметра}
+\setlength{\abovedisplayskip}{4pt}\setlength{\belowdisplayskip}{4pt}
+\begin{block}{Определение}
+\justifying
+Метод вариации параметра представляет решение возмущённой задачи в форме известного решения невозмущённой задачи, в котором постоянные интегрирования заменены функциями времени.
+\end{block}
+\[
+\ddot{\mathbf r}=-\frac{\mu}{r^3}\mathbf r,
+\qquad \mathbf r=\mathbf R(\mathbf c,t),
+\qquad \mathbf v=\mathbf V(\mathbf c,t)=\frac{\partial\mathbf R}{\partial t}.
+\]
+\justifying
+$\mathbf c\in\mathbb R^6$ --- полный набор независимых постоянных кеплерова решения. Например, $\mathbf c=(a,e,i,\Omega,\omega,M_0)$, где $M_0$ задана на фиксированную эпоху.\par\smallskip
+В возмущённой задаче принимают $\mathbf c=\mathbf c(t)$ и определяют законы изменения этих параметров из уравнений движения.
+\end{frame}
+
+\begin{frame}{Условие оскуляции}
+\setlength{\abovedisplayskip}{4pt}\setlength{\belowdisplayskip}{4pt}
+При $\mathbf r(t)=\mathbf R(\mathbf c(t),t)$ полная производная равна
+\[
+\dot{\mathbf r}=\frac{\partial\mathbf R}{\partial t}
++\sum\nolimits_{i=1}^{6}\frac{\partial\mathbf R}{\partial c_i}\dot c_i.
+\]
+\begin{block}{Условие оскуляции}
+\centering
+$\displaystyle\sum\nolimits_{i=1}^{6}\frac{\partial\mathbf R}{\partial c_i}\dot c_i=\mathbf0.$
+\par\smallskip\justifying
+Кеплерово представление должно воспроизводить не только фактическое положение, но и фактическую скорость: $\dot{\mathbf r}=\mathbf V(\mathbf c(t),t)$.
+\end{block}
+\justifying
+Одного представления положения через шесть переменных параметров недостаточно для однозначного определения их эволюции. Условие оскуляции задаёт три дополнительные связи.
+\end{frame}
+
+\begin{frame}{Уравнения вариации элементов}
+\setlength{\abovedisplayskip}{4pt}\setlength{\belowdisplayskip}{4pt}
+\[
+\ddot{\mathbf r}=-\frac{\mu}{r^3}\mathbf r+\mathbf a_{\text{возм}},
+\qquad
+\begin{bmatrix}D_{\mathbf c}\mathbf R\\D_{\mathbf c}\mathbf V\end{bmatrix}
+\dot{\mathbf c}=\begin{bmatrix}\mathbf0\\\mathbf a_{\text{возм}}\end{bmatrix}.
+\]
+\justifying
+$D_{\mathbf c}\mathbf R$ и $D_{\mathbf c}\mathbf V$ --- матрицы частных производных положения и скорости по шести параметрам. Верхние три уравнения задают оскуляцию, нижние три --- действие возмущающего ускорения.
+\begin{block}{Разрешённая форма}
+\centering
+$\dot{\mathbf c}=\mathbf G(\mathbf c,t)\,\mathbf a_{\text{возм}}.$
+\par\smallskip\justifying
+Она существует при невырожденном выборе параметров. При отсутствии возмущений $\dot{\mathbf c}=\mathbf0$. Если вместо $M_0$ используется текущая аномалия $M$, в её уравнении сохраняется кеплеров член $n$.
+\end{block}
+\end{frame}
+
+\begin{frame}{Структура аналитического решения}
+\setlength{\abovedisplayskip}{4pt}\setlength{\belowdisplayskip}{4pt}
+\begin{block}{Разделение составляющих}
+\centering
+$\bar c(t)=c_*+\Delta c_{\text{век}}(t)+\Delta c_{\text{дп}}(t)$,\par\smallskip
+$\hat c(t)=\bar c(t)+\Delta c_{\text{кп}}(t)$.
+\end{block}
+\justifying
+$c_*$ --- постоянная интегрирования; $\Delta c_{\text{век}}$ --- вековая часть, в простейшем приближении $\dot c_{\text{век}}(t-t_0)$; $\Delta c_{\text{дп}}$ и $\Delta c_{\text{кп}}$ --- долго- и короткопериодические поправки.
+\[
+\Delta c_{\text{кп}}=\sum_{k\ge1}\bigl[A_k(\bar{\mathbf c},t)\cos kM
++B_k(\bar{\mathbf c},t)\sin kM\bigr].
+\]
+\justifying
+Короткая периодика определяется зависимостью от быстрой фазы. Долгопериодические члены зависят от медленных углов и сохраняются после усреднения по $M$.
+\end{frame}
+
+\begin{frame}{Согласованность аналитического прогноза}
+\begin{block}{Начальные данные должны соответствовать теории}
+\centering
+$\hat{\mathbf c}_0=\bar{\mathbf c}_0+
+\Delta\mathbf c_{\text{кп}}(\bar{\mathbf c}_0,t_0).$
+\par\smallskip\justifying
+Перед прогнозом начальные оскулирующие элементы преобразуют в средние по той же теории, которая задаёт их эволюцию и восстановление периодических поправок.
+\end{block}
+\begin{itemize}
+\item Формулы из разных теорий нельзя объединять без согласования определений средних элементов, состава сил и порядка приближения.
+\item Явные выражения применимы к семейству начальных условий только в области регулярности и применимости соответствующей теории.
+\item Погрешность определяется неучтёнными членами, начальными данными и моделью сил; неучтённая вековая часть даёт накопление ошибки во времени.
+\end{itemize}
+\end{frame}
+
+
+% 14. Kozai, 1959: https://doi.org/10.1086/107957
+\begin{frame}{Теория Козая}
+\begin{block}{Постановка, 1959 г.}
+\justifying
+Движение спутника в поле несферической Земли с зональными гармониками $J_2,J_3,J_4$. Сопротивление атмосферы и третьи тела не учитываются.
+\end{block}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\begin{block}{Построение решения}
+\begin{itemize}
+\item Уравнения изменения элементов.
+\item Выделение периодических поправок и вековых изменений.
+\item Учёт выбранных членов второго порядка, в том числе $J_2^2$.
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{.48\textwidth}
+\begin{block}{Применимость}
+\justifying
+Аналитическое описание основных эффектов зонального поля.\par\smallskip
+Случаи малых $e$ и $i$ требуют отдельной записи. Точность зависит от усечения теории, орбиты и интервала прогноза.
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+% 15. Brouwer, 1959: https://doi.org/10.1086/107958
+\begin{frame}{Теория Брауэра}
+\begin{block}{Основной подход, 1959 г.}
+\justifying
+Гамильтонова формулировка в канонических переменных Делоне. Последовательные преобразования исключают коротко- и долгопериодические члены из гамильтониана.
+\end{block}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\begin{block}{Структура теории}
+\begin{itemize}
+\item Основное возмущение --- $J_2$.
+\item Периодические члены первого порядка; вековые --- до второго.
+\item Дополнительно учтены $J_3,J_4,J_5$.
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{.48\textwidth}
+\begin{block}{Ограничения и развитие}
+\justifying
+Исходная теория --- без сопротивления атмосферы.\par\smallskip
+Особые случаи: малые $e$, $i$ и окрестность критического наклонения. Для них требуются модификации теории.
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+% 16. Vallado et al., 2006: https://celestrak.org/publications/AIAA/2006-6753/
+\begin{frame}{SGP/SGP4}
+\begin{block}{Назначение}
+\justifying
+SGP4 --- модель общих возмущений для быстрого прогноза по TLE. Исходные средние элементы согласованы с самой моделью.
+\end{block}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\begin{block}{Учитываемые эффекты}
+Зональное поле Земли и упрощённое атмосферное торможение.\par\smallskip
+Дальние орбиты: лунно-солнечные и резонансные возмущения.
+\end{block}
+\end{column}
+\begin{column}{.48\textwidth}
+\begin{block}{Практические свойства}
+Быстрый расчёт большого числа объектов.\par\smallskip
+Погрешность зависит от качества и давности исходного TLE, орбиты и неучтённых воздействий.
+\end{block}
+\end{column}
+\end{columns}
+\medskip
+Средние элементы TLE нельзя отождествлять с оскулирующими.
+\end{frame}
+
+% 17
+\begin{frame}{DSST: общая схема}
+\textbf{Draper Semianalytical Satellite Theory}\par
+Полуаналитическая теория движения спутников, разработанная в лаборатории Дрейпера при участии П. Сефолы и коллег.
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\begin{block}{Средняя эволюция}
+\justifying
+Численное интегрирование усреднённых уравнений в равноденственных элементах. Шаг выбирается по изменениям усреднённых правых частей.
+\end{block}
+\end{column}
+\begin{column}{.48\textwidth}
+\begin{block}{Восстановление состояния}
+\justifying
+Расчёт короткопериодических поправок по средним элементам и орбитальной фазе на требуемую эпоху.
+\end{block}
+\end{column}
+\end{columns}
+\medskip
+Средняя долгота остаётся быстрой переменной: усреднение не исключает информацию о положении КА на орбите.
+\end{frame}
+
+% 18. Преобразования согласуются с выбранными моделями сил.
+% https://www.orekit.org/site-orekit-13.1/apidocs/org/orekit/propagation/semianalytical/dsst/DSSTPropagator.html
+\begin{frame}{DSST: преобразование элементов}
+\[
+\hat{\mathbf c}(t)=\bar{\mathbf c}(t)
++\sum_{j=1}^{m}\varepsilon^j\boldsymbol\eta_j(\bar{\mathbf c}(t),t).
+\]
+$\hat{\mathbf c}$ --- оскулирующие элементы; $\bar{\mathbf c}$ --- средние; $\boldsymbol\eta_j$ --- короткопериодические поправки.
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\begin{block}{Средние $\to$ оскулирующие}
+\justifying
+Поправки вычисляются по известным средним элементам и добавляются к ним.
+\end{block}
+\end{column}
+\begin{column}{.48\textwidth}
+\begin{block}{Оскулирующие $\to$ средние}
+\justifying
+Средние элементы неизвестны и входят в поправки. Обычно требуется итерационное решение.
+\end{block}
+\end{column}
+\end{columns}
+\medskip
+Преобразования на одной эпохе должны использовать согласованные модели сил и порядок поправок.
+\end{frame}
+
+% 19
+\begin{frame}{DSST: последовательность прогноза}
+\centering
+\input{images/dsst-flow.tex}
+\end{frame}
+
+% 20
+\begin{frame}{DSST: модели сил и точность}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\begin{block}{Модели воздействий}
+\begin{itemize}
+\item Зональные и тессеральные гармоники гравитационного поля.
+\item Притяжение Луны и Солнца.
+\item Сопротивление атмосферы.
+\item Давление солнечного излучения.
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{.48\textwidth}
+\begin{block}{Источники погрешности}
+\begin{itemize}
+\item Усечение усреднённых уравнений и периодических поправок.
+\item Преобразование начальных элементов.
+\item Интегрирование и интерполяция.
+\item Модели сил и начальные данные.
+\end{itemize}
+\end{block}
+\end{column}
+\end{columns}
+\medskip
+Медленные резонансные члены требуют отдельного учёта. Проверка точности проводится при одинаковых начальных состояниях и согласованных моделях сил.
+\end{frame}
+
+% 21. Вековые скорости: первое приближение по J2, средние элементы.
+\begin{frame}{Гравитационное поле Земли}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.54\textwidth}
+\begin{block}{Вековые эффекты $J_2$}
+\centering
+$\displaystyle\dot\Omega=-\frac32 J_2 n\left(\frac{R_\oplus}{p}\right)^2\cos i$,\par\smallskip
+$\displaystyle\dot\omega=\frac34 J_2 n\left(\frac{R_\oplus}{p}\right)^2(5\cos^2i-1)$.
+\par\smallskip
+$p=a(1-e^2)$,\quad $n=\sqrt{\mu/a^3}$.
+\end{block}
+В первом приближении по $J_2$ средние $a$, $e$, $i$ не имеют векового дрейфа.
+\end{column}
+\begin{column}{.42\textwidth}
+\begin{block}{Периодические эффекты}
+\justifying
+Зональные гармоники вызывают периодические изменения элементов.\par\smallskip
+Тессеральные гармоники зависят от вращения Земли; вблизи резонансов возникают медленные изменения.
+\end{block}
+\end{column}
+\end{columns}
+\medskip
+Для указанных скоростей: $\dot\Omega=0$ при $i=90^\circ$; $\dot\omega=0$ при $i\approx63{,}4^\circ$ и $116{,}6^\circ$.
+\end{frame}
+
+% 22
+\begin{frame}{Атмосфера, третьи тела и излучение}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{30mm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{43mm}@{}}
+\toprule
+\textbf{Воздействие} & \textbf{Характер изменений} & \textbf{От чего зависит}\\
+\midrule
+Сопротивление атмосферы & Снижение энергии орбиты и $a$; изменение $e$ и периодические вариации. & Плотность, относительная скорость, $C_D A/m$.\\
+\midrule
+Луна и Солнце & Долгопериодические и вековые изменения ориентации орбиты; изменения $e$ и $i$. & Размер и ориентация орбиты, взаимное положение тел.\\
+\midrule
+Давление излучения & Периодические изменения; резонансное накопление изменений. & $C_R A/m$, ориентация КА, освещённость и тень.\\
+\bottomrule
+\end{tabularx}
+\smallskip
+{\usebeamerfont{caption}$A$ --- эффективная площадь; $m$ --- масса КА; $C_D$, $C_R$ --- коэффициенты моделей сопротивления и давления излучения.\par}
+\end{frame}
+
+% 23
+\begin{frame}{Сопоставление методов прогноза}
+\renewcommand{\arraystretch}{1.0}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{27mm}*{3}{>{\raggedright\arraybackslash}X}@{}}
+\toprule
+ & \textbf{Аналитические} & \textbf{Численные} & \textbf{Полу\-аналитические}\\
+\midrule
+Решение & Формулы и ряды & Интегрирование полных уравнений & Средние элементы и поправки\\
+\midrule
+Длительный прогноз & Быстрое вычисление формул & Расчёт каждого витка & Возможен шаг больше витка\\
+\midrule
+Набор сил & Задан теорией & Гибкий выбор & Усреднение каждой модели\\
+\midrule
+Погрешность метода & Усечение теории & Интегрирование и округление & Усечение и интегрирование\\
+\bottomrule
+\end{tabularx}
+\smallskip
+Ошибки начальных данных и моделей сил влияют на все три подхода.
+\end{frame}
+
+% 24
+\begin{frame}{Источники}
+\setbeamertemplate{bibliography item}{\insertbiblabel}
+\setbeamerfont{bibliography entry author}{size*={9.5pt}{11.5pt}}
+\setbeamerfont{bibliography entry title}{size*={9.5pt}{11.5pt}}
+\setbeamerfont{bibliography entry location}{size*={9.5pt}{11.5pt}}
+\setbeamerfont{bibliography entry note}{size*={9.5pt}{11.5pt}}
+\begin{thebibliography}{9}
+\bibitem{Vallado} Vallado D. A. Fundamentals of Astrodynamics and Applications. 2001.
+\bibitem{Kozai} Kozai Y. The Motion of a Close Earth Satellite. The Astronomical Journal. 1959. Vol. 64. P. 367--377. \href{https://doi.org/10.1086/107957}{DOI: 10.1086/107957}.
+\bibitem{Brouwer} Brouwer D. Solution of the Problem of Artificial Satellite Theory without Drag. The Astronomical Journal. 1959. Vol. 64. P. 378--397. \href{https://doi.org/10.1086/107958}{DOI: 10.1086/107958}.
+\bibitem{SGP4} Vallado D. A., Crawford P., Hujsak R., Kelso T. S. Revisiting Spacetrack Report \#3. AIAA 2006-6753. \href{https://celestrak.org/publications/AIAA/2006-6753/}{CelesTrak}.
+\bibitem{DSST} Orekit. Документация DSST: \href{https://www.orekit.org/site-orekit-13.1/apidocs/org/orekit/propagation/semianalytical/dsst/DSSTPropagator.html}{прогноз и преобразования элементов}; \href{https://www.orekit.org/site-orekit-13.0.3/apidocs/org/orekit/propagation/semianalytical/dsst/forces/package-summary.html}{модели сил}.
+\end{thebibliography}
+\end{frame}
+
+\end{document}
