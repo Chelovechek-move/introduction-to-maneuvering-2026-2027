@@ -31,6 +31,8 @@ build/
 *.xdv
 
 # Editor backups and temporary files
+.idea/
+.ipynb_checkpoints/
 *~
 *.bak
 *.tmp
