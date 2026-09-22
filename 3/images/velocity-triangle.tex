@@ -1,0 +1,18 @@
+% Example 2.1, first intersection. Components in the common local RT basis.
+\begin{tikzpicture}[course diagram,x=1mm,y=1mm,scale=.88]
+\path[use as bounding box] (-22,-8) rectangle (32,46);
+\coordinate (O) at (0,0);
+\coordinate (A) at (.584,41.834);
+\coordinate (B) at (-11.320,43.144);
+\draw[vector line] (O)--(27,0) node[right] {$v_r$};
+\draw[vector line] (O)--(0,46) node[above right,inner sep=.5mm] {$v_t$};
+\draw[courseink,line width=1.05pt,->] (O)--(A);
+\node[anchor=west,inner sep=1mm] at (3,31) {$\mathbf v_1$};
+\draw[courseaccent,line width=1.05pt,->] (O)--(B);
+\node[anchor=east,inner sep=1mm] at (-9,30) {$\mathbf v_2$};
+\draw[courseaccent,line width=1.05pt,->] (A)--(B);
+\node[anchor=south,inner sep=1mm] at (-6,44) {$\Delta\mathbf v$};
+\draw[aux line,dashed] (B)--(-11.320,0);
+\node[below] at (-11.320,0) {$v_{r,2}<0$};
+\fill[courseink] (O) circle[radius=.7];
+\end{tikzpicture}

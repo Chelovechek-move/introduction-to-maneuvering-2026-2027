@@ -1,0 +1,27 @@
+% All conics share their focus, shown by the Earth symbol.
+\begin{tikzpicture}[course diagram,x=1mm,y=1mm,scale=.78]
+\path[use as bounding box] (-19,-23) rectangle (132,25);
+\foreach \shift/\title in {0/{Нет общих точек},38/{Касание},76/{Две точки},114/{Совпадение}} {
+ \node[align=center,text width=29mm,text=courseaccent] at (\shift,23) {\title};
+ \node[inner sep=0pt] at (\shift,0) {$\oplus$};
+}
+\draw[courseink,line width=.75pt] (0,0) circle[radius=8];
+\draw[orbit line] (0,0) circle[radius=14];
+\begin{scope}[xshift=38mm]
+ \draw[courseink,line width=.75pt] (0,0) circle[radius=8];
+ \draw[orbit line] (-5,0) ellipse[x radius=13,y radius=12];
+ \fill[courseaccent] (8,0) circle[radius=.8];
+\end{scope}
+\begin{scope}[xshift=76mm]
+ \draw[courseink,line width=.75pt] (0,0) circle[radius=11];
+ \draw[orbit line] (-5.2,0) ellipse[x radius=13,y radius=11.9147];
+ \pgfmathsetmacro{\xx}{(10.92/11-1)/.4*11}
+ \pgfmathsetmacro{\yy}{sqrt(121-\xx*\xx)}
+ \fill[courseaccent] (\xx,\yy) circle[radius=.8];
+ \fill[courseaccent] (\xx,-\yy) circle[radius=.8];
+\end{scope}
+\draw[courseink,line width=1.25pt] (114,0) circle[radius=12];
+\draw[courseaccent,line width=.8pt,dashed] (114,0) circle[radius=12];
+\foreach \shift/\label in {0/0,38/1,76/2,114/\infty}
+ \node at (\shift,-21) {$\label$};
+\end{tikzpicture}

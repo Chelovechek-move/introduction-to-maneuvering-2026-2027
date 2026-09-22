@@ -1,0 +1,14 @@
+\begin{tikzpicture}
+\begin{axis}[course plot,
+width=128mm,height=48mm,ymin=0,ymax=3000,ytick={0,500,1000,1500,2000,2500,3000},
+ylabel={$\Delta v$, м/с},
+xlabel={$\nu_1$, град},
+xmin=0,xmax=360,xtick={0,60,120,180,240,300,360},
+unbounded coords=jump,filter discard warning=false,
+legend style={at={(0.98,.98)},anchor=north east,legend columns=2},
+]
+\addplot[courseaccent,solid,line width=.85pt,no marks] table[x=nu,y=dvA] {images/opt-aw.dat};
+\addplot[coursemuted,densely dashed,line width=.85pt,no marks] table[x=nu,y=dvB] {images/opt-aw.dat};
+\legend{A,B}
+\end{axis}
+\end{tikzpicture}

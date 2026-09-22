@@ -2,6 +2,14 @@
 AGENTS.md
 build/
 
+# Local Python environment and bytecode
+.venv/
+__pycache__/
+*.py[cod]
+
+# Student submissions (local only)
+/student_submissions/
+
 # Generated lecture and homework PDFs (keep PDF illustrations)
 /[0-9]*/*.pdf
 /homeworks/**/*.pdf

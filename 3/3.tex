@@ -1,0 +1,1075 @@
+% !TeX program = pdflatex
+% !TeX encoding = UTF-8
+\documentclass[11pt,aspectratio=169,t]{beamer}
+\input{../common/preamble.tex}
+\usepackage{booktabs,array,tabularx,pgfplots}
+\pgfplotsset{compat=1.18,
+  course plot/.style={
+    font=\fontsize{9.5}{11.5}\selectfont,
+    axis background/.style={fill=coursepaper},
+    axis line style={draw=coursemuted,line width=.45pt},
+    tick style={draw=coursemuted,line width=.4pt},
+    grid=major,grid style={draw=courserule!65,line width=.3pt},
+    tick align=outside,axis lines=left,
+    scaled ticks=false,
+    tick label style={/pgf/number format/use comma,/pgf/number format/1000 sep={\,}},
+    legend style={draw=none,fill=coursepaper,font=\fontsize{9}{11}\selectfont},
+    legend cell align=left,
+    label style={font=\fontsize{9.5}{11.5}\selectfont},
+    clip=true}}
+\setlength{\abovedisplayskip}{5pt}
+\setlength{\belowdisplayskip}{5pt}
+\setlength{\abovedisplayshortskip}{2pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\newcommand{\figurelegend}{%
+ {\usebeamerfont{caption}\color{coursemuted}
+ \textcolor{courseink}{\rule[.6ex]{5mm}{.5pt}} исходная\quad
+ \textcolor{courseaccent}{\rule[.6ex]{5mm}{.6pt}} A\quad
+ \textcolor{coursemuted}{\textendash\,\textendash} B\par}}
+
+\setcounter{lecture}{3}
+\title{Одноимпульсные манёвры}
+\date{22 сентября 2026 г.}
+
+\begin{document}
+
+% 0–15 мин: модель импульса и геометрия пересечения.
+% Слайд 1
+\begin{frame}[plain]
+\titlepage
+\end{frame}
+
+% Слайд 2
+\begin{frame}{Импульсная модель манёвра}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.49\textwidth}
+\begin{block}{Состояние в точке манёвра}
+\centering
+$\mathbf r^+=\mathbf r^-=\mathbf r$,\par\smallskip
+$\mathbf v^+=\mathbf v^-+\Delta\mathbf v$.
+\end{block}
+\justifying
+Продолжительностью работы ДУ пренебрегаем. До и после импульса КА движется в центральном поле с параметром $\mu$.
+\par\smallskip
+Компоненты в орбитальном базисе:
+\[
+\Delta\mathbf v=\Delta v_r\mathbf e_r+
+\Delta v_t\mathbf e_t+\Delta v_z\mathbf e_z.
+\]
+\end{column}
+\begin{column}{.49\textwidth}
+\centering\input{images/impulse.tex}\par
+{\usebeamerfont{caption}\color{coursemuted}
+Обе орбиты проходят через точку $P$.\par}
+\end{column}
+\end{columns}
+\end{frame}
+
+% Слайд 3
+\begin{frame}{Изменение энергии и орбитального момента}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\begin{block}{Удельная энергия}
+\centering
+$\displaystyle\varepsilon=\frac{v^2}{2}-\frac\mu r=-\frac\mu{2a}.$
+\par\medskip
+$\displaystyle\varepsilon^+-\varepsilon^-
+=\mathbf v^-\!\cdot\Delta\mathbf v+
+\frac{\|\Delta\mathbf v\|^2}{2}.$
+\end{block}
+\justifying
+Изменение большой полуоси связано с изменением энергии. Вклад зависит от направления импульса относительно скорости.
+\end{column}
+\begin{column}{.48\textwidth}
+\begin{block}{Удельный орбитальный момент}
+\centering
+$\mathbf h=\mathbf r\times\mathbf v$,\par\smallskip
+$\mathbf h^+=\mathbf h^-+\mathbf r\times\Delta\mathbf v$.
+\par\smallskip
+$h^2=\mu p=\mu a(1-e^2)$.
+\end{block}
+\justifying
+Радиальный импульс сохраняет $\mathbf h$. Нормальная компонента меняет ориентацию плоскости.
+\end{column}
+\end{columns}
+\medskip
+\justifying
+На эллипсе скорость обычно имеет обе компоненты: $v_r$ и $v_t$.
+Трансверсальное направление совпадает с направлением скорости только в апсидах.
+\end{frame}
+
+% Слайд 4
+\begin{frame}{Общая точка начальной и конечной орбит}
+\centering\input{images/intersections.tex}\par
+\begin{block}{Условие одноимпульсного перехода}
+\justifying
+Орбиты должны иметь общую точку. В ней требуемый импульс равен
+$\Delta\mathbf v=\mathbf v_2-\mathbf v_1$.
+\end{block}
+\end{frame}
+
+% Слайд 5
+\begin{frame}{Радиус-векторы компланарных орбит}
+\justifying
+Выберем неподвижные орты $\mathbf i,\mathbf j$ в общей плоскости орбит.
+Углы отсчитываем от $\mathbf i$ в одном направлении; $p_j=a_j(1-e_j^2)$.
+\begin{align*}
+\mathbf r_1&=\frac{p_1}{1+e_1\cos\nu_1}
+ \bigl[\cos(\nu_1+\omega_1)\mathbf i+\sin(\nu_1+\omega_1)\mathbf j\bigr],\\[3pt]
+\mathbf r_2&=\frac{p_2}{1+e_2\cos\nu_2}
+ \bigl[\cos(\nu_2+\omega_2)\mathbf i+\sin(\nu_2+\omega_2)\mathbf j\bigr].
+\end{align*}
+\justifying
+В общей точке $\mathbf r_1=\mathbf r_2$: совпадают направление и длина радиус-вектора.
+Поскольку $r_1,r_2>0$, получаем два скалярных условия:
+\[
+\omega_1+\nu_1=\omega_2+\nu_2,\qquad
+\frac{p_1}{1+e_1\cos\nu_1}=\frac{p_2}{1+e_2\cos\nu_2}.
+\]
+\end{frame}
+
+% Слайд 6
+\begin{frame}{Уравнение для точки пересечения}
+Из равенства направлений: $\Delta\omega=\omega_2-\omega_1$,
+$\nu_2=\nu_1-\Delta\omega$. Подставим во второе условие:
+\[
+p_1\bigl[1+e_2\cos(\nu_1-\Delta\omega)\bigr]
+=p_2(1+e_1\cos\nu_1).
+\]
+Раскроем косинус разности:
+\[
+\cos(\nu_1-\Delta\omega)
+=\cos\nu_1\cos\Delta\omega+\sin\nu_1\sin\Delta\omega.
+\]
+Соберём коэффициенты при $\cos\nu_1$, $\sin\nu_1$ и свободный член:
+\[
+\underbrace{(e_2p_1\cos\Delta\omega-e_1p_2)}_{A}\cos\nu_1+
+\underbrace{e_2p_1\sin\Delta\omega}_{B}\sin\nu_1+
+\underbrace{(p_1-p_2)}_{C}=0.
+\]
+\justifying
+Теперь неизвестна только $\nu_1$. Для каждого корня найдём
+$\nu_2=\nu_1-\Delta\omega$, общий радиус и обе скорости.
+\end{frame}
+
+% Слайд 7
+\begin{frame}{Решение тригонометрического уравнения}
+Пусть $A\cos\nu_1+B\sin\nu_1=-C$ и $\rho=\sqrt{A^2+B^2}>0$.
+Введём угол $\alpha$:
+\[
+\cos\alpha=\frac A\rho,\qquad \sin\alpha=\frac B\rho,
+\qquad \alpha=\operatorname{atan2}(B,A).
+\]
+Тогда
+\[
+A\cos\nu_1+B\sin\nu_1
+=\rho\bigl(\cos\alpha\cos\nu_1+\sin\alpha\sin\nu_1\bigr)
+=\rho\cos(\nu_1-\alpha).
+\]
+\[
+\cos(\nu_1-\alpha)=-\frac C\rho
+\quad\Longrightarrow\quad
+\boxed{\nu_1=\alpha\pm\arccos(-C/\rho)\pmod{2\pi}.}
+\]
+\justifying
+Функция $\operatorname{atan2}(y,x)$ определяет угол по обоим знакам $x,y$.
+Обычная $\arctan(B/A)$ может выбрать неверную четверть.
+\end{frame}
+
+% Слайд 8
+\begin{frame}{Число точек пересечения}
+При $\rho>0$ число решений следует из диапазона значений косинуса:
+\[
+\cos(\nu_1-\alpha)=-C/\rho.
+\]
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{.99\textwidth}{@{}lX@{}}
+$|C|>\rho$ & Правая часть вне $[-1,1]$: общих точек нет.\\
+$|C|=\rho$ & Корни со знаками $+$ и $-$ совпадают по модулю $2\pi$: касание.\\
+$|C|<\rho$ & Два различных корня: две точки пересечения.\\
+\end{tabularx}
+\begin{block}{Отдельно проверяем $A=B=0$}
+\justifying
+Уравнение сводится к $C=0$. Если $C\ne0$, пересечений нет.
+Если $C=0$, орбиты совпадают и подходит любая точка.
+\end{block}
+\justifying
+Например, для кругов $e_1=e_2=0$: $A=B=0$, $C=a_1-a_2$.
+Круги совпадают при $a_1=a_2$ и не пересекаются при $a_1\ne a_2$.
+\end{frame}
+
+% 15–25 мин: компланарный пример.
+% Слайд 9
+\begin{frame}{Компланарный переход: исходные данные}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.47\textwidth}
+\begin{block}{Две орбиты в общей плоскости}
+\centering
+\renewcommand{\arraystretch}{1.18}
+\begin{tabular}{@{}lrr@{}}
+ & Начальная & Конечная\\\midrule
+$a$, км & $10\,000$ & $12\,000$\\
+$e$ & $0{,}10$ & $0{,}35$\\
+$\omega$, град & $20$ & $90$
+\end{tabular}
+\end{block}
+\justifying
+Углы $\omega$ здесь отсчитываются от общей оси в плоскости орбит.
+\par\medskip
+\textbf{Найти:} точки пересечения и импульс перехода в каждой из них.
+\end{column}
+\begin{column}{.51\textwidth}
+\centering\input{images/coplanar-orbits.tex}\par
+{\usebeamerfont{caption}\color{coursemuted}
+Тёмная линия --- начальная орбита; голубая --- конечная.\par}
+\end{column}
+\end{columns}
+\end{frame}
+
+% Слайд 10
+\begin{frame}{Компланарный переход: точки пересечения}
+Подставим элементы в уравнение пересечения:
+\[
+p_1=9900\text{ км},\qquad p_2=10\,530\text{ км},\qquad
+\Delta\omega=70^\circ,
+\]
+\[
+132{,}0998\cos\nu_1+3256{,}0349\sin\nu_1-630=0.
+\]
+Приводим к одному косинусу:
+\[
+\cos(\nu_1-87{,}6767^\circ)=0{,}1933278.
+\]
+\centering
+\renewcommand{\arraystretch}{1.05}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+ & Точка 1 & Точка 2\\\midrule
+$\nu_1$ & $8{,}8238^\circ$ & $166{,}5297^\circ$\\
+$\nu_2=\nu_1-\Delta\omega$ & $298{,}8238^\circ$ & $96{,}5297^\circ$\\\bottomrule
+\end{tabular}\par\smallskip
+\justifying
+Все значения $\nu$ приводим к диапазону $0\le\nu<360^\circ$, добавляя или вычитая полный оборот.
+\end{frame}
+
+% Слайд 11
+\begin{frame}{Расчёт импульса в общей точке}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.58\textwidth}
+Компоненты скорости в плоскости орбиты:
+\[
+v_r=\sqrt{\frac\mu p}\,e\sin\nu,\qquad
+v_t=\sqrt{\frac\mu p}\,(1+e\cos\nu).
+\]
+При $u=\omega+\nu$ переходим к общим осям:
+\[
+v_x=v_r\cos u-v_t\sin u,
+\qquad
+v_y=v_r\sin u+v_t\cos u.
+\]
+\[
+\boxed{\Delta\mathbf v=\mathbf v_2-\mathbf v_1},\qquad \Delta v=\|\Delta\mathbf v\|.
+\]
+\end{column}
+\begin{column}{.38\textwidth}
+\centering\input{images/velocity-triangle.tex}
+\end{column}
+\end{columns}
+\smallskip
+\justifying
+В примерах $\mu=398\,600{,}44158$ км$^3$/с$^2$.
+При $p$ в км получаем км/с; векторы скоростей далее приводим в м/с.
+\end{frame}
+
+% Слайд 12
+\begin{frame}{Компланарный переход: первая точка}
+При $\nu_1=8{,}823797^\circ$, $\nu_2=298{,}823797^\circ$:
+\[
+r=\frac{9900}{1+0{,}1\cos8{,}823797^\circ}
+=9009{,}6938\text{ км},\quad u=28{,}823797^\circ.
+\]
+\begin{align*}
+\mathbf r_1=\mathbf r_2&=(7893{,}4514,\;4343{,}7320,\;0)^{\mathsf T}\text{ км},\\
+\mathbf v_1&=(-3276{,}1963,\;6155{,}4095,\;0)^{\mathsf T}\text{ м/с},\\
+\mathbf v_2&=(-5119{,}6398,\;5390{,}2835,\;0)^{\mathsf T}\text{ м/с}.
+\end{align*}
+Вычитаем компоненты, затем находим длину вектора:
+\[
+\Delta\mathbf v=(-1843{,}4435,\;-765{,}1259,\;0)^{\mathsf T}\text{ м/с},
+\]
+\[
+\Delta v=\sqrt{1843{,}4435^2+765{,}1259^2}=1995{,}9213\text{ м/с}.
+\]
+\end{frame}
+
+% Слайд 13
+\begin{frame}{Компланарный переход: вторая точка}
+При $\nu_1=166{,}529685^\circ$, $\nu_2=96{,}529685^\circ$:
+\[
+r=\frac{9900}{1+0{,}1\cos166{,}529685^\circ}
+=10\,966{,}4800\text{ км},\quad u=186{,}529685^\circ.
+\]
+\begin{align*}
+\mathbf r_1=\mathbf r_2&=(-10\,895{,}3413,\;-1247{,}0858,\;0)^{\mathsf T}\text{ км},\\
+\mathbf v_1&=(504{,}5515,\;-5707{,}8639,\;0)^{\mathsf T}\text{ м/с},\\
+\mathbf v_2&=(-1453{,}7355,\;-6112{,}6325,\;0)^{\mathsf T}\text{ м/с}.
+\end{align*}
+\[
+\Delta\mathbf v=(-1958{,}2871,\;-404{,}7686,\;0)^{\mathsf T}\text{ м/с},
+\]
+\[
+\Delta v=\sqrt{1958{,}2871^2+404{,}7686^2}=1999{,}6815\text{ м/с}.
+\]
+\justifying
+Первая точка требует на $3{,}7602$ м/с меньше. Результат сравниваем
+после вычисления обоих векторных импульсов.
+\end{frame}
+
+% 25–40 мин: пространственный переход.
+% Слайд 14
+\begin{frame}{Пересечение некомпланарных орбит}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.49\textwidth}
+\begin{block}{Линия пересечения плоскостей}
+\centering
+$\displaystyle\mathbf L=
+\frac{\widehat{\mathbf h}_1\times\widehat{\mathbf h}_2}
+{\|\widehat{\mathbf h}_1\times\widehat{\mathbf h}_2\|},\quad
+\widehat{\mathbf h}_j=\frac{\mathbf h_j}{\|\mathbf h_j\|}.$
+\end{block}
+\justifying
+Проверяются оба направления:
+$+\mathbf L$ и $-\mathbf L$.
+\par\smallskip
+Аномалию $\nu_j$ отсчитываем от перицентра до выбранного луча по движению КА.
+\par\smallskip
+$\displaystyle r_j=\frac{p_j}{1+e_j\cos\nu_j}$.
+\end{column}
+\begin{column}{.49\textwidth}
+\centering\input{images/noncoplanar-orbits.tex}\par
+{\usebeamerfont{caption}\color{coursemuted}
+$\mathbf P$ --- к перицентру орбиты 1;\par
+$\mathbf Q$ --- на $90^\circ$ вперёд в её плоскости.\par}
+\end{column}
+\end{columns}
+\smallskip
+\justifying
+Равенство радиусов на одном луче означает пересечение орбит.
+Параллельные нормали — компланарный случай.
+\end{frame}
+
+% Слайд 15
+\begin{frame}{Переход от элементов к векторам состояния}
+Единичный вектор перицентра в неподвижных пространственных осях:
+\[
+\mathbf P=\begin{pmatrix}
+\cos\Omega\cos\omega-\sin\Omega\sin\omega\cos i\\
+\sin\Omega\cos\omega+\cos\Omega\sin\omega\cos i\\
+\sin\omega\sin i
+\end{pmatrix},\qquad
+\mathbf Q=\widehat{\mathbf h}\times\mathbf P.
+\]
+$\mathbf Q$ лежит в плоскости орбиты, на $90^\circ$ впереди $\mathbf P$ по движению.
+\[
+\boxed{\mathbf r=\frac{p}{1+e\cos\nu}(\cos\nu\,\mathbf P+\sin\nu\,\mathbf Q),}
+\]
+\[
+\boxed{\mathbf v=\sqrt{\frac\mu p}\bigl[-\sin\nu\,\mathbf P+(e+\cos\nu)\mathbf Q\bigr].}
+\]
+\justifying
+На луче $\mathbf s$ находим $\cos\nu=\mathbf P\cdot\mathbf s$, $\sin\nu=\mathbf Q\cdot\mathbf s$. По ним выбираем угол $\nu$ от $0$ до $360^\circ$.
+\end{frame}
+
+% Слайд 16
+\begin{frame}{Некомпланарный переход: исходные данные}
+\centering
+\renewcommand{\arraystretch}{1.05}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+ & Начальная орбита & Конечная орбита\\\midrule
+$a$, км & $18\,654{,}3640$ & $20\,679{,}0085$\\
+$e$ & $0{,}28969592$ & $0{,}16932267$\\
+$i$, град & $35{,}62718$ & $38{,}46693$\\
+$\Omega$, град & $89{,}44357$ & $107{,}25881$\\
+$\omega$, град & $265{,}55428$ & $234{,}60634$\\\bottomrule
+\end{tabular}\par\smallskip
+\raggedright
+Находим нормали и направление пересечения плоскостей:
+\[
+\widehat{\mathbf h}_j=(\sin i_j\sin\Omega_j,\;-\sin i_j\cos\Omega_j,\;\cos i_j)^{\mathsf T},
+\]
+\[
+\mathbf L=\frac{\widehat{\mathbf h}_1\times\widehat{\mathbf h}_2}
+{\|\widehat{\mathbf h}_1\times\widehat{\mathbf h}_2\|}
+=(-0{,}804421,\;0{,}139578,\;0{,}577430)^{\mathsf T}.
+\]
+
+\end{frame}
+
+% Слайд 17
+\begin{frame}{Проверка радиусов на двух лучах}
+Параметры орбит:
+$p_1=17\,088{,}8203$ км, $p_2=20\,086{,}1379$ км.
+Например, на положительном луче
+\[
+r_1=\frac{17\,088{,}8203}{1+0{,}28969592\cos176{,}87446^\circ}
+=24\,043{,}870\text{ км}.
+\]
+\centering
+\renewcommand{\arraystretch}{1.0}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+ & $+\mathbf L$ & $-\mathbf L$\\\midrule
+$\nu_1$, град & $176{,}87446$ & $356{,}87446$\\
+$\nu_2$, град & $193{,}55739$ & $13{,}55739$\\
+$r_1$, км & $24\,043{,}870$ & $13\,254{,}700$\\
+$r_2$, км & $24\,043{,}869$ & $17\,247{,}174$\\\bottomrule
+\end{tabular}\par\smallskip
+\justifying
+На $+\mathbf L$ радиусы совпадают с точностью округления исходных данных
+(расхождение $0{,}8$ м). На $-\mathbf L$ разность $3992$ км: переход невозможен.
+\end{frame}
+
+% Слайд 18
+\begin{frame}{Некомпланарный переход: вектор импульса}
+Для найденных аномалий вычислим состояния в общих неподвижных осях:
+\begin{align*}
+\mathbf r_1&=(-19\,341{,}3833,\;3355{,}9909,\;13\,883{,}6559)^{\mathsf T}\text{ км},\\
+\mathbf v_1&=(-462{,}0121,\;-3388{,}2747,\;307{,}5030)^{\mathsf T}\text{ м/с},\\
+\mathbf v_2&=(132{,}1330,\;-3645{,}1336,\;758{,}9684)^{\mathsf T}\text{ м/с}.
+\end{align*}
+Радиус-вектор целевой орбиты совпадает с $\mathbf r_1$ в пределах $0{,}8$ м.
+\[
+\Delta\mathbf v=\mathbf v_2-\mathbf v_1
+=(594{,}1451,\;-256{,}8588,\;451{,}4654)^{\mathsf T}\text{ м/с},
+\]
+\[
+\Delta v=\sqrt{594{,}1451^2+256{,}8588^2+451{,}4654^2}
+=789{,}1805\text{ м/с}.
+\]
+\justifying
+Нормальная к исходной плоскости компонента импульса обеспечивает переход
+в плоскость целевой орбиты.
+\end{frame}
+
+% Коррекция отдельных элементов: число независимых требований.
+% Слайд 19
+\begin{frame}{Коррекция отдельных элементов}
+\justifying
+Теперь задаём не всю конечную орбиту, а только часть её элементов.
+Место манёвра сначала считаем известным.
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\begin{block}{Импульс в плоскости орбиты}
+Две компоненты: $\Delta v_r$, $\Delta v_t$.
+\par\medskip
+Зададим $a_2,e_2$ или $a_2,\omega_2$.
+\end{block}
+\justifying
+При сохранении направления движения:
+\[
+i_2=i_1,\qquad\Omega_2=\Omega_1,
+\]
+\[
+u_2=u_1,\qquad u=\omega+\nu.
+\]
+\end{column}
+\begin{column}{.48\textwidth}
+\begin{block}{Импульс вне плоскости орбиты}
+Три компоненты: $\Delta v_r$, $\Delta v_t$, $\Delta v_z$.
+\par\medskip
+Зададим, например, $a_2,e_2,\Omega_2$.
+\end{block}
+\justifying
+Остальные элементы определятся из условия, что конечная орбита проходит через точку манёвра.
+\end{column}
+\end{columns}
+\end{frame}
+
+% Линеаризация в фиксированной точке манёвра.
+% Слайд 20
+\begin{frame}{Линеаризация изменения элементов}
+\setlength{\abovedisplayskip}{3pt}
+\setlength{\belowdisplayskip}{3pt}
+Точка манёвра фиксирована: $\mathbf r_2=\mathbf r_1=\mathbf r$,
+$\mathbf v_2=\mathbf v_1+\Delta\mathbf v$.
+\begin{gather*}
+\mathbf y=(a,e,\omega,i,\Omega)^{\mathsf T}=\mathbf F(\mathbf r,\mathbf v),\\[3pt]
+\Delta\mathbf y=
+\mathbf F(\mathbf r,\mathbf v_1+\Delta\mathbf v)
+-\mathbf F(\mathbf r,\mathbf v_1).
+\end{gather*}
+\begin{block}{Разложение по малому импульсу}
+\centering
+$\displaystyle
+\Delta\mathbf y=B\,\Delta\mathbf v
++O\!\left(\|\Delta\mathbf v\|^2\right),\qquad
+B_{kj}=\left.\frac{\partial y_k}{\partial v_j}\right|_{\mathbf r,\mathbf v_1}.
+$
+\par\medskip
+В первом приближении: $\boxed{B\,\Delta\mathbf v\approx\Delta\mathbf y}$.
+\end{block}
+\justifying
+$j=r,t,z$ --- компоненты в исходном орбитальном базисе.
+Матрицу $B$ вычисляем до манёвра. Линеаризация требует малости импульса.
+\end{frame}
+
+% Слайд 21
+\begin{frame}{Две компоненты импульса в плоскости}
+\setlength{\abovedisplayskip}{3pt}
+\setlength{\belowdisplayskip}{3pt}
+При $\Delta v_z=0$ получаем пять уравнений для двух неизвестных:
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.56\textwidth}
+\[
+\begin{pmatrix}
+\Delta a\\ \Delta e\\ \Delta\omega\\ \Delta i\\ \Delta\Omega
+\end{pmatrix}
+\approx
+\underbrace{\begin{pmatrix}
+B_{ar}&B_{at}\\
+B_{er}&B_{et}\\
+B_{\omega r}&B_{\omega t}\\
+0&0\\
+0&0
+\end{pmatrix}}_{B_{\parallel}\; (5\times2)}
+\begin{pmatrix}\Delta v_r\\ \Delta v_t\end{pmatrix}.
+\]
+\end{column}
+\begin{column}{.41\textwidth}
+\smallskip\raggedright
+Зададим $\Delta a,\Delta e$. Если первые два уравнения независимы,
+из них найдём $\Delta v_r,\Delta v_t$.
+\par\smallskip
+Тогда третье уравнение определит $\Delta\omega$.
+Его значение уже нельзя выбрать независимо.
+\end{column}
+\end{columns}
+\begin{block}{Не более двух независимых требований}
+\justifying
+$\operatorname{rank}B_{\parallel}\leq2$. Могут измениться сразу $a,e,\omega$,
+но все три уравнения должны выполняться при одних и тех же $\Delta v_r,\Delta v_t$.
+\end{block}
+\end{frame}
+
+% Слайд 22
+\begin{frame}{Три компоненты импульса}
+\setlength{\abovedisplayskip}{3pt}
+\setlength{\belowdisplayskip}{3pt}
+В первом приближении пять изменений определяются тремя компонентами:
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.59\textwidth}
+\[
+\begin{pmatrix}
+\Delta a\\ \Delta e\\ \Delta\omega\\ \Delta i\\ \Delta\Omega
+\end{pmatrix}
+\approx
+\underbrace{\begin{pmatrix}
+B_{ar}&B_{at}&0\\
+B_{er}&B_{et}&0\\
+B_{\omega r}&B_{\omega t}&B_{\omega z}\\
+0&0&B_{iz}\\
+0&0&B_{\Omega z}
+\end{pmatrix}}_{B\; (5\times3)}
+\begin{pmatrix}\Delta v_r\\ \Delta v_t\\ \Delta v_z\end{pmatrix}.
+\]
+\end{column}
+\begin{column}{.38\textwidth}
+\smallskip\raggedright
+Можно задать, например, $\Delta a,\Delta e,\Delta\Omega$,
+если эти три уравнения независимы.
+\par\smallskip
+Найдём импульс, а затем $\Delta\omega,\Delta i$.
+Изменения $i,\Omega$ связаны: оба зависят от одной $\Delta v_z$.
+\end{column}
+\end{columns}
+\begin{block}{Число компонент задаёт верхнюю границу}
+\justifying
+$\operatorname{rank}B\leq3$. Выбранные уравнения должны быть независимы,
+а остальные требования --- совместны с ними.
+\end{block}
+\end{frame}
+
+% Слайд 23
+\begin{frame}{Коррекция $a$ и $e$}
+Заданы $a_2,e_2$. Из уравнения конечного эллипса получаем
+\[
+r=\frac{a_2(1-e_2^2)}{1+e_2\cos\nu_2}
+\quad\Longrightarrow\quad
+\cos\nu_2=\frac{a_2(1-e_2^2)/r-1}{e_2}=c.
+\]
+При $|c|<1$ в точке манёвра возможны два варианта:
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\begin{block}{Вариант A}
+$\nu_{2A}=\arccos c$,\par\smallskip
+$\omega_{2A}=u-\nu_{2A}$.
+\end{block}
+\end{column}
+\begin{column}{.48\textwidth}
+\begin{block}{Вариант B}
+$\nu_{2B}=360^\circ-\arccos c$,\par\smallskip
+$\omega_{2B}=u-\nu_{2B}$.
+\end{block}
+\end{column}
+\end{columns}
+\medskip
+\justifying
+Обе орбиты имеют заданные размер и форму, но по-разному ориентированы.
+Для каждой находим скорость и импульс $\Delta\mathbf v=\mathbf v_2-\mathbf v_1$.
+Углы приводим к диапазону $[0,360^\circ)$.
+\end{frame}
+
+% Слайд 24
+\begin{frame}{Коррекция $a$ и $e$: расчёт элементов}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\begin{block}{Исходное состояние}
+$a_1=26\,000$ км,\quad $e_1=0{,}6$,\par
+$i_1=64^\circ$,\quad $\Omega_1=0^\circ$,\par
+$\omega_1=250^\circ$,\quad $\nu_1=60^\circ$.
+\end{block}
+\end{column}
+\begin{column}{.48\textwidth}
+\begin{block}{Требуется получить}
+$a_2=26\,554$ км,\quad $e_2=0{,}7$.
+\par\medskip
+Найти обе конечные орбиты и импульсы.
+\end{block}
+\end{column}
+\end{columns}
+\[
+r=\frac{26\,000(1-0{,}6^2)}{1+0{,}6\cos60^\circ}=12\,800\text{ км},
+\qquad u=250^\circ+60^\circ=310^\circ.
+\]
+\[
+\cos\nu_2=\frac{26\,554(1-0{,}7^2)/12\,800-1}{0{,}7}=0{,}08287277.
+\]
+Отсюда $\nu_{2A}=85{,}2463^\circ$, $\nu_{2B}=274{,}7537^\circ$.
+Для каждого варианта $\omega_2=310^\circ-\nu_2$.
+\end{frame}
+
+% Слайд 25
+\begin{frame}{Коррекция $a$ и $e$: конечные орбиты}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\centering
+\renewcommand{\arraystretch}{1.14}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Элемент & A & B\\\midrule
+$a_2$, км & $26\,554$ & $26\,554$\\
+$e_2$ & $0{,}7$ & $0{,}7$\\
+$i_2$, град & $64$ & $64$\\
+$\Omega_2$, град & $0$ & $0$\\
+$\omega_2$, град & $224{,}7537$ & $35{,}2463$\\
+$\nu_2$, град & $85{,}2463$ & $274{,}7537$\\\bottomrule
+\end{tabular}\par\medskip
+\justifying
+В варианте A КА удаляется от перицентра, в варианте B приближается к нему.
+\end{column}
+\begin{column}{.50\textwidth}
+\centering\input{images/ae-orbits.tex}\par\figurelegend
+\end{column}
+\end{columns}
+\end{frame}
+
+% Слайд 26
+\begin{frame}{Коррекция $a$ и $e$: скорости и импульсы}
+Для обоих вариантов получаем одну точку:
+\[
+\mathbf r_1=\mathbf r_{2A}=\mathbf r_{2B}
+=(8227{,}6814,\;-4298{,}3908,\;-8813{,}0072)^{\mathsf T}\text{ км}.
+\]
+\centering
+\renewcommand{\arraystretch}{1.04}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Скорость, м/с & $v_x$ & $v_y$ & $v_z$\\\midrule
+$\mathbf v_1$ & $6508{,}7585$ & $938{,}8305$ & $1924{,}8879$\\
+$\mathbf v_{2A}$ & $6829{,}7618$ & $346{,}4893$ & $710{,}4084$\\
+$\mathbf v_{2B}$ & $1964{,}3695$ & $2888{,}3181$ & $5921{,}9298$\\\bottomrule
+\end{tabular}\par
+\begin{align*}
+\Delta\mathbf v_A&=\mathbf v_{2A}-\mathbf v_1
+=(321{,}0033,\;-592{,}3412,\;-1214{,}4795)^{\mathsf T}\text{ м/с},\\
+\Delta\mathbf v_B&=\mathbf v_{2B}-\mathbf v_1
+=(-4544{,}3890,\;1949{,}4876,\;3997{,}0419)^{\mathsf T}\text{ м/с}.
+\end{align*}
+\[
+\boxed{\Delta v_A=1388{,}8382\text{ м/с}},\qquad
+\boxed{\Delta v_B=6358{,}3266\text{ м/с}}.
+\]
+\end{frame}
+
+% Слайд 27
+\begin{frame}{Выбор места коррекции $a$ и $e$}
+\centering\input{images/opt-ae-dv.tex}\par
+\smallskip\raggedright
+Те же исходные и целевые элементы; шаг перебора $\nu_1$ --- $0{,}5^\circ$.\newline
+Для апсид: $a_2=(r_{\text{п},2}+r_{\text{а},2})/2$,\quad
+$e_2=(r_{\text{а},2}-r_{\text{п},2})/(r_{\text{а},2}+r_{\text{п},2})$.
+\end{frame}
+
+% Коррекция a,omega и ограничения.
+% Слайд 28
+\begin{frame}{Коррекция $a$ и $\omega$}
+Заданы $a_2,\omega_2$. Плоскость и положение точки не меняются, поэтому
+\[
+u=\omega_1+\nu_1,\qquad \nu_2=u-\omega_2\pmod{360^\circ}.
+\]
+В уравнении конечной орбиты неизвестен только $e_2$:
+\[
+r=\frac{a_2(1-e_2^2)}{1+e_2\cos\nu_2}.
+\]
+После умножения на знаменатель и переноса слагаемых получаем
+\[
+\boxed{a_2e_2^2+(r\cos\nu_2)e_2+r-a_2=0.}
+\]
+\justifying
+Решаем квадратное уравнение и оставляем корни $0<e_2<1$.
+Для каждого найденного эллипса вычисляем скорость в точке манёвра
+и импульс перехода.
+\end{frame}
+
+% Слайд 29
+\begin{frame}{Коррекция $a$ и $\omega$: расчёт эксцентриситета}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\begin{block}{Исходное состояние}
+$a_1=26\,222$ км,\quad $e_1=0{,}7$,\par
+$i_1=63{,}434^\circ$,\quad $\Omega_1=0^\circ$,\par
+$\omega_1=266^\circ$,\quad $\nu_1=222^\circ$.
+\end{block}
+\end{column}
+\begin{column}{.48\textwidth}
+\begin{block}{Требуется получить}
+$a_2=26\,554$ км,\quad $\omega_2=270^\circ$.
+\par\medskip
+Найти конечные орбиты и импульсы.
+\end{block}
+\end{column}
+\end{columns}
+\[
+r=\frac{26\,222(1-0{,}7^2)}{1+0{,}7\cos222^\circ}=27\,872{,}5686\text{ км},
+\qquad \nu_2=218^\circ.
+\]
+Подставляем в квадратное уравнение:
+\[
+26\,554e_2^2-21\,963{,}8838e_2+1318{,}5686=0.
+\]
+Его корни: $e_{2A}=0{,}761972442$, $e_{2B}=0{,}065167867$.
+\end{frame}
+
+% Слайд 30
+\begin{frame}{Коррекция $a$ и $\omega$: конечные орбиты}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\centering
+\renewcommand{\arraystretch}{1.07}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Элемент & A & B\\\midrule
+$a_2$, км & $26\,554$ & $26\,554$\\
+$e_2$ & $0{,}761972$ & $0{,}065168$\\
+$i_2$, град & $63{,}434$ & $63{,}434$\\
+$\Omega_2$, град & $0$ & $0$\\
+$\omega_2$, град & $270$ & $270$\\
+$\nu_2$, град & $218$ & $218$\\
+$r_{\text{п},2}$, км & $6320{,}6$ & $24\,823{,}5$\\\bottomrule
+\end{tabular}\par\medskip
+\justifying
+Вариант A пересекает Землю: $r_{\text{п},2}<R_\oplus$.
+\end{column}
+\begin{column}{.50\textwidth}
+\centering\input{images/aw-orbits.tex}\par\figurelegend
+{\usebeamerfont{caption}\color{coursemuted}
+Земля показана в масштабе; $R_\oplus\approx6378$ км.\par}
+\end{column}
+\end{columns}
+\end{frame}
+
+% Слайд 31
+\begin{frame}{Коррекция $a$ и $\omega$: скорости и импульсы}
+При $p_{2A}=11\,136{,}6944$ км и $p_{2B}=26\,441{,}2291$ км:
+\[
+\mathbf r_1=\mathbf r_{2A}=\mathbf r_{2B}
+=(-17\,160{,}0667,\;9822{,}8728,\;19\,644{,}9322)^{\mathsf T}\text{ км}.
+\]
+\centering
+\renewcommand{\arraystretch}{1.04}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Скорость, м/с & $v_x$ & $v_y$ & $v_z$\\\midrule
+$\mathbf v_1$ & $-489{,}8018$ & $-1622{,}4428$ & $-3244{,}7512$\\
+$\mathbf v_{2A}$ & $-155{,}7771$ & $-1647{,}2598$ & $-3294{,}3832$\\
+$\mathbf v_{2B}$ & $-2806{,}5448$ & $-1069{,}0535$ & $-2138{,}0184$\\\bottomrule
+\end{tabular}\par
+\begin{align*}
+\Delta\mathbf v_A&=\mathbf v_{2A}-\mathbf v_1
+=(334{,}0247,\;-24{,}8170,\;-49{,}6320)^{\mathsf T}\text{ м/с},\\
+\Delta\mathbf v_B&=\mathbf v_{2B}-\mathbf v_1
+=(-2316{,}7430,\;553{,}3893,\;1106{,}7327)^{\mathsf T}\text{ м/с}.
+\end{align*}
+\[
+\boxed{\Delta v_A=338{,}6026\text{ м/с}},\qquad
+\boxed{\Delta v_B=2626{,}4796\text{ м/с}}.
+\]
+\end{frame}
+
+% Слайд 32
+\begin{frame}{Выбор места коррекции $a$ и $\omega$}
+\centering\input{images/opt-aw-dv.tex}\par
+\smallskip\raggedright
+A --- больший корень $e_2$, B --- меньший. Показан диапазон $\Delta v\le3000$ м/с.\newline
+Для найденных минимумов проверяем высоту перицентра конечной орбиты.
+\end{frame}
+
+% Слайд 33
+\begin{frame}{Когда коррекция невозможна}
+\justifying
+Конечная орбита должна проходить через текущую точку с радиусом $r$.
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\begin{block}{Заданы $a_2,e_2$ или радиусы апсид}
+\centering
+$r_{\text{п},2}\le r\le r_{\text{а},2}$.
+\end{block}
+\justifying
+Нельзя поднять перицентр выше текущего радиуса или опустить апоцентр ниже него.
+\par\medskip
+В формуле для $\nu_2$ это проявляется как $|\cos\nu_2|>1$.
+\end{column}
+\begin{column}{.48\textwidth}
+\begin{block}{Заданы $a_2,\omega_2$}
+\justifying
+У квадратного уравнения должен быть хотя бы один корень $0<e_2<1$.
+\end{block}
+\justifying
+Нет действительных корней или все они вне этого диапазона --- требуемый эллипс не существует.
+\end{column}
+\end{columns}
+\medskip
+\justifying
+Для найденного эллипса проверяем ограничения, в том числе высоту перицентра.
+\end{frame}
+
+% Изменение плоскости и пример a,e,Omega.
+% Слайд 34
+\begin{frame}{Плоскость орбиты после импульса}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.50\textwidth}
+\justifying
+Новая плоскость проходит через центр притяжения и точку манёвра.
+\begin{block}{Геометрическое ограничение}
+\centering
+$\widehat{\mathbf h}_2\cdot\mathbf r=0$,\par\medskip
+$\displaystyle\widehat{\mathbf h}_2=
+\begin{pmatrix}
+\sin i_2\sin\Omega_2\\
+-\sin i_2\cos\Omega_2\\
+\cos i_2
+\end{pmatrix}$.
+\end{block}
+\justifying
+В фиксированной точке $i_2$ и $\Omega_2$ связаны.
+Произвольно задать оба угла нельзя.
+\end{column}
+\begin{column}{.48\textwidth}
+\centering\input{images/plane-constraint.tex}\par
+{\usebeamerfont{caption}\color{coursemuted}
+Общая линия плоскостей — $OP$.\par}
+\end{column}
+\end{columns}
+\end{frame}
+
+% Слайд 35
+\begin{frame}{Коррекция наклонения или долготы узла}
+Из условия $\widehat{\mathbf h}_2\cdot\mathbf r=0$ получаем
+\[
+r_x\sin i_2\sin\Omega_2-r_y\sin i_2\cos\Omega_2+r_z\cos i_2=0.
+\]
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\begin{block}{Задана долгота узла $\Omega_2$}
+\centering
+$\displaystyle\tan i_2=\frac{-r_z}{r_x\sin\Omega_2-r_y\cos\Omega_2}$.
+\end{block}
+\raggedright
+Находим $i_2$ в диапазоне $(0,180^\circ)$.
+Затем рассчитываем коррекцию $a_2,e_2$ в найденной плоскости.
+\end{column}
+\begin{column}{.48\textwidth}
+\begin{block}{Задано наклонение $i_2$}
+\centering
+$r_x\sin\Omega_2-r_y\cos\Omega_2=-r_z\cot i_2$.
+\end{block}
+\raggedright
+Решаем тригонометрическое уравнение относительно $\Omega_2$.
+Возможны две плоскости, одна или ни одной.
+\end{column}
+\end{columns}
+\medskip
+\raggedright
+Точка вне экватора; для прямой орбиты $i_2\ge|\varphi|$, где $\varphi$ --- её широта.
+\end{frame}
+
+% Слайд 36
+\begin{frame}{Коррекция $a$, $e$, $\Omega$: нахождение $i_2$}
+Используем состояние из примера коррекции $a,e$:
+\[
+a_1=26\,000\text{ км},\quad e_1=0{,}6,\quad i_1=64^\circ,\quad
+\Omega_1=0^\circ,\quad\omega_1=250^\circ,\quad\nu_1=60^\circ.
+\]
+Требуется $a_2=26\,554$ км, $e_2=0{,}7$, $\Omega_2=3^\circ$.
+\[
+\mathbf r=(8227{,}6814,\;-4298{,}3908,\;-8813{,}0072)^{\mathsf T}\text{ км}.
+\]
+Условие $\mathbf r\cdot\widehat{\mathbf h}_2=0$ даёт
+\begin{align*}
+A&=8227{,}6814\sin3^\circ-(-4298{,}3908)\cos3^\circ=4723{,}1036\text{ км},\\
+\tan i_2&=\frac{-r_z}{A}=\frac{8813{,}0072}{4723{,}1036},
+\qquad \boxed{i_2=61{,}812067^\circ.}
+\end{align*}
+\justifying
+Наклонение изменилось вместе с долготой узла. Следующий шаг — определить
+положение неизменного радиус-вектора в новой плоскости.
+\end{frame}
+
+% Слайд 37
+\begin{frame}{Аргумент широты в новой плоскости}
+\setlength{\abovedisplayskip}{2pt}
+\setlength{\belowdisplayskip}{2pt}
+\setlength{\jot}{0pt}
+\justifying
+Единичный вектор узла --- $\widehat{\mathbf n}_2$;
+угол от него до $\mathbf r$ в плоскости орбиты --- $u_2$.
+\[
+\widehat{\mathbf n}_2=(\cos\Omega_2,\;\sin\Omega_2,\;0)^{\mathsf T},\qquad
+\widehat{\mathbf m}_2=\widehat{\mathbf h}_2\times\widehat{\mathbf n}_2.
+\]
+$\widehat{\mathbf m}_2$ направлен на $90^\circ$ вперёд от $\widehat{\mathbf n}_2$ по движению:
+\begin{gather*}
+\widehat{\mathbf m}_2=(-\sin\Omega_2\cos i_2,\;\cos\Omega_2\cos i_2,\;\sin i_2)^{\mathsf T},\\
+\mathbf r=r\bigl(\cos u_2\,\widehat{\mathbf n}_2+\sin u_2\,\widehat{\mathbf m}_2\bigr).
+\end{gather*}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.49\textwidth}
+{\color{courseaccent}Проекция на направление узла\par}
+\smallskip\centering
+$\widehat{\mathbf n}_2\cdot\mathbf r=r\cos u_2$\par\smallskip
+$\widehat{\mathbf n}_2\cdot\mathbf r=r_x\cos\Omega_2+r_y\sin\Omega_2$\par\smallskip
+$\displaystyle\boxed{\cos u_2=\frac{r_x\cos\Omega_2+r_y\sin\Omega_2}{r}.}$
+\end{column}
+\begin{column}{.49\textwidth}
+{\color{courseaccent}Третья координата радиус-вектора\par}
+\smallskip\centering
+$r_z=r\bigl(0\cdot\cos u_2+\sin i_2\sin u_2\bigr)$\par\smallskip
+$r_z=r\sin i_2\sin u_2$\par\smallskip
+$\displaystyle\boxed{\sin u_2=\frac{r_z}{r\sin i_2}.}$
+\end{column}
+\end{columns}
+\end{frame}
+
+% Слайд 38
+\begin{frame}{Коррекция $a$, $e$, $\Omega$: остальные углы}
+\justifying
+При $r=12\,800$ км, $\Omega_2=3^\circ$ и $i_2=61{,}8121^\circ$:
+\begin{align*}
+\cos u_2&=\frac{8227{,}6814\cos3^\circ-4298{,}3908\sin3^\circ}{12\,800}
+\approx0{,}6243317,\\[2pt]
+\sin u_2&=\frac{-8813{,}0072}{12\,800\sin61{,}8121^\circ}\approx-0{,}7811594.
+\end{align*}
+Косинус положителен, синус отрицателен: четвёртая четверть,
+$\boxed{u_2=308{,}6332^\circ}$.
+\par\smallskip
+Целевые $a_2,e_2$ и радиус те же, что в плоском примере:
+\[
+\begin{array}{c|cc}
+ & \text{A} & \text{B}\\\hline
+\nu_2 & 85{,}2463^\circ & 274{,}7537^\circ\\
+\omega_2=u_2-\nu_2 & 223{,}3869^\circ & 33{,}8794^\circ
+\end{array}
+\]
+\justifying
+Общие элементы: $a_2=26\,554$ км, $e_2=0{,}7$,
+$i_2=61{,}8121^\circ$, $\Omega_2=3^\circ$.
+\end{frame}
+
+% Слайд 39
+\begin{frame}{Коррекция $a$, $e$, $\Omega$: конечные орбиты}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\centering
+\renewcommand{\arraystretch}{1.14}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Элемент & A & B\\\midrule
+$a_2$, км & $26\,554$ & $26\,554$\\
+$e_2$ & $0{,}7$ & $0{,}7$\\
+$i_2$, град & $61{,}8121$ & $61{,}8121$\\
+$\Omega_2$, град & $3$ & $3$\\
+$\omega_2$, град & $223{,}3869$ & $33{,}8794$\\
+$\nu_2$, град & $85{,}2463$ & $274{,}7537$\\\bottomrule
+\end{tabular}\par\medskip
+\justifying
+Оба варианта лежат в одной конечной плоскости.
+Угол между ней и исходной плоскостью --- $3{,}4523^\circ$.
+\end{column}
+\begin{column}{.50\textwidth}
+\centering\input{images/ae-node-orbits.tex}\par\figurelegend
+{\usebeamerfont{caption}\color{coursemuted}
+Пространственная проекция; Земля в масштабе.\par
+Общая точка манёвра --- $P$.\par}
+\end{column}
+\end{columns}
+\end{frame}
+
+% Слайд 40
+\begin{frame}{Коррекция $a$, $e$, $\Omega$: векторы импульса}
+Преобразование найденных элементов даёт $\mathbf r_{2A}=\mathbf r_{2B}=\mathbf r_1$.
+Скорости в неподвижных осях:
+\par\smallskip\centering
+\renewcommand{\arraystretch}{1.05}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Скорость, м/с & $v_x$ & $v_y$ & $v_z$\\\midrule
+$\mathbf v_1$ & $6508{,}7585$ & $938{,}8305$ & $1924{,}8879$\\
+$\mathbf v_{2A}$ & $6821{,}7824$ & $654{,}2175$ & $552{,}8699$\\
+$\mathbf v_{2B}$ & $1956{,}3901$ & $3196{,}0463$ & $5764{,}3913$\\\bottomrule
+\end{tabular}\par
+\begin{align*}
+\Delta\mathbf v_A&=(313{,}0240,\;-284{,}6131,\;-1372{,}0179)^{\mathsf T}\text{ м/с},\\
+\Delta\mathbf v_B&=(-4552{,}3684,\;2257{,}2157,\;3839{,}5035)^{\mathsf T}\text{ м/с}.
+\end{align*}
+\[
+\boxed{\Delta v_A=1435{,}7652\text{ м/с}},\qquad
+\boxed{\Delta v_B=6368{,}7414\text{ м/с}}.
+\]
+\justifying
+При требовании $\Omega_2=3^\circ$ меньший импульс вырос: $1388{,}84\to1435{,}77$ м/с.
+\end{frame}
+
+% Слайд 41
+\begin{frame}{Выбор места коррекции $a$, $e$, $\Omega$}
+\centering\input{images/opt-node-dv.tex}\par
+\smallskip\raggedright
+Цель та же: $a_2=26\,554$ км, $e_2=0{,}7$, $\Omega_2=3^\circ$.\newline В каждой точке заново находим $i_2$, $u_2$ и оба варианта импульса.
+\end{frame}
+
+% Слайд 42
+\begin{frame}{Источники}
+\setbeamertemplate{bibliography item}{\insertbiblabel}
+\begin{thebibliography}{9}
+\bibitem{DiPrinzio}
+DiPrinzio M. Methods of Orbital Maneuvering. – American Institute of Aeronautics and Astronautics, 2019.
+
+\bibitem{Vallado}
+Vallado D. A. Fundamentals of astrodynamics and applications. – Springer Science \& Business Media, 2001. – Т. 12.
+
+\bibitem{Eliasberg}
+Эльясберг П. Е. Введение в теорию полета искусственных спутников Земли. – 1965.
+\end{thebibliography}
+\end{frame}
+
+\end{document}

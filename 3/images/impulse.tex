@@ -1,0 +1,21 @@
+% Velocity vectors meet at one fixed position. Local radial/transverse basis.
+\begin{tikzpicture}[course diagram,x=1mm,y=1mm]
+\path[use as bounding box] (-6,-12) rectangle (63,39);
+\coordinate (F) at (3,0);
+\coordinate (P) at (31,9);
+\filldraw[fill=coursetint,draw=courserule] (F) circle[radius=4];
+\node at (F) {$\oplus$};
+\draw[vector line] (F)--node[below=1mm] {$\mathbf r$}(P);
+\draw[aux line,dashed] (17,-10)..controls(27,-10)and(29.5,-2)..(P)
+ ..controls(32.5,20)and(33,28)..(30,35);
+\draw[aux line,dashed] (10,-9)..controls(18,-4)and(25,2)..(P)
+ ..controls(37,16)and(40,21)..(41,27);
+\draw[vector line] (P)--(55,17) node[below right] {$\mathbf e_r$};
+\draw[vector line] (P)--(24,30) node[above left] {$\mathbf e_t$};
+\draw[courseink,line width=1pt,->] (P)--(34,31) node[above] {$\mathbf v^-$};
+\draw[courseaccent,line width=1.1pt,->] (P)--(49,30) node[above] {$\mathbf v^+$};
+\draw[courseaccent,line width=.9pt,->] (34,31)--(49,30)
+ node[midway,above=2mm] {$\Delta\mathbf v$};
+\fill[courseink] (P) circle[radius=.9];
+\node[anchor=north west,inner sep=1mm] at (P) {$P$};
+\end{tikzpicture}
