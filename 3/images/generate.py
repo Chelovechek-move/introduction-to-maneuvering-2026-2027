@@ -3,7 +3,7 @@
 
 Two-body states use km, s and radians. Figures are editable TikZ/PGFPlots,
 compiled with the lecture by pdflatex. Examples and sampling match
-one_impulse_maneuvers_lecture.ipynb; plane changes recompute u in the new plane.
+homeworks/2/hw_2.ipynb; plane changes recompute u in the new plane.
 """
 from dataclasses import dataclass, replace
 from pathlib import Path
