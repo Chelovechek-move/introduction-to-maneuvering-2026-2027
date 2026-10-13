@@ -1,0 +1,19 @@
+% Baranov, Sec. 1.4.2, Fig. 1.13. Native size: 70 x 40 mm.
+\begin{tikzpicture}[course diagram,x=1mm,y=1mm]
+\path[use as bounding box] (-9,-28) rectangle (61,12);
+\draw[vector line] (0,-25)--(0,9) node[above right] {$\Delta u$};
+\draw[vector line] (0,0)--(57,0) node[above] {$\theta$};
+\draw[coursemuted,line width=.55pt,dashed] (0,0)--(50,-21);
+\draw[aux line,dashed] (50,0)--(50,-21);
+\draw[orbit line] plot[domain=0:360,samples=181,variable=\a]
+ ({\a/7.2},{21/(6*pi)*(4*sin(\a)-3*\a*pi/180)});
+\foreach \x/\lab in {25/\pi,50/2\pi}{
+ \draw[courseink,line width=.5pt] (\x,-.8)--(\x,.8);
+ \node[above=1mm,inner sep=0pt] at (\x,0) {$\lab$};}
+\node[below=1mm,inner sep=0pt] at (40,-21) {$-6\pi\Delta\widehat V_t$};
+\draw[aux line] (34,-9)--(34,-14.28);
+\node[above,inner sep=1mm,text=coursemuted] at (34,-9)
+ {$-3\theta\Delta\widehat V_t$};
+\fill[courseaccent] (50,-21) circle[radius=.65];
+\node[below left,inner sep=1mm] at (0,0) {$0$};
+\end{tikzpicture}

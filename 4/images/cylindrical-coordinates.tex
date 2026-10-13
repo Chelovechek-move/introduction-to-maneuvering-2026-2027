@@ -1,0 +1,121 @@
+% Рисунок дословно из manual/near-circular-transfer.tex.
+\begingroup
+\definecolor{figink}{HTML}{25323F}
+\definecolor{figgray}{HTML}{687582}
+\definecolor{figrad}{HTML}{176AA6}
+\definecolor{figtan}{HTML}{087F78}
+\definecolor{fignormal}{HTML}{B57714}
+\definecolor{figplane}{HTML}{EEF4F8}
+\definecolor{figorbit}{HTML}{79539C}
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small,
+ line cap=round,line join=round,
+ fixed/.style={draw=figgray,line width=.65pt,-{Stealth[length=2.1mm]}},
+ local/.style={line width=1.35pt,-{Stealth[length=2.7mm,width=1.8mm]}},
+ guide/.style={draw=figgray!60,line width=.6pt,dash pattern=on 2.4pt off 2.4pt},
+ point/.style={circle,inner sep=2pt,fill=figink},
+ lab/.style={fill=white,inner sep=1.5pt}]
+\path[use as bounding box] (0,.1) rectangle (15.9,10.45);
+\pgfmathsetmacro{\orba}{4.3}
+\pgfmathsetmacro{\orbi}{30}
+\pgfmathsetmacro{\orbv}{30}
+\pgfmathsetmacro{\px}{\orba*cos(\orbv)}
+\pgfmathsetmacro{\py}{\orba*sin(\orbv)*cos(\orbi)}
+\pgfmathsetmacro{\pz}{\orba*sin(\orbv)*sin(\orbi)}
+\pgfmathsetmacro{\phiu}{atan2(\py,\px)}
+\begin{scope}[shift={(7.5,5.2)},
+ x={(1cm,-.16cm)},y={(-.5cm,.58cm)},z={(0cm,1cm)}]
+ \coordinate (O) at (0,0,0);
+ \coordinate (H) at (\px,\py,0);
+ \coordinate (P) at (\px,\py,\pz);
+ \coordinate (Q) at ({\orba*cos(50)},{\orba*sin(50)},0);
+ \filldraw[fill=figplane,draw=figgray!30,line width=.6pt]
+   (-4.7,-4.7,0)--(4.7,-4.7,0)--(4.7,4.7,0)--(-4.7,4.7,0)--cycle;
+ % Опорная круговая орбита лежит в плоскости OXY.
+ \draw[draw=figgray!85,line width=.9pt,dash pattern=on 4pt off 2.5pt]
+   plot[domain=0:360,samples=180,variable=\t]
+   ({\orba*cos(\t)},{\orba*sin(\t)},0);
+ \draw[guide] (-1,0,0)--(O);
+ \draw[guide] (0,-.8,0)--(O);
+ \draw[fixed] (O)--(5.8,0,0) node[below right=2pt] {$X$};
+ \draw[fixed] (O)--(0,5.3,0) node[above left=2pt] {$Y$};
+ \draw[fixed] (O)--(0,0,1.15) node[above=3pt] {$Z$};
+ % Текущая орбита: нижняя полудуга находится под опорной плоскостью.
+ \draw[draw=figorbit!75,line width=1pt,dash pattern=on 4pt off 2.5pt]
+   plot[domain=180:360,samples=100,variable=\t]
+   ({\orba*cos(\t)},{\orba*sin(\t)*cos(\orbi)},
+    {\orba*sin(\t)*sin(\orbi)});
+ \draw[draw=figorbit,line width=1.3pt]
+   plot[domain=0:180,samples=100,variable=\t]
+   ({\orba*cos(\t)},{\orba*sin(\t)*cos(\orbi)},
+    {\orba*sin(\t)*sin(\orbi)});
+ \draw[draw=figorbit,line width=1.3pt,-{Stealth[length=2.5mm]}]
+   plot[domain=135:154,samples=20,variable=\t]
+   ({\orba*cos(\t)},{\orba*sin(\t)*cos(\orbi)},
+    {\orba*sin(\t)*sin(\orbi)});
+ \coordinate (orbitlabel) at ({\orba*cos(115)},
+   {\orba*sin(115)*cos(\orbi)},{\orba*sin(115)*sin(\orbi)});
+ \coordinate (initiallabel) at ({\orba*cos(300)},{\orba*sin(300)},0);
+ % r и u находятся в опорной плоскости; z — вдоль её нормали.
+ \path[fill=figrad!10] (O)--(1.4,0,0)
+   plot[domain=0:\phiu,samples=25,variable=\t]
+   ({1.4*cos(\t)},{1.4*sin(\t)},0)--cycle;
+ \draw[draw=figrad,line width=1pt] (O)--(H)
+   node[pos=.63,above=4pt,text=figrad,lab] {$r$};
+ \draw[guide] (H)--(P);
+ \draw[draw=figink,line width=1.2pt,-{Stealth[length=2.6mm]}]
+   (O)--(P) node[pos=.60,above left=3pt,lab] {$\boldsymbol R$};
+ \draw[draw=figrad,line width=.9pt,-{Stealth[length=1.8mm]}]
+   plot[domain=0:\phiu,samples=25,variable=\t]
+   ({1.4*cos(\t)},{1.4*sin(\t)},0);
+ \node[text=figrad] at ({1.83*cos(12)},{1.83*sin(12)},0) {$u$};
+ % Фаза опорной точки в той же неподвижной плоскости.
+ \draw[draw=figtan!80,line width=.8pt,dash pattern=on 3pt off 2pt] (O)--(Q);
+ \draw[draw=figtan,line width=.9pt,-{Stealth[length=1.8mm]}]
+   plot[domain=0:50,samples=40,variable=\t]
+   ({2.35*cos(\t)},{2.35*sin(\t)},0);
+ \node[text=figtan,lab] at ({2.68*cos(42)},{2.68*sin(42)},0) {$\varphi$};
+ \node[point,fill=figtan] at (Q) {};
+ \node[above left=3pt,text=figtan,lab] at (Q) {$Q$};
+ % Положительные направления базиса, единичная длина в одном масштабе.
+ \draw[local,figrad] (P)--++({1.8*cos(\phiu)},{1.8*sin(\phiu)},0)
+   node[above right=4pt,align=left,text=figrad]
+   {$\boldsymbol e_r$\\[2pt]$V_r=\dot r,\quad S$};
+ \draw[local,figtan] (P)--++({-1.8*sin(\phiu)},{1.8*cos(\phiu)},0)
+   node[above left=4pt,xshift=-3mm,text=figtan]
+   {$\boldsymbol e_t,\quad V_t=r\dot u,\quad T$};
+ \draw[local,fignormal] (P)--++(0,0,1.8)
+   node[above=4pt,align=center,text=fignormal]
+   {$\boldsymbol e_z$\\[2pt]$V_z=\dot z,\quad W$};
+ % Вектор скорости направлен по касательной к текущей орбите.
+ \draw[draw=figorbit,line width=1.55pt,-{Stealth[length=2.8mm,width=1.9mm]}]
+   (P)--++({-1.8*sin(\orbv)},
+   {1.8*cos(\orbv)*cos(\orbi)},{1.8*cos(\orbv)*sin(\orbi)})
+   node[above left=3pt,text=figorbit,lab] {$\boldsymbol V$};
+ \node[point] at (O) {};
+ \node[below left=3pt] at (O) {$O$};
+ \node[point,fill=figrad] at (H) {};
+ \node[below right=4pt,text=figrad,lab] at (H) {$H$};
+ \node[point,fill=figorbit] at (P) {};
+ \node[right=4pt,xshift=4mm,yshift=-4mm,text=figorbit] at (P) {$P$};
+\end{scope}
+
+\coordinate (HZ) at ($(H)+(3.05,0)$);
+\coordinate (PZ) at ($(P)+(3.05,0)$);
+\draw[guide] ($(H)+(.14,0)$)--($(HZ)+(.2,0)$);
+\draw[guide] ($(P)+(.14,0)$)--($(PZ)+(.2,0)$);
+\draw[fignormal,line width=.85pt,{Stealth[length=1.8mm]}-{Stealth[length=1.8mm]}]
+ (HZ)--(PZ) node[midway,right=4pt,text=fignormal] {$z$};
+\draw[figgray,line width=.7pt]
+ ($(H)+(-.23,-.040)$)--($(H)+(-.23,.18)$)--($(H)+(0,.22)$);
+
+\node[anchor=west,text=figorbit,font=\small\bfseries] at (1.7,10.05)
+ {Орбита КА};
+\draw[draw=figorbit!70,line width=.6pt] (3.15,9.88)--(orbitlabel);
+\node[anchor=west,text=figgray,align=left] at (13.15,2.9) {Опорная\\орбита};
+\draw[draw=figgray!70,line width=.6pt] (13.05,2.9)--(initiallabel);
+\node[text=figgray,font=\footnotesize] at (7.3,4.10) {Плоскость $OXY$};
+\node[text=figink] at (7.6,.18)
+ {$\boldsymbol R=r\boldsymbol e_r+z\boldsymbol e_z,\qquad
+ s=\lVert\boldsymbol R\rVert=\sqrt{r^2+z^2}$};
+\end{tikzpicture}
+\endgroup

@@ -1,0 +1,45 @@
+% Рисунок дословно из manual/near-circular-transfer.tex.
+\begingroup
+\definecolor{figink}{HTML}{25323F}
+\definecolor{figgray}{HTML}{687582}
+\definecolor{figrad}{HTML}{176AA6}
+\definecolor{figtan}{HTML}{087F78}
+\definecolor{fignormal}{HTML}{B57714}
+\definecolor{figplane}{HTML}{EEF4F8}
+\definecolor{figorbit}{HTML}{79539C}
+\begin{tikzpicture}[x=1cm,y=1cm,>=Stealth,line cap=round,
+ lab/.style={fill=white,inner sep=1pt}]
+\path[use as bounding box] (-.55,-.45) rectangle (7.6,5.3);
+\begin{scope}[shift={(.3,.25)}]
+\draw[figgray!60] (0,0)--(6.2,0) node[below] {$X$};
+\draw[figgray,dashed] plot[domain=0:102,samples=70] ({4.4*cos(\x)},{4.4*sin(\x)});
+\coordinate (O) at (0,0);
+\coordinate (Qj) at ({4.4*cos(15)},{4.4*sin(15)});
+\coordinate (Q) at ({4.4*cos(63)},{4.4*sin(63)});
+\coordinate (H) at ({4.15*cos(83)},{4.15*sin(83)});
+\draw[figgray,densely dashed] (O)--(Qj);
+\draw[figtan,line width=.8pt] (O)--(Q);
+\draw[figrad,line width=.8pt] (O)--(H);
+\draw[figrad,line width=.9pt,->] plot[domain=0:83,samples=50]
+ ({.85*cos(\x)},{.85*sin(\x)});
+\node[figrad,lab] at (1.05,.5) {$u$};
+\draw[figtan,line width=.9pt,->] plot[domain=0:63,samples=50]
+ ({1.65*cos(\x)},{1.65*sin(\x)});
+\node[figtan,lab] at (1.85,.92) {$\varphi$};
+\draw[figorbit,line width=1.1pt,->] plot[domain=15:63,samples=40]
+ ({2.65*cos(\x)},{2.65*sin(\x)});
+\node[figorbit,lab] at (2.38,1.93) {$\theta$};
+\draw[figgray,line width=.7pt,->] plot[domain=63:83,samples=25]
+ ({3.7*cos(\x)},{3.7*sin(\x)});
+\node[figgray,lab] at (1.04,3.56) {$\Delta u$};
+\fill[figgray] (Qj) circle(1.8pt);
+\node[above right=2pt,align=left] at (Qj) {$Q_j$\\$\varphi_j$};
+\fill[figtan] (Q) circle(1.8pt);
+\node[above right=2pt,text=figtan] at (Q) {$Q(t)$};
+\fill[figrad] (H) circle(1.8pt);
+\node[above left=2pt,text=figrad] at (H) {$H(t)$};
+\fill[figink] (O) circle(1.8pt);
+\node[below left] at (O) {$O$};
+\end{scope}
+\end{tikzpicture}
+\endgroup

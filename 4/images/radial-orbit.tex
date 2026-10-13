@@ -1,0 +1,23 @@
+% Baranov, Sec. 1.4.1, Fig. 1.9; first-order orbit shape.
+% Native size: 70 x 40 mm. Black: reference circle; blue dashed: perturbed orbit.
+\begin{tikzpicture}[course diagram,x=1mm,y=1mm]
+\path[use as bounding box] (-24,-20) rectangle (46,20);
+\draw[vector line] (-18,0)--(30,0) node[above] {$X$};
+\draw[vector line] (0,-17)--(0,18) node[left] {$Y$};
+\draw[courseink,line width=.65pt] (0,0) circle[radius=13];
+\draw[orbit line,dashed] plot[domain=0:360,samples=181,variable=\a]
+ ({13*(1+.16*sin(\a))*cos(\a)},{13*(1+.16*sin(\a))*sin(\a)});
+\draw[vector line] (0,0)--(130:13) node[midway,left] {$r_0$};
+\draw[courseaccent,line width=1.1pt,->] (13,0)--(25,0)
+ node[pos=.72,above=1mm] {$\Delta V_r$};
+\draw[courseaccent,line width=1.1pt,->] (0,0)--(0,-6)
+ node[pos=.7,right=1mm] {$\Delta\boldsymbol e$};
+\draw[aux line] (0,15.08)--(16,15.08)--(19,17);
+\node[anchor=west,inner sep=0pt] at (19,17) {$\Delta r_\alpha$};
+\draw[aux line] (0,-10.92)--(17,-10.92)--(20,-14);
+\node[anchor=west,inner sep=0pt] at (20,-14) {$\Delta r_\pi$};
+\fill[courseaccent] (13,0) circle[radius=.65];
+\node[anchor=north west,inner sep=1mm] at (13,0) {$P$};
+\node[anchor=west,text=coursemuted,font=\fontsize{8}{10}\selectfont]
+ at (-21,-19) {$\Delta r_\alpha=-\Delta r_\pi=r_0\Delta\widehat V_r>0$};
+\end{tikzpicture}

@@ -1,0 +1,1336 @@
+% !TeX program = pdflatex
+% !TeX encoding = UTF-8
+\documentclass[11pt,aspectratio=169,t]{beamer}
+\input{../common/preamble.tex}
+\usepackage{booktabs,array}
+\setlength{\abovedisplayskip}{5pt}
+\setlength{\belowdisplayskip}{5pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\newcommand{\eqcompact}{\fontsize{10}{12}\selectfont}
+\newcommand{\figcaption}[1]{{\usebeamerfont{caption}\color{coursemuted}#1\par}}
+\newcommand{\dvr}{\Delta\widehat V_r}
+\newcommand{\dvt}{\Delta\widehat V_t}
+\newcommand{\drh}{\Delta\widehat r}
+\newcommand{\vz}{\widehat V_z}
+\newcommand{\zh}{\widehat z}
+\newcommand{\imp}{\text{\normalfont имп}}
+\setcounter{lecture}{4}
+\title{Околокруговое приближение.\\Уравнения движения и импульсный переход}
+\date{13 октября 2026 г.}
+
+\begin{document}
+
+% Только интервалы около формул; основной текст остаётся 11/14 pt.
+\newcommand{\derivationmathspacing}{%
+  \setlength{\abovedisplayskip}{2pt}%
+  \setlength{\belowdisplayskip}{3pt}%
+  \setlength{\abovedisplayshortskip}{2pt}%
+  \setlength{\belowdisplayshortskip}{2pt}%
+  \setlength{\jot}{2pt}}
+
+\begin{frame}[plain]
+\titlepage
+\end{frame}
+
+\begin{frame}{Модель движения}
+\relax
+\justifying
+Пусть $\boldsymbol R$ --- радиус-вектор аппарата относительно центра
+притяжения, $\boldsymbol V$ --- его скорость в инерциальной системе
+координат, $\boldsymbol a_{\text{упр}}$ --- управляющее ускорение.
+Исходные уравнения имеют вид
+\par\medskip
+\derivationmathspacing
+\[
+\boxed{\begin{aligned}
+ \dot{\boldsymbol R}&=\boldsymbol V,\\[5pt]
+ \dot{\boldsymbol V}&=-\frac{\mu}{\|\boldsymbol R\|^3}\boldsymbol R
+                  +\boldsymbol a_{\text{упр}}.
+\end{aligned}}
+\]
+\par\medskip
+Точкой обозначается производная по физическому времени $t$.
+\end{frame}
+
+\begin{frame}{Координаты и локальный базис}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.61\textwidth}
+\centering
+\resizebox{\linewidth}{!}{\input{images/cylindrical-coordinates.tex}}
+\end{column}
+\begin{column}{.36\textwidth}
+\RaggedRight
+$OXY$ — неподвижная плоскость опорной орбиты. Ось $Z$ — нормаль к ней.\par\medskip
+$P$ — КА, $H$ — его проекция на $OXY$; $Q$ — опорная точка на круге радиуса $r_0$.\par\medskip
+Углы $u=\angle XOH$ и $\varphi=\angle XOQ$ отсчитываются от одной оси.\par\medskip
+$r$ — расстояние до оси $Z$; $z$ — высота над опорной плоскостью.
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Вращение базиса и кинематика}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.60\textwidth}
+{\eqcompact\derivationmathspacing
+\[
+\begin{gathered}
+ \boldsymbol e_r=(\cos u,\sin u,0),\qquad
+ \boldsymbol e_t=(-\sin u,\cos u,0),\\[3pt]
+ \boldsymbol e_z=(0,0,1),\\[20pt]
+ \dot{\boldsymbol e}_r=\dot u\boldsymbol e_t,\qquad
+ \dot{\boldsymbol e}_t=-\dot u\boldsymbol e_r,\qquad
+ \dot{\boldsymbol e}_z=0,\\[20pt]
+ \boldsymbol R=r\boldsymbol e_r+z\boldsymbol e_z,\\[5pt]
+ \boldsymbol V=\dot r\boldsymbol e_r+r\dot u\boldsymbol e_t+\dot z\boldsymbol e_z,\\[20pt]
+ \ddot{\boldsymbol R}=(\ddot r-r\dot u^2)\boldsymbol e_r
+        +(r\ddot u+2\dot r\dot u)\boldsymbol e_t
+        +\ddot z\boldsymbol e_z.
+\end{gathered}
+\]
+}
+\end{column}
+\begin{column}{.37\textwidth}
+\RaggedRight
+При дифференцировании учитываем вращение базиса.\par\medskip
+$\boldsymbol e_r$ направлен по проекции радиус-вектора на опорную плоскость.\par\medskip
+$\boldsymbol e_z$ не обязан совпадать с нормалью к текущей орбите.
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Точные уравнения движения}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.53\textwidth}
+{\derivationmathspacing
+\[
+\begin{aligned}
+ -\frac{\mu}{s^3}\boldsymbol R
+ &=-\frac{\mu r}{s^3}\boldsymbol e_r-\frac{\mu z}{s^3}\boldsymbol e_z,\\[4pt]
+ \boldsymbol a_{\text{упр}}&=S\boldsymbol e_r+T\boldsymbol e_t+W\boldsymbol e_z.
+\end{aligned}
+\]
+\[
+\boxed{\begin{aligned}
+ \ddot r-r\dot u^2&=-\frac{\mu r}{(r^2+z^2)^{3/2}}+S,\\[7pt]
+ r\ddot u+2\dot r\dot u&=T,\\[7pt]
+ \ddot z&=-\frac{\mu z}{(r^2+z^2)^{3/2}}+W.
+\end{aligned}}
+\]
+}
+\end{column}
+\begin{column}{.44\textwidth}
+\RaggedRight
+Компоненты управляющего ускорения:\par\smallskip
+$S$ — радиальная;\par
+$T$ — трансверсальная;\par
+$W$ — вдоль $Z$.\par\medskip
+У центральной силы нет проекции на $\boldsymbol e_t$.\par\medskip
+При $S=T=W=0$ движение пассивное.
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Координаты и физические скорости}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+{\eqcompact\derivationmathspacing
+\[
+\boxed{\begin{gathered}
+ \dot r=V_r,\qquad \dot u=\frac{V_t}{r},\qquad \dot z=V_z,\\[20pt]
+ \begin{aligned}
+ \dot V_r&=\frac{V_t^2}{r}-\frac{\mu r}{(r^2+z^2)^{3/2}}+S,\\[6pt]
+ \dot V_t&=-\frac{V_rV_t}{r}+T,\\[6pt]
+ \dot V_z&=-\frac{\mu z}{(r^2+z^2)^{3/2}}+W.
+ \end{aligned}
+\end{gathered}}
+\]
+}
+\end{column}
+\begin{column}{.49\textwidth}
+\RaggedRight
+Проекции инерциальной скорости:
+\[
+ V_r=\dot r,\quad V_t=r\dot u,\quad V_z=\dot z.
+\]
+Дифференцируем $V_t=r\dot u$:
+{\eqcompact\derivationmathspacing
+\[
+\begin{aligned}
+ \dot V_t&=\dot r\dot u+r\ddot u\\[3pt]
+ &=\dot r\dot u+(T-2\dot r\dot u)\\[3pt]
+ &=T-\frac{V_rV_t}{r}.
+\end{aligned}
+\]
+}
+Здесь используются компоненты физической скорости в цилиндрическом базисе.
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Опорный круг и отклонения}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.46\textwidth}
+{\eqcompact\derivationmathspacing
+\[
+\begin{gathered}
+ r_0=a_0=\frac{a_i+a_f}{2},\qquad V_0=\sqrt{\frac{\mu}{r_0}},\\[5pt]
+ n_0=\sqrt{\frac{\mu}{r_0^3}}=\frac{V_0}{r_0},\\[5pt]
+ \varphi(t)=n_0t+\varphi_0,\\[11pt]
+ r=r_0+\Delta r,\\[5pt]
+ V_r=\Delta V_r,\qquad V_t=V_0+\Delta V_t,\\[5pt]
+ u=\varphi+\Delta u.
+\end{gathered}
+\]
+}
+\end{column}
+\begin{column}{.51\textwidth}
+\RaggedRight
+В плоскости $OXY$ выбрана круговая опорная орбита. Индексы $i,f$ относятся к начальной и конечной орбитам.\par\medskip
+$Q$ — условный аппарат, равномерно движущийся по опорному кругу.\par\medskip
+$\Delta u=u-\varphi$ — угловое опережение опорной точки; при $\Delta u<0$ аппарат отстаёт.
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Порядок приближения}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.56\textwidth}
+{\derivationmathspacing
+\[
+\begin{gathered}
+ \frac{|\Delta r|}{r_0},\ \frac{|\Delta V_r|}{V_0},\ \frac{|\Delta V_t|}{V_0}
+       =O(\varepsilon),\\[7pt]
+ \frac{|z|}{r_0},\ \frac{|V_z|}{V_0},\ |\Delta u|=O(\varepsilon),\\[7pt]
+ S,T,W=O(\varepsilon n_0V_0),\qquad \varepsilon\ll1.
+\end{gathered}
+\]
+\[
+\begin{gathered}
+ s=\sqrt{(r_0+\Delta r)^2+z^2}
+   =r_0+\Delta r+O(\varepsilon^2r_0),\\[5pt]
+ \frac{1}{r_0+\Delta r}
+   \simeq\frac{1}{r_0}\left(1-\frac{\Delta r}{r_0}\right).
+\end{gathered}
+\]
+}
+\end{column}
+\begin{column}{.41\textwidth}
+\RaggedRight
+Члены второго и более высоких порядков по $\varepsilon$ отбрасываются.\par\medskip
+Управление также считается возмущением первого порядка на рассматриваемом интервале.\par\medskip
+Малость координатных отклонений требуется на всём интервале движения.
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Линеаризация правых частей}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.55\textwidth}
+{\eqcompact\derivationmathspacing
+\[
+\begin{aligned}
+ \frac{V_t^2}{r}
+ &\simeq\frac{V_0^2}{r_0}+2n_0\Delta V_t-n_0^2\Delta r,\\[6pt]
+ \frac{\mu r}{(r^2+z^2)^{3/2}}
+ &\simeq\frac{\mu}{r_0^2}-2n_0^2\Delta r,\\[6pt]
+ \frac{V_rV_t}{r}&\simeq n_0\Delta V_r,\\[6pt]
+ \frac{\mu z}{(r^2+z^2)^{3/2}}&\simeq n_0^2z,\\[6pt]
+ \frac{V_t}{r}&\simeq n_0+\frac{\Delta V_t-n_0\Delta r}{r_0}.
+\end{aligned}
+\]
+}
+\end{column}
+\begin{column}{.42\textwidth}
+\RaggedRight
+Высота входит в радиальное ускорение через $z^2$: линейного члена по $z$ нет.\par\medskip
+Постоянные члены сокращаются вследствие равенства
+\[
+ \frac{V_0^2}{r_0}=\frac{\mu}{r_0^2}.
+\]
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Линейная система отклонений}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.53\textwidth}
+{\derivationmathspacing
+\[
+\boxed{\begin{aligned}
+ \Delta\dot r&=\Delta V_r,\\[4pt]
+ \Delta\dot V_r&=n_0^2\Delta r+2n_0\Delta V_t+S,\\[4pt]
+ \Delta\dot V_t&=-n_0\Delta V_r+T,\\[4pt]
+ \Delta\dot u&=\frac{\Delta V_t-n_0\Delta r}{r_0},\\[4pt]
+ \dot z&=V_z,\\[4pt]
+ \dot V_z&=-n_0^2z+W.
+\end{aligned}}
+\]
+}
+\end{column}
+\begin{column}{.44\textwidth}
+\RaggedRight
+Система первого приближения.\par\medskip
+Здесь и далее равенства для линеаризованной модели записываются без остаточных членов.\par\medskip
+Их отсутствие не означает точности этих равенств для исходной нелинейной задачи.
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Уравнения Клохесси--Уилтшира}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.56\textwidth}
+{\eqcompact\derivationmathspacing
+\[
+\begin{aligned}
+ \xi&=\Delta r,\qquad \eta=r_0\Delta u,\\[4pt]
+ \dot\eta&=\Delta V_t-n_0\xi,\qquad
+ \Delta V_t=\dot\eta+n_0\xi,\\[4pt]
+ \ddot\xi&=n_0^2\xi+2n_0(\dot\eta+n_0\xi)+S,\\[4pt]
+ \ddot\eta&=\Delta\dot V_t-n_0\dot\xi=-2n_0\dot\xi+T.
+\end{aligned}
+\]
+\[
+\boxed{\begin{aligned}
+ \ddot\xi-2n_0\dot\eta-3n_0^2\xi&=S,\\[5pt]
+ \ddot\eta+2n_0\dot\xi&=T,\\[5pt]
+ \ddot z+n_0^2z&=W.
+\end{aligned}}
+\]
+}
+\end{column}
+\begin{column}{.41\textwidth}
+\RaggedRight
+$\dot\eta$ — производная относительной продольной координаты во вращающейся системе.\par\medskip
+$\Delta V_t$ — отклонение физической трансверсальной скорости.\par\medskip
+Связь между ними:
+\[
+\dot\eta=\Delta V_t-n_0\Delta r.
+\]
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Нормировка пассивного движения}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.43\textwidth}
+{\derivationmathspacing
+\[
+\boxed{\begin{aligned}
+ (\drh)'&=\dvr,\\[5pt]
+ (\dvr)'&=\drh+2\dvt,\\[5pt]
+ (\dvt)'&=-\dvr,\\[5pt]
+ (\Delta u)'&=\dvt-\drh,\\[5pt]
+ (\zh)'&=\vz,\\[5pt]
+ (\vz)'&=-\zh.
+\end{aligned}}
+\]
+}
+\end{column}
+\begin{column}{.54\textwidth}
+При $S=T=W=0$ вводим масштабы \mbox{$r_0$ и $V_0$}:
+{\derivationmathspacing
+\[
+\begin{gathered}
+ \drh=\frac{\Delta r}{r_0},\qquad \zh=\frac{z}{r_0},\\[5pt]
+ \dvr=\frac{\Delta V_r}{V_0},\quad
+ \dvt=\frac{\Delta V_t}{V_0},\quad
+ \vz=\frac{V_z}{V_0}.
+\end{gathered}
+\]
+\[
+ \frac{\mathrm d}{\mathrm dt}=n_0\frac{\mathrm d}{\mathrm d\varphi}.
+\]
+}
+\RaggedRight
+Штрих обозначает дифференцирование по~$\varphi$. Крышка — нормировку координат на~$r_0$, скоростей на~$V_0$.
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Энергия и большая полуось}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.58\textwidth}
+{\eqcompact\derivationmathspacing
+\[
+\begin{aligned}
+ \mathcal E&=\frac{\|\boldsymbol V\|^2}{2}-\frac{\mu}{s}
+                =-\frac{\mu}{2a},\\[5pt]
+ \mathcal E&\simeq-\frac{\mu}{2r_0}+V_0^2(\drh+\dvt),\\[5pt]
+ -\frac{\mu}{2a}&\simeq-\frac{\mu}{2r_0}
+             +\frac{V_0^2}{2}\frac{a-r_0}{r_0}.
+\end{aligned}
+\]
+\[
+ \boxed{\frac{a-r_0}{r_0}=2(\drh+\dvt).}
+\]
+\[
+ \underbrace{(\drh+\dvt)'=0}_{\text{пассивный участок}}
+ \quad\Longrightarrow\quad
+ (\drh)''+\drh=\frac{a-r_0}{r_0}.
+\]
+}
+\end{column}
+\begin{column}{.39\textwidth}
+\RaggedRight
+$\mathcal E$ — удельная механическая энергия.\par\medskip
+Приравнивая линейные части двух разложений, получаем связь с большой полуосью.\par\medskip
+$a$ — размерная большая полуось текущей орбиты. На пассивном участке $a$ не меняется.
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Решение на пассивном участке}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.59\textwidth}
+{\eqcompact\derivationmathspacing
+\[
+\boxed{\begin{aligned}
+ \drh&=\frac{a-r_0}{r_0}-e_x\cos\varphi-e_y\sin\varphi,\\[6pt]
+ \dvr&=e_x\sin\varphi-e_y\cos\varphi,\\[6pt]
+ \dvt&=e_x\cos\varphi+e_y\sin\varphi-\frac{a-r_0}{2r_0},\\[6pt]
+ \zh&=i_x\sin\varphi-i_y\cos\varphi,\\[6pt]
+ \vz&=i_x\cos\varphi+i_y\sin\varphi.
+\end{aligned}}
+\]
+}
+\end{column}
+\begin{column}{.38\textwidth}
+\RaggedRight
+$a,e_x,e_y,i_x,i_y$ — пять постоянных интегрирования.\par\medskip
+Шестая постоянная задаёт начальную фазу.\par\medskip
+Геометрический смысл $e_x,e_y,i_x,i_y$ устанавливается через вектор эксцентриситета и нормаль к орбите.
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Фаза на пассивном участке}
+\relax
+{\eqcompact\derivationmathspacing
+\[
+ (\Delta u)'=\dvt-\drh=-\frac32\frac{a-r_0}{r_0}
+                       +2e_x\cos\varphi+2e_y\sin\varphi.
+\]
+\[
+\boxed{\begin{aligned}
+ \Delta u(\varphi)={}&\Delta u(\varphi_*)-
+      \frac32\frac{a-r_0}{r_0}(\varphi-\varphi_*)\\[4pt]
+ &+2e_x(\sin\varphi-\sin\varphi_*)
+      -2e_y(\cos\varphi-\cos\varphi_*).
+\end{aligned}}
+\]
+}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.49\textwidth}
+\RaggedRight
+$\varphi_*$ соответствует моменту $t_*$. Значение $\Delta u(\varphi_*)$ задаёт начальную фазу.\par\medskip
+На пассивном участке $a,e_x,e_y$ постоянны.
+\end{column}
+\begin{column}{.48\textwidth}
+\RaggedRight
+Член, пропорциональный $\varphi-\varphi_*$, накапливает угловое расхождение.\par\medskip
+Когда оно перестаёт быть малым, описание относительно одной опорной точки требует пересмотра.
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Вектор эксцентриситета}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.58\textwidth}
+{\eqcompact\derivationmathspacing
+\[
+\begin{aligned}
+ \boldsymbol e&=\frac{\boldsymbol V\times(\boldsymbol R\times\boldsymbol V)}{\mu}
+                 -\frac{\boldsymbol R}{s},\\[6pt]
+ \|\boldsymbol V\|^2-\mu/s&\simeq V_0^2(\drh+2\dvt),\\[3pt]
+ \boldsymbol R\cdot\boldsymbol V&\simeq r_0V_0\dvr,\\[6pt]
+ \boldsymbol e&\simeq(\drh+2\dvt)\boldsymbol e_r-\dvr\boldsymbol e_t.
+\end{aligned}
+\]
+\[
+\boxed{\begin{aligned}
+ e_x&=(\drh+2\dvt)\cos\varphi+\dvr\sin\varphi,\\[4pt]
+ e_y&=(\drh+2\dvt)\sin\varphi-\dvr\cos\varphi.
+\end{aligned}}
+\]
+}
+\end{column}
+\begin{column}{.39\textwidth}
+\RaggedRight
+$e_x,e_y$ — компоненты вектора эксцентриситета в неподвижных осях.\par\medskip
+Замена $u$ на $\varphi$ при малых коэффициентах даёт ошибку второго порядка.\par\medskip
+Для орбиты в $OXY$:
+{\eqcompact\derivationmathspacing
+\[
+\begin{aligned}e_x&=e\cos\varpi,\\e_y&=e\sin\varpi.\end{aligned}
+\]
+}
+$\varpi$ — долгота перицентра от оси $X$.
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Нормаль и плоскость орбиты}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.53\textwidth}
+{\eqcompact\derivationmathspacing
+\[
+\begin{aligned}
+ \boldsymbol k&=\frac{\boldsymbol R\times\boldsymbol V}
+                         {\|\boldsymbol R\times\boldsymbol V\|}\\[4pt]
+ &\simeq\boldsymbol e_z-\zh\boldsymbol e_r-\vz\boldsymbol e_t
+       =(i_y,-i_x,1),\\[7pt]
+ i_x&=\zh\sin\varphi+\vz\cos\varphi,\\[4pt]
+ i_y&=-\zh\cos\varphi+\vz\sin\varphi.
+\end{aligned}
+\]
+\[
+\boxed{\begin{aligned}
+ \zh&=i_x\sin\varphi-i_y\cos\varphi,\\[4pt]
+ \vz&=i_x\cos\varphi+i_y\sin\varphi.
+\end{aligned}}
+\]
+}
+\end{column}
+\begin{column}{.44\textwidth}
+\RaggedRight
+$\boldsymbol k$ — единичная нормаль к текущей орбите.
+{\eqcompact\derivationmathspacing
+\[
+\begin{aligned}i_x&=i\cos\Omega,\\i_y&=i\sin\Omega.\end{aligned}
+\]
+}
+$i$ — малое наклонение к опорной плоскости; $\Omega$ — долгота восходящего узла.\par\medskip
+Постоянные $i_x,i_y$ задают ориентацию орбиты на пассивном участке.
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Производные орбитальных параметров}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.62\textwidth}
+{\eqcompact\derivationmathspacing\centering
+\noindent\(\displaystyle\begin{aligned}[t]
+ & \dot a=2r_0\frac{\mathrm d}{\mathrm dt}(\drh+\dvt)
+                =\frac{2r_0}{V_0}T,\\[3pt]
+ & \frac{\mathrm d}{\mathrm dt}(\drh+2\dvt)
+       =-n_0\dvr+\frac{2T}{V_0},\\[3pt]
+ & \frac{\mathrm d}{\mathrm dt}\dvr
+       =n_0(\drh+2\dvt)+\frac{S}{V_0},\\[3pt]
+ & \dot e_x=\left[\frac{\mathrm d}{\mathrm dt}(\drh+2\dvt)+n_0\dvr\right]\cos\varphi\\[2pt]
+ & \quad+\left[\frac{\mathrm d}{\mathrm dt}\dvr-n_0(\drh+2\dvt)\right]\sin\varphi\\[4pt]
+ & =\frac{S\sin\varphi+2T\cos\varphi}{V_0}.
+\end{aligned}\)\par
+}
+\end{column}
+\begin{column}{.35\textwidth}
+\RaggedRight
+Дифференцируем связи $a,e_x,e_y$ с состоянием при $\dot\varphi=n_0$.\par\medskip
+Члены свободного движения сокращаются. Остаются слагаемые с $S,T$.\par\medskip
+Аналогично находим $\dot e_y$.
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Полная система шести уравнений}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.61\textwidth}
+{\eqcompact\derivationmathspacing
+\[
+\boxed{\begin{aligned}
+ \dot a&=\frac{2r_0}{V_0}T,\\[4pt]
+ \dot e_x&=\frac{S\sin\varphi+2T\cos\varphi}{V_0},\\[4pt]
+ \dot e_y&=\frac{-S\cos\varphi+2T\sin\varphi}{V_0},\\[4pt]
+ \dot z&=V_z,\\[4pt]
+ \dot V_z&=-n_0^2z+W,\\[4pt]
+ \dot u&=n_0-\frac{3n_0}{2}\frac{a-r_0}{r_0}
+              +2n_0(e_x\cos\varphi+e_y\sin\varphi).
+\end{aligned}}
+\]
+}
+\end{column}
+\begin{column}{.36\textwidth}
+\RaggedRight
+Шесть переменных: $a,e_x,e_y,z,V_z,u$.\par\medskip
+Система описывает движение при заданном управлении.\par\medskip
+На пассивном участке постоянны $a,e_x,e_y$; величины $z,V_z,u$ продолжают изменяться.
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Импульс и отклонение скорости}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.53\textwidth}
+{\eqcompact\derivationmathspacing
+\[
+\begin{aligned}
+ \boldsymbol R(t_j+0)&=\boldsymbol R(t_j-0),\\[4pt]
+ \boldsymbol V(t_j+0)&=\boldsymbol V(t_j-0)+\Delta\boldsymbol V_j^{\imp},\\[7pt]
+ \Delta\widehat V_{rj}^{\imp}&=\Delta V_{rj}^{\imp}/V_0,\\[3pt]
+ \Delta\widehat V_{tj}^{\imp}&=\Delta V_{tj}^{\imp}/V_0,\\[3pt]
+ \Delta\widehat V_{zj}^{\imp}&=\Delta V_{zj}^{\imp}/V_0,\\[7pt]
+ \Delta V_t(t_j+0)&=\Delta V_t(t_j-0)+\Delta V_{tj}^{\imp}.
+\end{aligned}
+\]
+}
+\end{column}
+\begin{column}{.44\textwidth}
+\RaggedRight
+$j$ — номер манёвра. Положение непрерывно, скорость получает скачок.
+\begin{block}{Отклонение и импульс}
+$\Delta V_t=V_t-V_0$ — текущее отклонение трансверсальной скорости от круговой.
+\par
+$\Delta V_{tj}^{\imp}$ — сообщённый скачок этой скорости.
+\end{block}
+$\|\Delta\widehat{\boldsymbol V}_j^{\imp}\|=O(\varepsilon)$.
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Скачки переменных состояния}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.62\textwidth}
+{\eqcompact\derivationmathspacing
+\[
+\boxed{\begin{aligned}
+ a_j^+-a_j^-&=2r_0\Delta\widehat V_{tj}^{\imp},\\[5pt]
+ e_{xj}^+-e_{xj}^-&=\Delta\widehat V_{rj}^{\imp}\sin\varphi_j
+                       +2\Delta\widehat V_{tj}^{\imp}\cos\varphi_j,\\[5pt]
+ e_{yj}^+-e_{yj}^-&=-\Delta\widehat V_{rj}^{\imp}\cos\varphi_j
+                       +2\Delta\widehat V_{tj}^{\imp}\sin\varphi_j,\\[5pt]
+ z_j^+-z_j^-&=0,\\[5pt]
+ V_{zj}^+-V_{zj}^-&=V_0\Delta\widehat V_{zj}^{\imp},\\[5pt]
+ u_j^+-u_j^-&=0.
+\end{aligned}}
+\]
+}
+\end{column}
+\begin{column}{.35\textwidth}
+\RaggedRight
+$a_j^-=a(t_j-0)$, $a_j^+=a(t_j+0)$; аналогично для остальных переменных.\par\medskip
+$\varphi_j=\varphi(t_j)$ — фаза импульса.\par\medskip
+Условия скачка подставлены в связи $a,e_x,e_y$ с состоянием.
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Начальные условия отклика}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.51\textwidth}
+{\eqcompact\derivationmathspacing
+\[
+\begin{aligned}
+ \drh(t_j+0)&=0,\\[2pt]
+ \dvr(t_j+0)&=\Delta\widehat V_{rj}^{\imp},\\[2pt]
+ \dvt(t_j+0)&=\Delta\widehat V_{tj}^{\imp},\\[2pt]
+ \zh(t_j+0)&=0,\\[2pt]
+ \vz(t_j+0)&=\Delta\widehat V_{zj}^{\imp},\\[2pt]
+ \Delta u(t_j+0)&=0.
+\end{aligned}
+\]
+\[
+ \theta=\varphi-\varphi_j=n_0(t-t_j).
+\]
+}
+\RaggedRight
+До момента $t_j$ аппарат движется по опорному кругу, причём $u(t_j)=\varphi(t_j)$. После импульса $S=T=W=0$.
+\end{column}
+\begin{column}{.46\textwidth}
+\centering\resizebox{\linewidth}{!}{\input{images/reference-angles.tex}}\par
+\figcaption{$\theta$ — перемещение опорной точки после импульса; $\Delta u$ сравнивает КА и опорную точку в один момент.}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Вывод отклика на импульс}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.63\textwidth}
+{\eqcompact\derivationmathspacing
+\noindent\(\displaystyle\begin{aligned}[t]
+ & (\drh+\dvt)'=0
+     \quad\Longrightarrow\quad\drh+\dvt=\Delta\widehat V_{tj}^{\imp},\\[5pt]
+ & (\drh)''+\drh=2\Delta\widehat V_{tj}^{\imp},\\[3pt]
+ & \drh(0)=0,\qquad (\drh)'(0)=\Delta\widehat V_{rj}^{\imp},\\[5pt]
+ & \drh=\Delta\widehat V_{rj}^{\imp}\sin\theta
+                +2\Delta\widehat V_{tj}^{\imp}(1-\cos\theta),\\[6pt]
+ & \dvr=(\drh)',\qquad
+ \dvt=\Delta\widehat V_{tj}^{\imp}-\drh,\\[5pt]
+ & (\Delta u)'=\Delta\widehat V_{tj}^{\imp}-2\drh,\\[5pt]
+ & (\zh)''+\zh=0,\qquad
+ \zh(0)=0,\quad(\zh)'(0)=\Delta\widehat V_{zj}^{\imp}.
+\end{aligned}\)\par
+}
+\end{column}
+\begin{column}{.34\textwidth}
+\RaggedRight
+Штрих — производная по $\theta$ или $\varphi$.\par\medskip
+Из радиального решения восстанавливаем скорости.\par\medskip
+Фазу интегрируем с $\Delta u(0)=0$. Нормальное движение находим независимо.
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Полный отклик на один импульс}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.64\textwidth}
+{\eqcompact\derivationmathspacing
+\[
+\boxed{\begin{aligned}
+ \drh&=\Delta\widehat V_{rj}^{\imp}\sin\theta
+                 +2\Delta\widehat V_{tj}^{\imp}(1-\cos\theta),\\[5pt]
+ \dvr&=\Delta\widehat V_{rj}^{\imp}\cos\theta
+                 +2\Delta\widehat V_{tj}^{\imp}\sin\theta,\\[5pt]
+ \dvt&=-\Delta\widehat V_{rj}^{\imp}\sin\theta
+                 +\Delta\widehat V_{tj}^{\imp}(2\cos\theta-1),\\[5pt]
+ \zh&=\Delta\widehat V_{zj}^{\imp}\sin\theta,\\[5pt]
+ \vz&=\Delta\widehat V_{zj}^{\imp}\cos\theta,\\[5pt]
+ \Delta u&=2\Delta\widehat V_{rj}^{\imp}(\cos\theta-1)
+                 +\Delta\widehat V_{tj}^{\imp}(4\sin\theta-3\theta).
+\end{aligned}}
+\]
+}
+\end{column}
+\begin{column}{.33\textwidth}
+\RaggedRight
+$\theta=n_0(t-t_j)$.\par\medskip
+Слева стоят отклонения фактического движения при старте с опорного круга.\par\medskip
+При произвольном начальном состоянии это вклад одного импульса в полное решение.
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Суперпозиция импульсных воздействий}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.55\textwidth}
+{\eqcompact\derivationmathspacing
+\[
+\begin{aligned}
+ \drh(t)&=\drh^{(0)}(t)+\sum_{j:\,t_j\le t}\drh^{(j)}(t),\\[7pt]
+ \Delta u(t)&=\Delta u^{(0)}(t)+\sum_{j:\,t_j\le t}\Delta u^{(j)}(t),\\[8pt]
+ t_i&\le t_1\le\ldots\le t_N\le t_f,\\[4pt]
+ \varphi_i&=\varphi(t_i),\quad\varphi_j=\varphi(t_j),\quad
+ \varphi_f=\varphi(t_f),\\[4pt]
+ \theta_j&=\varphi_f-\varphi_j=n_0(t_f-t_j).
+\end{aligned}
+\]
+}
+\par\medskip\RaggedRight
+Конечное состояние складывается из свободного движения и откликов на все импульсы.
+\end{column}
+\begin{column}{.42\textwidth}
+\RaggedRight
+$(0)$ — свободное движение; $(j)$ — отклик на импульс. До $t_j$ он равен нулю.\par\medskip
+Опорный круг и фаза общие для всех слагаемых.\par\medskip
+Состояния заданы до первого и после последнего импульсов.
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Свободное движение до момента $t_f$}
+\relax
+{\eqcompact\derivationmathspacing
+\[
+\boxed{\begin{aligned}
+ z_i^{\mathrm{free}}(t_f)
+ &=z_i\cos(\varphi_f-\varphi_i)
+       +\frac{V_{zi}}{n_0}\sin(\varphi_f-\varphi_i),\\[6pt]
+ V_{zi}^{\mathrm{free}}(t_f)
+ &=-n_0z_i\sin(\varphi_f-\varphi_i)
+       +V_{zi}\cos(\varphi_f-\varphi_i),\\[6pt]
+ u_i^{\mathrm{free}}(t_f)
+ &=u_i+n_0(t_f-t_i)-\frac{3n_0}{2}\frac{a_i-r_0}{r_0}(t_f-t_i)\\[3pt]
+ &\quad+2e_{xi}(\sin\varphi_f-\sin\varphi_i)
+       -2e_{yi}(\cos\varphi_f-\cos\varphi_i).
+\end{aligned}}
+\]
+}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.49\textwidth}
+\RaggedRight
+Начальное состояние: $a_i,e_{xi},e_{yi},z_i,V_{zi},u_i$. Параметры $a_i,e_{xi},e_{yi}$ сохраняются на пассивном участке.
+\end{column}
+\begin{column}{.48\textwidth}
+\RaggedRight
+При выборе опорной плоскости совпадающей с плоскостью начальной орбиты $z_i=V_{zi}=0$. Свободные нормальные компоненты тогда нулевые.
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Шесть граничных условий}
+\relax
+{\fontsize{9}{11}\selectfont\derivationmathspacing\setlength{\jot}{1pt}
+\[
+\boxed{\begin{aligned}
+ 2\sum\nolimits_{j=1}^{N}\Delta\widehat V_{tj}^{\imp}
+ &=\frac{a_f-a_i}{r_0},\\[2pt]
+ \sum\nolimits_{j=1}^{N}\bigl(\Delta\widehat V_{rj}^{\imp}\sin\varphi_j
+       +2\Delta\widehat V_{tj}^{\imp}\cos\varphi_j\bigr)
+ &=e_{xf}-e_{xi},\\[2pt]
+ \sum\nolimits_{j=1}^{N}\bigl(-\Delta\widehat V_{rj}^{\imp}\cos\varphi_j
+       +2\Delta\widehat V_{tj}^{\imp}\sin\varphi_j\bigr)
+ &=e_{yf}-e_{yi},\\[2pt]
+ \sum\nolimits_{j=1}^{N}\Delta\widehat V_{zj}^{\imp}\sin\theta_j
+ &=\frac{z_f-z_i^{\mathrm{free}}(t_f)}{r_0},\\[2pt]
+ \sum\nolimits_{j=1}^{N}\Delta\widehat V_{zj}^{\imp}\cos\theta_j
+ &=\frac{V_{zf}-V_{zi}^{\mathrm{free}}(t_f)}{V_0},\\[2pt]
+ \sum\nolimits_{j=1}^{N}\bigl[2\Delta\widehat V_{rj}^{\imp}(\cos\theta_j-1)
+       +\Delta\widehat V_{tj}^{\imp}(4\sin\theta_j-3\theta_j)\bigr]
+ &=u_f-u_i^{\mathrm{free}}(t_f).
+\end{aligned}}
+\]
+}
+\RaggedRight
+$\theta_j=n_0(t_f-t_j)$ — угол до конечного момента с учётом полного числа оборотов.
+\end{frame}
+
+\begin{frame}{Условия на конечную плоскость}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.55\textwidth}
+{\eqcompact\derivationmathspacing
+\[
+\begin{aligned}
+ z_f/r_0&=\Delta i\sin\varphi_f,\\[2pt]
+ V_{zf}/V_0&=\Delta i\cos\varphi_f,\\[7pt]
+ \sum\nolimits_j\Delta\widehat V_{zj}\sin(\varphi_f-\varphi_j)
+     &=\Delta i\sin\varphi_f,\\[3pt]
+ \sum\nolimits_j\Delta\widehat V_{zj}\cos(\varphi_f-\varphi_j)
+     &=\Delta i\cos\varphi_f.
+\end{aligned}
+\]
+\[
+ \Updownarrow
+\]
+\[
+\boxed{\begin{aligned}
+ \sum\nolimits_j\Delta\widehat V_{zj}\sin\varphi_j&=0,\\[3pt]
+ \sum\nolimits_j\Delta\widehat V_{zj}\cos\varphi_j&=\Delta i.
+\end{aligned}}
+\]
+}
+\end{column}
+\begin{column}{.42\textwidth}
+\RaggedRight
+Начальная плоскость совпадает с опорной. Ось $X$ направлена к восходящему узлу конечной орбиты относительно начальной.\par\smallskip
+$\Delta i\ge0$ — малый угол между плоскостями.\par\smallskip
+Начиная с этого слайда опускаем «имп». Крышка означает деление импульса на $V_0$.
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Пять условий перехода на орбиту}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.60\textwidth}
+{\eqcompact\derivationmathspacing
+\[
+\boxed{\begin{aligned}
+ \sum\nolimits_{j=1}^{N}2\Delta\widehat V_{tj}&=\Delta a,\\[7pt]
+ \sum\nolimits_{j=1}^{N}(\Delta\widehat V_{rj}\sin\varphi_j
+       +2\Delta\widehat V_{tj}\cos\varphi_j)&=\Delta e_x,\\[7pt]
+ \sum\nolimits_{j=1}^{N}(-\Delta\widehat V_{rj}\cos\varphi_j
+       +2\Delta\widehat V_{tj}\sin\varphi_j)&=\Delta e_y,\\[7pt]
+ \sum\nolimits_{j=1}^{N}\Delta\widehat V_{zj}\sin\varphi_j&=0,\\[7pt]
+ \sum\nolimits_{j=1}^{N}\Delta\widehat V_{zj}\cos\varphi_j&=\Delta i.
+\end{aligned}}
+\]
+}
+\end{column}
+\begin{column}{.37\textwidth}
+Различия орбит:
+{\eqcompact\derivationmathspacing
+\[
+\begin{aligned}
+ \Delta a&=\frac{a_f-a_i}{r_0},\\[3pt]
+ \Delta e_x&=e_{xf}-e_{xi},\\[3pt]
+ \Delta e_y&=e_{yf}-e_{yi}.
+\end{aligned}
+\]
+}
+\RaggedRight
+$\Delta a$ безразмерно; $e_x,e_y$ — в общих осях.
+\par\smallskip
+Начало маневрирования и конечная фаза не назначены; время перехода свободно.
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Конечная фаза и время перехода}
+\relax
+{\eqcompact\derivationmathspacing
+\[
+\boxed{\begin{aligned}
+ u_f={}&u_i^{\mathrm{free}}(t_f)
+    +\sum_{j=1}^{N}\bigl[2\Delta\widehat V_{rj}(\cos\theta_j-1)\\[2pt]
+ &\quad+\Delta\widehat V_{tj}(4\sin\theta_j-3\theta_j)\bigr].
+\end{aligned}}
+\]
+}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.49\textwidth}
+\textcolor{courseaccent}{\textbf{Переход на орбиту}}\par\smallskip
+\RaggedRight
+Последняя строка полной системы определяет получившуюся фазу $u_f$, а не ограничивает управление.
+
+\end{column}
+\begin{column}{.48\textwidth}
+\textcolor{courseaccent}{\textbf{Заданное конечное состояние}}\par\smallskip
+\RaggedRight
+Если конечное состояние задано, полная система даёт шесть граничных условий. Все правые части сравнивают состояния в один момент $t_f$.
+
+\end{column}
+\end{columns}
+Все пять условий периодичны по $\varphi_j$ с периодом $2\pi$. В фазовом условии углы $\theta_j=n_0(t_f-t_j)$ содержат полное число витков.
+\end{frame}
+
+\begin{frame}{Оптимальное импульсное маневрирование}
+\relax
+При поиске оптимального импульсного перехода необходимо определить \cite{EdelbaumGobetzWashington1966}:
+\medskip
+\begin{enumerate}
+ \setlength{\itemsep}{10pt}
+ \item Количество импульсов.
+ \item Точки их приложения.
+ \item Направления импульсов скорости.
+ \item Величины импульсов и распределение суммарной характеристической скорости между ними.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Верхняя оценка числа импульсов}
+\relax
+{\justifying
+В линейной задаче без дополнительных ограничений для оптимального маневрирования достаточно числа импульсов, не превышающего числа независимых граничных условий \cite{Edelbaum1966,Neustadt1964,SternPotter1965}.\par}
+\medskip
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}l@{\qquad}l@{\qquad}c@{}}
+\toprule
+Задача & Параметры & Число импульсов\\
+\midrule
+Компланарный переход & $a,e_x,e_y$ & $\leq 3$\\
+Пространственный переход & $a,e_x,e_y,i_x,i_y$ & $\leq 5$\\
+Компланарная встреча & $a,e_x,e_y,u$ & $\leq 4$\\
+Пространственная встреча & $a,e_x,e_y,i_x,i_y,u$ & $\leq 6$\\
+\bottomrule
+\end{tabular}
+\end{center}
+\smallskip
+Для задачи встречи конечный момент времени задан.
+\end{frame}
+
+\begin{frame}{Число импульсов}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\begin{block}{Один импульс}
+\begin{itemize}
+ \setlength{\itemsep}{5pt}
+ \item Переход возможен только между орбитами, имеющими общую точку.
+ \item Может уступать нескольким импульсам по затратам характеристической скорости.
+ \item Одно включение ДУ упрощает выполнение манёвра и повышает надёжность.
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{.48\textwidth}
+\begin{block}{Несколько импульсов}
+\begin{itemize}
+ \setlength{\itemsep}{5pt}
+ \item Позволяют перейти между орбитами, не имеющими общей точки.
+ \item Могут уменьшить суммарную характеристическую скорость.
+ \item Повторные включения ДУ предъявляют дополнительные требования к её ресурсу и надёжности.
+\end{itemize}
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Изменение большой полуоси}
+\relax
+\begin{itemize}
+ \setlength{\itemsep}{7pt}
+ \item Большую полуось изменяет только трансверсальная составляющая импульса.
+ \item Величина изменения не зависит от точки приложения импульса.
+ \item Радиальная и нормальная составляющие в первом приближении не изменяют большую полуось.
+\end{itemize}
+\medskip
+Величина трансверсальной составляющей:
+\[
+ 2\Delta\widehat V_t=\Delta a,
+\]
+\[
+ \boxed{\Delta\widehat V_t=\frac12\Delta a.}
+\]
+\end{frame}
+
+\begin{frame}{Изменение вектора эксцентриситета}
+\relax
+\begin{itemize}
+ \setlength{\itemsep}{5pt}
+ \item Вектор эксцентриситета изменяют трансверсальная и радиальная составляющие импульса.
+ \item Изменение зависит от точки приложения импульса.
+\end{itemize}
+\[
+ \Delta e=\sqrt{(\Delta e_x)^2+(\Delta e_y)^2}.
+\]
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\begin{block}{Трансверсальный импульс}
+\centering $\displaystyle |\Delta\widehat V_t|=\frac12\Delta e.$\par\smallskip
+\RaggedRight
+Одновременно изменяет большую полуось.
+\end{block}
+\end{column}
+\begin{column}{.48\textwidth}
+\begin{block}{Радиальный импульс}
+\centering $\displaystyle \vphantom{\frac12}|\Delta\widehat V_r|=\Delta e.$\par\smallskip
+\RaggedRight
+Большая полуось не меняется в первом приближении.
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Изменение эксцентриситета в апсидах}
+\relax
+{\justifying
+Для изменения эксцентриситета при неизменном направлении перицентра трансверсальный импульс прикладывают в перицентре или апоцентре.\par}
+\smallskip
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\begin{block}{В перицентре}
+\[
+ \Delta\widehat V_t=\frac{e_f-e_i}{2}.
+\]
+\begin{itemize}
+ \setlength{\itemsep}{3pt}
+ \item Положительный импульс увеличивает эксцентриситет.
+ \item Отрицательный импульс уменьшает эксцентриситет.
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{.48\textwidth}
+\begin{block}{В апоцентре}
+\[
+ \Delta\widehat V_t=-\frac{e_f-e_i}{2}.
+\]
+\begin{itemize}
+ \setlength{\itemsep}{3pt}
+ \item Положительный импульс уменьшает эксцентриситет.
+ \item Отрицательный импульс увеличивает эксцентриситет.
+\end{itemize}
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Поворот плоскости орбиты}
+\relax
+\begin{itemize}
+ \setlength{\itemsep}{8pt}
+ \item Плоскости орбит совмещаются одним нормальным импульсом на линии их пересечения.
+ \item Модуль импульса определяется углом $\Delta i$ между плоскостями.
+\end{itemize}
+\medskip
+\[
+ \boxed{\Delta\widehat V_z=\pm\Delta i.}
+\]
+\medskip
+\begin{itemize}
+ \setlength{\itemsep}{8pt}
+ \item Знак «$+$» соответствует восходящему узлу конечной орбиты относительно начальной, знак «$-$» — нисходящему.
+ \item В первом приближении большая полуось и эксцентриситет не меняются.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Радиальный импульс: орбита}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.50\textwidth}
+{\justifying
+Исходная орбита — круговая.\par}
+\smallskip
+\centering\input{images/radial-orbit.tex}
+\figcaption{Чёрная линия --- опорный круг; голубой пунктир --- орбита после импульса. Отклонения увеличены.}
+\end{column}
+\begin{column}{.47\textwidth}
+Импульс $\Delta\widehat V_r>0$ приложен при $t=0$, $\theta=n_0t$.
+{\eqcompact
+\setlength{\abovedisplayskip}{3pt}\setlength{\belowdisplayskip}{3pt}
+\setlength{\abovedisplayshortskip}{2pt}\setlength{\belowdisplayshortskip}{2pt}
+\[
+ \begin{aligned}
+ \Delta r&=r_0{\Delta\widehat V_r}\sin\theta,\\
+ \Delta a&=0,\\
+ \Delta\boldsymbol e&=-{\Delta\widehat V_r}\boldsymbol e_t.
+ \end{aligned}
+\]
+}
+Перицентр расположен за $90^\circ$ до точки приложения импульса.
+{\eqcompact
+\setlength{\abovedisplayskip}{3pt}\setlength{\belowdisplayskip}{3pt}
+\setlength{\abovedisplayshortskip}{2pt}\setlength{\belowdisplayshortskip}{2pt}
+\[
+ \Delta r_\alpha=r_0{\Delta\widehat V_r},\qquad \Delta r_\pi=-r_0{\Delta\widehat V_r}.
+\]
+}
+{\justifying
+Здесь $\alpha$ --- апоцентр, $\pi$ --- перицентр.\par}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Радиальный импульс: фаза}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.50\textwidth}
+\centering\input{images/radial-phase.tex}
+\end{column}
+\begin{column}{.47\textwidth}
+Для $\Delta\widehat V_r>0$:
+{\eqcompact
+\setlength{\abovedisplayskip}{3pt}\setlength{\belowdisplayskip}{3pt}
+\setlength{\abovedisplayshortskip}{2pt}\setlength{\belowdisplayshortskip}{2pt}
+\[
+ \Delta u=2{\Delta\widehat V_r}(\cos\theta-1).
+\]
+}
+Максимальное отставание при $\theta=\pi$:
+{\eqcompact
+\setlength{\abovedisplayskip}{3pt}\setlength{\belowdisplayskip}{3pt}
+\setlength{\abovedisplayshortskip}{2pt}\setlength{\belowdisplayshortskip}{2pt}
+\[
+ \Delta u_{\min}=-4\Delta\widehat V_r.
+\]
+}
+Через один опорный период:
+{\eqcompact
+\setlength{\abovedisplayskip}{3pt}\setlength{\belowdisplayskip}{3pt}
+\setlength{\abovedisplayshortskip}{2pt}\setlength{\belowdisplayshortskip}{2pt}
+\[
+ \Delta u(2\pi)=0,\qquad T_0=\frac{2\pi}{n_0}.
+\]
+}
+{\justifying
+Вековое смещение в первом приближении отсутствует.\par}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Радиальный импульс: траектория}
+\relax
+Движение относительно КА на опорном круге, $\eta=r_0\Delta u$.
+\smallskip
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.50\textwidth}
+\centering\input{images/radial-relative.tex}
+\end{column}
+\begin{column}{.47\textwidth}
+{\eqcompact
+\setlength{\abovedisplayskip}{3pt}\setlength{\belowdisplayskip}{3pt}
+\setlength{\abovedisplayshortskip}{2pt}\setlength{\belowdisplayshortskip}{2pt}
+\[
+ \left(\frac{\eta+2r_0{\Delta\widehat V_r}}{2r_0{\Delta\widehat V_r}}\right)^2
+ +\left(\frac{\Delta r}{r_0{\Delta\widehat V_r}}\right)^2=1.
+\]
+}
+\begin{itemize}
+ \setlength{\itemsep}{2pt}
+ \item $T_0/4$: наибольшее увеличение радиуса.
+ \item $T_0/2$: наибольшее отставание, $\Delta r=0$.
+ \item $3T_0/4$: наименьший радиус.
+ \item $T_0$: возврат в исходную относительную точку.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Сближение радиальными импульсами}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.50\textwidth}
+\centering\input{images/radial-approach.tex}
+\end{column}
+\begin{column}{.47\textwidth}
+{\justifying
+В точке $A$ КА находится на орбите цели, позади неё. Импульс $\Delta V_r<0$ начинает движение по нижней половине эллипса.\par}
+\smallskip
+Через полвитка КА возвращается на исходный радиус и приближается к цели на $4r_0|\Delta\widehat V_r|$.
+\par\smallskip
+{\justifying
+В $B,C$ импульсы $2\Delta V_r$ меняют знак радиальной скорости. В $O$ импульс $\Delta V_r$ гасит её.\par}
+\end{column}
+\end{columns}
+\smallskip
+{\justifying
+\textbf{При пропуске импульса в $C$} КА возвращается в $B$ по верхней половине эллипса.\par}
+\end{frame}
+
+\begin{frame}{Трансверсальный импульс: орбита}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.50\textwidth}
+\centering\input{images/tangential-orbit.tex}
+\figcaption{Чёрная линия --- опорный круг; голубой пунктир --- орбита после импульса. Отклонения увеличены.}
+\end{column}
+\begin{column}{.47\textwidth}
+Положительный трансверсальный импульс: $\Delta\widehat V_t>0$.
+{\eqcompact
+\setlength{\abovedisplayskip}{3pt}\setlength{\belowdisplayskip}{3pt}
+\setlength{\abovedisplayshortskip}{2pt}\setlength{\belowdisplayshortskip}{2pt}
+\[
+ \begin{aligned}
+ \Delta r&=2r_0{\Delta\widehat V_t}(1-\cos\theta),\\
+ \Delta a&=2{\Delta\widehat V_t}.
+ \end{aligned}
+\]
+}
+{\justifying
+Точка импульса становится перицентром новой орбиты; противоположная точка --- апоцентром.\par}
+{\eqcompact
+\setlength{\abovedisplayskip}{3pt}\setlength{\belowdisplayskip}{3pt}
+\setlength{\abovedisplayshortskip}{2pt}\setlength{\belowdisplayshortskip}{2pt}
+\[
+ \Delta r_\pi=0,\qquad \Delta r_\alpha=4r_0{\Delta\widehat V_t}.
+\]
+}
+{\justifying
+При ${\Delta\widehat V_t}<0$ точка импульса становится апоцентром; радиус противоположной апсиды уменьшается.\par}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Трансверсальный импульс: фаза}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.50\textwidth}
+\centering\input{images/tangential-phase.tex}
+\end{column}
+\begin{column}{.47\textwidth}
+Для $\Delta\widehat V_t>0$:
+{\eqcompact
+\setlength{\abovedisplayskip}{3pt}\setlength{\belowdisplayskip}{3pt}
+\setlength{\abovedisplayshortskip}{2pt}\setlength{\belowdisplayshortskip}{2pt}
+\[
+ \Delta u={\Delta\widehat V_t}(4\sin\theta-3\theta).
+\]
+}
+Максимум опережения:
+{\eqcompact
+\setlength{\abovedisplayskip}{3pt}\setlength{\belowdisplayskip}{3pt}
+\setlength{\abovedisplayshortskip}{2pt}\setlength{\belowdisplayshortskip}{2pt}
+\[
+ \begin{aligned}
+ \theta_{\max}&\approx41^\circ24'35'',\\[3pt]
+ \Delta u_{\max}&\approx0{,}4776\Delta\widehat V_t.
+ \end{aligned}
+\]
+}
+После $\theta\approx73^\circ05'32''$ начинается отставание.
+\smallskip
+
+За один опорный период:
+{\eqcompact
+\setlength{\abovedisplayskip}{3pt}\setlength{\belowdisplayskip}{3pt}
+\setlength{\abovedisplayshortskip}{2pt}\setlength{\belowdisplayshortskip}{2pt}
+\[
+ \Delta u(2\pi)=-6\pi {\Delta\widehat V_t}.
+\]
+}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Трансверсальный импульс: траектория}
+\relax
+\centering\input{images/tangential-relative.tex}\par
+\raggedright
+$\Delta V_t=2$ м/с, $r_0=6700$ км.
+\smallskip
+
+$\Delta r_{\max}\approx6{,}95$ км;
+$\eta(T_0)\approx-32{,}75$ км.
+\smallskip
+
+{\justifying
+Сначала КА смещается вперёд и наружу, затем отстаёт, продолжая подъём. После апоцентра он снижается до исходного радиуса позади невозмущённого КА. Пунктир --- начало следующего витка.\par}
+\end{frame}
+
+\begin{frame}{Нормальный импульс}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.50\textwidth}
+\centering\input{images/normal-orbit.tex}
+\figcaption{Чёрная линия --- опорный круг; голубой пунктир --- орбита после импульса. Угол поворота увеличен.}
+\end{column}
+\begin{column}{.47\textwidth}
+После нормального импульса $\Delta\widehat V_z$:
+{\eqcompact
+\setlength{\abovedisplayskip}{3pt}\setlength{\belowdisplayskip}{3pt}
+\[
+ \begin{aligned}
+ z&=r_0{\Delta\widehat V_z}\sin\theta,\\
+ V_z&=V_0{\Delta\widehat V_z}\cos\theta.
+ \end{aligned}
+\]
+}
+Угол поворота плоскости: $\Delta i=|\Delta\widehat V_z|$.
+\smallskip
+
+Амплитуда отклонения: $|z|_{\max}=r_0|{\Delta\widehat V_z}|$.
+\smallskip
+
+{\justifying
+В первом порядке $\Delta r=\Delta u=0$: движение относительно опорного КА состоит из колебаний по нормали.\par}
+
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Источники}
+\setbeamertemplate{bibliography item}{\insertbiblabel}
+\begin{thebibliography}{9}
+\bibitem{Baranov}
+Баранов А. А. Маневрирование космических аппаратов в окрестности круговой орбиты // М.: Спутник. – 2016.
+\bibitem{EdelbaumGobetzWashington1966}
+Edelbaum T. N., Gobetz F. W., Washington M.
+\href{https://ntrs.nasa.gov/citations/19660030604}{Minimum-impulse time-free transfer between elliptic orbits}.
+NASA CR-636, 1966.
+\bibitem{Edelbaum1966}
+Edelbaum T. N.
+\href{https://doi.org/10.2514/6.1966-7}{How many impulses?}
+AIAA Paper 66-7, 1966.
+\bibitem{Neustadt1964}
+Neustadt L. W.
+\href{https://doi.org/10.1137/0302004}{Optimization, a moment problem, and nonlinear programming}.
+Journal of the Society for Industrial and Applied Mathematics, Series A: Control.
+1964. Vol.~2, No.~1. P.~33--53.
+\bibitem{SternPotter1965}
+Stern R. G., Potter J. E.
+\href{https://www.sciencedirect.com/science/article/abs/pii/S1474667017690700}{Optimization of midcourse velocity corrections}.
+IFAC Proceedings Volumes. 1965. Vol.~2, No.~1. P.~70--83.
+\end{thebibliography}
+\end{frame}
+
+\end{document}
