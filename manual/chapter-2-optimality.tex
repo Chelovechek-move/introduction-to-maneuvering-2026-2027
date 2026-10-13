@@ -1,0 +1,701 @@
+% ==================== optimality ====================
+\section{Условия оптимальности}
+\label{sec:optimality}
+
+В предыдущем разделе получены линейные уравнения перехода. Теперь
+необходимо выбрать число импульсов, их положения и векторы так, чтобы
+минимизировать суммарную характеристическую скорость. Сначала выведем
+условия оптимальности непосредственно для этой задачи. Затем установим
+их связь с сопряжёнными уравнениями Лоудена для точного движения в
+центральном поле \cite[гл.~3, \S~5.1]{lawden}.
+
+\subsection{Задача с произвольным числом импульсов}
+
+В безразмерных переменных требуется найти
+\begin {equation}
+ \begin {gathered}
+ J_* = \min_{N,\,\varphi_j,\,\Delta\widehat{\boldsymbol V}_j^{\text{\normalfont имп}}}
+       \sum_{j=1}^{N}\lVert\Delta\widehat{\boldsymbol V}_j^{\text{\normalfont имп}}\rVert,\\
+ \sum_{j=1}^{N}B(\varphi_j)\Delta\widehat{\boldsymbol V}_j^{\text{\normalfont имп}}=\boldsymbol b,
+ \qquad \boldsymbol b=({\Delta a},{\Delta e_x},{\Delta e_y},0,{\Delta i})^{\mathsf T}.
+ \end {gathered}
+ \label {eq:linear-optimization}
+\end {equation}
+Здесь $B(\varphi)$ --- матрица из уравнений перехода,
+$\varphi_j$ определены по модулю $2\pi$,
+$\Delta\widehat{\boldsymbol V}_j^{\text{\normalfont имп}}\in\R^3$, а число $N$ заранее не задано.
+Нулевой импульс можно удалить, поэтому при обсуждении отдельного
+манёвра будем считать ${\Delta\widehat V_j^{\text{\normalfont имп}}}=\lVert\Delta\widehat{\boldsymbol V}_j^{\text{\normalfont имп}}\rVert>0$.
+При $\boldsymbol b=0$ решение очевидно: $J_*=0$ и импульсы отсутствуют.
+Далее рассматривается $\boldsymbol b\ne0$.
+
+Свобода выбора фаз в \eqref{eq:linear-optimization} связана с принятой
+постановкой: время перехода и конечная фаза не ограничены. В линейной
+модели импульсы с заданными фазами можно расположить в хронологическом
+порядке, при необходимости добавляя обороты. Этот факт не означает,
+что приближение остаётся равномерно точным при произвольно большом
+времени движения. Погрешность восстановления реальной траектории
+оценивается отдельно.
+
+Представим ненулевой импульс в виде
+\begin {equation}
+ \Delta\widehat{\boldsymbol V}_j^{\text{\normalfont имп}}={\Delta\widehat V_j^{\text{\normalfont имп}}}\boldsymbol d_j,
+ \qquad {\Delta\widehat V_j^{\text{\normalfont имп}}}>0,\qquad \lVert\boldsymbol d_j\rVert=1.
+\end {equation}
+Вектор $B(\varphi_j)\boldsymbol d_j\in\R^5$ показывает, какие изменения
+параметров орбиты даёт единичная затрата характеристической скорости
+в выбранной точке и направлении. Введём множество таких изменений
+\begin {equation}
+ \mathcal S=
+ \bigl\{B(\varphi)\boldsymbol d:
+          0\leq\varphi\leq2\pi,\ \lVert\boldsymbol d\rVert=1\bigr\}
+\end {equation}
+и его выпуклую оболочку $\mathcal C=\operatorname {conv}\mathcal S$.
+Под выпуклой оболочкой понимается множество всех конечных средних
+$\sum_j w_j\boldsymbol s_j$, где
+$\boldsymbol s_j\in\mathcal S$, $w_j\geq0$ и $\sum_jw_j=1$.
+Если суммарная затрата равна $J$, то
+\begin {equation}
+ \frac{{\boldsymbol b}}{{J}}
+   =\sum_j\frac{{{\Delta\widehat V_j^{\text{\normalfont имп}}}}}{{J}}B(\varphi_j)\boldsymbol d_j
+   \in\mathcal C.
+ \label {eq:reachable-convex}
+\end {equation}
+Обратно, любое такое среднее задаёт набор импульсов
+$\Delta\widehat{\boldsymbol V}_j^{\text{\normalfont имп}}=Jw_j\boldsymbol d_j$ с затратой $J$.
+Следовательно, поиск оптимального управления эквивалентен поиску
+наименьшего множителя $J$, для которого $\boldsymbol b\in J\mathcal C$.
+
+Множество $\mathcal C$ компактно, симметрично относительно начала
+координат и содержит начало координат внутри. Последнее свойство
+существенно: все пять требуемых приращений доступны при конечной
+затрате. Его можно проверить без анализа отдельных манёвров.
+Если вектор $\boldsymbol l\in\R^5$ ортогонален всем элементам
+$\mathcal S$, то $B(\varphi)^{\mathsf T}\boldsymbol l=0$ при любом $\varphi$.
+Из первой и второй компонент этого тождества следуют
+$l_x=l_y=l_a=0$, а из третьей --- $l_s=l_c=0$.
+Таким образом, $\mathcal S$ порождает всё пространство $\R^5$;
+его симметричная выпуклая оболочка имеет непустую внутренность.
+Компактность можно пояснить следующим образом. Любое выпуклое
+сочетание более чем шести точек в $\R^5$ допускает сокращение числа
+слагаемых за счёт их аффинной зависимости. Повторяя сокращение,
+получаем не более шести точек. Множество всех таких сочетаний
+компактно, поскольку $\mathcal S$ компактно.
+Число шесть здесь является общей геометрической оценкой; специальная
+структура орбитального перехода позволяет уменьшить его.
+
+Поэтому минимум $J_*>0$ существует, а точка
+$\boldsymbol b/J_*$ лежит на границе $\mathcal C$.
+Через граничную точку выпуклого тела можно провести опорную
+гиперплоскость: всё тело находится по одну сторону от неё.
+В рассматриваемом случае это означает существование
+$\boldsymbol l\ne0$, для которого после выбора масштаба
+\begin {equation}
+ \boldsymbol l^{\mathsf T}\boldsymbol s\leq1
+       \quad(\boldsymbol s\in\mathcal C),
+ \qquad
+ \boldsymbol l^{\mathsf T}\boldsymbol b=J_*.
+ \label {eq:supporting-plane}
+\end {equation}
+Положительность нормирующей константы следует из того, что начало
+координат находится внутри $\mathcal C$.
+Геометрический факт об опорной плоскости можно получить, приближая
+граничную точку внешними точками. Для каждой внешней точки выбирают
+ближайшую точку выпуклого тела. Вектор между ними образует неострый
+угол с любым направлением из ближайшей точки внутрь тела; иначе
+расстояние можно было бы уменьшить. Предельное положение
+перпендикулярной ему плоскости и даёт опорную плоскость.
+
+\subsection{Базис-вектор и необходимое условие для всех допустимых фаз}
+
+Множители $l_a,l_x,l_y,l_s,l_c$ задают линейную оценку изменений
+параметров орбиты. Если единичное направление импульса равно
+$\boldsymbol d$, импульс величины $\varepsilon$ создаёт изменение
+$\delta\boldsymbol b=\varepsilon B(\varphi)\boldsymbol d$.
+Его оценка равна
+\[
+ \boldsymbol l^{\mathsf T}\delta\boldsymbol b
+ =\varepsilon\bigl(B(\varphi)^{\mathsf T}\boldsymbol l\bigr)^{\mathsf T}
+ \boldsymbol d.
+\]
+Таким образом, множители граничных условий можно перенести из
+пространства орбитальных параметров в пространство трёх компонент
+импульса. Полученный вектор и задаёт оценку эффективности его направления.
+
+Определим \emph{базис-вектор}
+\begin {equation}
+ \boldsymbol p(\varphi)=B(\varphi)^{\mathsf T}\boldsymbol l,
+ \qquad
+ \boldsymbol l=(l_a,l_x,l_y,l_s,l_c)^{\mathsf T}.
+ \label {eq:primer-definition}
+\end {equation}
+В принятой нормировке все его компоненты безразмерны:
+\begin {equation}
+ \boxed{\begin {aligned}
+ p_r(\varphi)&=l_x\sin\varphi-l_y\cos\varphi,\\
+ p_t(\varphi)&=2l_a+2l_x\cos\varphi+2l_y\sin\varphi,\\
+ p_z(\varphi)&=l_s\sin\varphi+l_c\cos\varphi.
+ \end {aligned}}
+ \label {eq:primer-components}
+\end {equation}
+Пять коэффициентов $\boldsymbol l$ постоянны. Это связано с тем, что
+в выбранных орбитальных переменных линейная матрица действия импульса
+зависит от фазы, но не от уже накопленных приращений орбиты.
+
+Первое неравенство \eqref{eq:supporting-plane}, применённое к
+$\boldsymbol s=B(\varphi)\boldsymbol d$, принимает вид
+\begin {equation}
+ \boldsymbol p(\varphi)^{\mathsf T}\boldsymbol d\leq1
+        \qquad\text {при любом }\lVert\boldsymbol d\rVert=1.
+\end {equation}
+Наибольшее скалярное произведение с единичным вектором равно модулю
+самого вектора. Следовательно,
+\begin {equation}
+ \lVert\boldsymbol p(\varphi)\rVert\leq1
+       \qquad\text {при всех }\varphi.
+ \label {eq:primer-global-bound}
+\end {equation}
+В оптимальном разложении \eqref{eq:reachable-convex} среднее
+скалярных произведений равно единице. Поскольку каждое из них не
+превышает единицы, любое слагаемое с положительным весом также
+должно давать единицу. Равенство в неравенстве Коши достигается
+только при совпадении направлений. Поэтому для каждого ненулевого
+оптимального импульса
+\begin {equation}
+ \lVert\boldsymbol p(\varphi_j)\rVert=1,
+ \qquad
+ \Delta\widehat{\boldsymbol V}_j^{\text{\normalfont имп}}={\Delta\widehat V_j^{\text{\normalfont имп}}}\boldsymbol p(\varphi_j),
+ \qquad {\Delta\widehat V_j^{\text{\normalfont имп}}}>0.
+ \label {eq:primer-contact}
+\end {equation}
+Таким образом, импульсы располагаются в точках абсолютного максимума
+модуля базис-вектора и направлены вдоль него. Все используемые
+максимумы имеют одну высоту, равную единице.
+Условие \eqref{eq:primer-contact} задаёт \emph{направление}, но не
+величину импульса. Величины ${\Delta\widehat V_j^{\text{\normalfont имп}}}$ определяются из граничных уравнений.
+
+Вывод через выпуклую оболочку учитывает произвольное число импульсов.
+Это устраняет существенный пробел, который возник бы при
+дифференцировании задачи с заранее заданным числом манёвров:
+стационарность внутри такой схемы сама по себе не исключает её
+улучшения добавлением нового импульса.
+
+\subsection{Первая вариация по величинам, направлениям и положениям импульсов}
+
+Условия в используемых точках можно дополнительно получить
+непосредственным варьированием. Для фиксированного числа ненулевых
+импульсов составим функцию Лагранжа
+\begin {equation}
+ \mathcal L=
+ \sum_j\lVert\Delta\widehat{\boldsymbol V}_j^{\text{\normalfont имп}}\rVert
+ -\boldsymbol l^{\mathsf T}
+       \left(\sum_j B(\varphi_j)\Delta\widehat{\boldsymbol V}_j^{\text{\normalfont имп}}-\boldsymbol b\right).
+\end {equation}
+Поскольку
+$\delta\lVert\Delta\widehat{\boldsymbol V}_j^{\text{\normalfont имп}}\rVert
+  =\bigl(\Delta\widehat{\boldsymbol V}_j^{\text{\normalfont имп}}\bigr)^{\mathsf T}\delta\Delta\widehat{\boldsymbol V}_j^{\text{\normalfont имп}}/{\Delta\widehat V_j^{\text{\normalfont имп}}}$,
+первая вариация имеет вид
+\begin {equation}
+ \delta\mathcal L=
+ \sum_j\left(\frac{{\Delta\widehat{\boldsymbol V}_j^{\text{\normalfont имп}}}}{{{\Delta\widehat V_j^{\text{\normalfont имп}}}}}
+             -\boldsymbol p(\varphi_j)\right)^{\mathsf T}
+                \delta\Delta\widehat{\boldsymbol V}_j^{\text{\normalfont имп}}
+ -\sum_j \boldsymbol p'(\varphi_j)^{\mathsf T}
+                  \Delta\widehat{\boldsymbol V}_j^{\text{\normalfont имп}}\,\delta\varphi_j,
+ \label {eq:impulse-first-variation}
+\end {equation}
+где штрих означает производную по $\varphi$.
+Произвольность вариаций трёх компонент $\Delta\widehat{\boldsymbol V}_j^{\text{\normalfont имп}}$ даёт
+\eqref{eq:primer-contact}; произвольность вариации внутренней фазы
+даёт
+\begin {equation}
+ \boldsymbol p(\varphi_j)^{\mathsf T}\boldsymbol p'(\varphi_j)=0,
+ \qquad
+ \left.\frac{{\dd}}{{\dd\varphi}}
+     \lVert\boldsymbol p(\varphi)\rVert\right|_{\varphi=\varphi_j}=0.
+ \label {eq:primer-stationarity}
+\end {equation}
+Производная самого вектора при этом, вообще говоря, не равна нулю.
+Базис-вектор может поворачиваться, сохраняя свой модуль.
+Кроме того, стационарная точка может оказаться минимумом либо
+не самым высоким максимумом. Поэтому
+\eqref{eq:primer-stationarity} не заменяет глобальную проверку
+\eqref{eq:primer-global-bound}.
+
+Роль дополнительного импульса видна из его вклада в функцию Лагранжа.
+При добавлении $\varepsilon\boldsymbol d$ в фазе $\varphi$, где
+$\varepsilon>0$ и $\lVert\boldsymbol d\rVert=1$, вклад равен
+\begin {equation}
+ \varepsilon\bigl(1-
+       \boldsymbol p(\varphi)^{\mathsf T}\boldsymbol d\bigr).
+\end {equation}
+Наиболее выгодное направление совпадает с $\boldsymbol p$; тогда
+коэффициент при $\varepsilon$ равен
+$1-\lVert\boldsymbol p(\varphi)\rVert$.
+В данном выводе общий множитель $\boldsymbol l$ и невозможность
+отрицательного коэффициента уже обоснованы
+\eqref{eq:supporting-plane}. Одна только подстановка нового импульса
+в исходное управление была бы недостаточна: она нарушает конечные
+условия, которые также необходимо учитывать.
+
+Если импульсы допускаются лишь на заданном временном интервале,
+в его фиксированных концах двусторонняя вариация времени отсутствует.
+Тогда равенство \eqref{eq:primer-stationarity} для концевого импульса
+не обязательно: возникают односторонние условия.
+В нашей задаче разрешена любая фаза на окружности, поэтому такого
+конца допустимого интервала фаз нет.
+
+\subsection{Достаточность и нижняя оценка характеристической скорости}
+
+\begin{theorem}
+Для линейной задачи \eqref{eq:linear-optimization} с
+$\boldsymbol b\ne0$ набор импульсов глобально оптимален тогда и
+только тогда, когда существуют постоянные $\boldsymbol l$,
+для которых выполнены условия
+\begin {equation}
+ \boxed{\begin {gathered}
+   \sum_jB(\varphi_j)\Delta\widehat{\boldsymbol V}_j^{\text{\normalfont имп}}=\boldsymbol b,\\
+   \boldsymbol p(\varphi)=B(\varphi)^{\mathsf T}\boldsymbol l,
+   \qquad \lVert\boldsymbol p(\varphi)\rVert\leq1
+                              \quad\text {при всех }\varphi,\\
+   \Delta\widehat{\boldsymbol V}_j^{\text{\normalfont имп}}={\Delta\widehat V_j^{\text{\normalfont имп}}}\boldsymbol p(\varphi_j),
+   \qquad {\Delta\widehat V_j^{\text{\normalfont имп}}}>0,\qquad
+   \lVert\boldsymbol p(\varphi_j)\rVert=1.
+ \end {gathered}}
+ \label {eq:certificate}
+\end {equation}
+\end{theorem}
+
+\begin{proof}
+Необходимость установлена построением опорной гиперплоскости.
+Для доказательства достаточности рассмотрим любой другой
+допустимый набор $\{\varphi_k^{\mathrm {alt}},\Delta\widehat{\boldsymbol V}_k^{\text{\normalfont имп},\,\mathrm{alt}}\}$,
+в том числе с другим числом импульсов. Имеем
+\begin {align}
+ J^{\mathrm {alt}}
+ &=\sum_k\lVert\Delta\widehat{\boldsymbol V}_k^{\text{\normalfont имп},\,\mathrm{alt}}\rVert
+ \geq\sum_k\boldsymbol p(\varphi_k^{\mathrm {alt}})^{\mathsf T}
+                      \Delta\widehat{\boldsymbol V}_k^{\text{\normalfont имп},\,\mathrm{alt}} \notag\\
+ &=\boldsymbol l^{\mathsf T}
+         \sum_k B(\varphi_k^{\mathrm {alt}})\Delta\widehat{\boldsymbol V}_k^{\text{\normalfont имп},\,\mathrm{alt}}
+  =\boldsymbol l^{\mathsf T}\boldsymbol b.
+ \label {eq:dual-lower-bound}
+\end {align}
+Для проверяемого набора все неравенства обращаются в равенства:
+\begin {equation}
+ \boldsymbol l^{\mathsf T}\boldsymbol b
+   =\sum_j{\Delta\widehat V_j^{\text{\normalfont имп}}}\lVert\boldsymbol p(\varphi_j)\rVert^2
+   =\sum_j{\Delta\widehat V_j^{\text{\normalfont имп}}}=J.
+\end {equation}
+Следовательно, $J^{\mathrm {alt}}\geq J$ для любого допустимого управления.
+\end{proof}
+
+Это доказательство использует линейность граничных уравнений и
+выпуклость нормы. Для точного нелинейного перехода те же условия
+на базис-вектор в общем случае являются лишь необходимыми:
+линейная оценка \eqref{eq:dual-lower-bound} уже не связывает
+произвольные конечные орбиты с одним и тем же оператором $B$.
+
+Полезна также двойственная запись оптимальной цены:
+\begin {equation}
+ J_*(\boldsymbol b)=
+ \max_{\boldsymbol l}
+ \left\{\boldsymbol l^{\mathsf T}\boldsymbol b:
+       \max_\varphi\lVert B(\varphi)^{\mathsf T}\boldsymbol l\rVert
+           \leq1\right\}.
+ \label {eq:dual-problem}
+\end {equation}
+Если $J_*$ дифференцируема по всем пяти компонентам
+$\boldsymbol b$, то оптимальный множитель равен её градиенту:
+\begin {equation}
+ \boldsymbol l=\nabla_{\boldsymbol b}J_*.
+ \label {eq:cost-gradient}
+\end {equation}
+Действительно, тот же допустимый множитель даёт для изменённого
+задания нижнюю оценку
+$J_*(\boldsymbol b+\delta\boldsymbol b)
+ \geq J_*(\boldsymbol b)+\boldsymbol l^{\mathsf T}\delta\boldsymbol b$.
+В точке дифференцируемости такая линейная опорная функция имеет
+коэффициенты градиента. На границе ветвей множитель может быть
+неединственным; тогда использовать производную несуществующей
+гладкой ветви нельзя.
+
+Нулевое значение четвёртой компоненты задания не означает
+$l_s=0$. Производная в \eqref{eq:cost-gradient} берётся по
+полному вектору изменений, включая обе компоненты наклонения.
+Если до дифференцирования повернуть оси вдоль линии узлов,
+при вариации направления конечной плоскости необходимо учесть
+и изменение этого поворота.
+
+\subsection{Связь с сопряжёнными уравнениями Лоудена}
+
+Покажем, откуда появляется та же векторная функция в общей задаче.
+В этом подразделе $\boldsymbol R$ и $\boldsymbol V$ --- размерные
+инерциальные векторы, $R=\lVert\boldsymbol R\rVert$, а $\Delta\boldsymbol V_j^{\text{\normalfont имп}}$ --- размерные
+импульсы. На баллистических дугах
+\begin {equation}
+ \dot{\boldsymbol R}=\boldsymbol V,
+ \qquad \dot{\boldsymbol V}=\boldsymbol g(\boldsymbol R),
+ \qquad
+ \boldsymbol g(\boldsymbol R)=-\frac{{\mu}}{{R^3}}\boldsymbol R.
+\end {equation}
+Минимизируется $\sum_j\lVert\Delta\boldsymbol V_j^{\text{\normalfont имп}}\rVert$.
+Для регулярной, или нормальной, экстремали коэффициент при этом
+функционале в расширенной вариационной задаче можно принять равным
+единице. Нормальность означает, что множители не описывают только
+вырожденные ограничения при нулевом коэффициенте стоимости.
+Для линейной задачи необходимость условий уже доказана выше
+без дополнительного предположения о нормальности.
+
+Введём сопряжённые векторы $\boldsymbol a(t)$ и
+$\boldsymbol p(t)$ и добавим к стоимости интегралы по всем
+баллистическим дугам:
+\begin {equation}
+ \mathcal A=\sum_j\lVert\Delta\boldsymbol V_j^{\text{\normalfont имп}}\rVert
+ +\sum_{\text{дуги}}\int
+ \left[
+ \boldsymbol a^{\mathsf T}(\dot{\boldsymbol R}-\boldsymbol V)
+ +\boldsymbol p^{\mathsf T}
+          (\dot{\boldsymbol V}-\boldsymbol g(\boldsymbol R))
+ \right]\dd t.
+ \label {eq:augmented-coast-action}
+\end {equation}
+Множители концевых ограничений здесь не выписаны, поскольку сначала
+рассматриваются внутренние вариации. Варьирование $\boldsymbol R$
+и $\boldsymbol V$ и интегрирование слагаемых с производными по
+частям дают внутри дуг
+\begin {equation}
+ \dot{\boldsymbol a}
+       =-\left(\frac{{\partial\boldsymbol g}}{{\partial\boldsymbol R}}\right)^{\mathsf T}
+          \boldsymbol p,
+ \qquad
+ \dot{\boldsymbol p}=-\boldsymbol a.
+\end {equation}
+Исключая $\boldsymbol a$, получаем уравнение базис-вектора:
+\begin {equation}
+ \ddot{\boldsymbol p}
+  =\left(\frac{{\partial\boldsymbol g}}{{\partial\boldsymbol R}}\right)^{\mathsf T}
+       \boldsymbol p
+  =-\frac{{\mu}}{{R^3}}\boldsymbol p
+    +\frac{{3\mu}}{{R^5}}
+           (\boldsymbol p^{\mathsf T}\boldsymbol R)\boldsymbol R.
+ \label {eq:lawden-primer-ode}
+\end {equation}
+Второе равенство следует из покомпонентного дифференцирования
+$g_i=-\mu R_i/R^3$:
+$\partial g_i/\partial R_k
+ =-\mu\delta_{ik}/R^3+3\mu R_i R_k/R^5$.
+Матрица производных симметрична.
+Уравнение \eqref{eq:lawden-primer-ode} линейно по
+$\boldsymbol p$ вдоль заданной баллистической дуги. Сама задача
+поиска этой дуги между двумя орбитами от этого линейной не становится.
+
+В момент импульса
+$\boldsymbol R^+=\boldsymbol R^-$ и
+$\boldsymbol V^+=\boldsymbol V^-+\Delta\boldsymbol V^{\text{\normalfont имп}}$.
+Вариации положения и доимпульсной скорости в граничных членах
+\eqref{eq:augmented-coast-action} входят в выражение
+\begin {equation}
+ \begin {aligned}
+ \delta\mathcal A_j={}&(\boldsymbol a^--\boldsymbol a^+)^{\mathsf T}
+ \delta\boldsymbol R
+ +(\boldsymbol p^--\boldsymbol p^+)^{\mathsf T}\delta\boldsymbol V^-\\
+ &+\left(\frac{{\Delta\boldsymbol V^{\text{\normalfont имп}}}}{{\lVert\Delta\boldsymbol V^{\text{\normalfont имп}}\rVert}}
+ -\boldsymbol p^+\right)^{\mathsf T}\delta\Delta\boldsymbol V^{\text{\normalfont имп}}.
+ \end {aligned}
+\end {equation}
+Здесь использовано равенство
+$\delta\boldsymbol V^+=\delta\boldsymbol V^-+\delta\Delta\boldsymbol V^{\text{\normalfont имп}}$.
+Независимость трёх указанных вариаций даёт
+$\boldsymbol a^+=\boldsymbol a^-$ и
+$\boldsymbol p^+=\boldsymbol p^-$.
+Коэффициент при вариации самого импульса равен
+\begin {equation}
+ \frac{{\Delta\boldsymbol V^{\text{\normalfont имп}}}}{{\lVert\Delta\boldsymbol V^{\text{\normalfont имп}}\rVert}}
+          -\boldsymbol p.
+\end {equation}
+Следовательно, $\boldsymbol p$ направлен вдоль ненулевого импульса
+и имеет в этой точке единичный модуль. Поскольку
+$\dot{\boldsymbol p}=-\boldsymbol a$, первая инерциальная производная
+базис-вектора также непрерывна. Утверждать непрерывность всех его
+производных оснований нет.
+
+Для свободного внутреннего момента импульса возникает условие
+непрерывности гамильтониана
+\begin {equation}
+ H=\boldsymbol a^{\mathsf T}\boldsymbol V
+            +\boldsymbol p^{\mathsf T}\boldsymbol g.
+\end {equation}
+Оно следует из коэффициента при перемещении границы двух
+баллистических интегралов. Так как положение и сопряжённые векторы
+непрерывны,
+\begin {equation}
+ 0=H^+-H^-
+  =\boldsymbol a^{\mathsf T}\Delta\boldsymbol V^{\text{\normalfont имп}}
+  =-\dot{\boldsymbol p}^{\mathsf T}\Delta\boldsymbol V^{\text{\normalfont имп}}.
+\end {equation}
+После подстановки направления импульса получаем
+$\boldsymbol p^{\mathsf T}\dot{\boldsymbol p}=0$, то есть
+стационарность его модуля. Это размерный инерциальный аналог
+\eqref{eq:primer-stationarity}.
+
+Наконец, для малого дополнительного импульса $\Delta\boldsymbol V^{\text{\normalfont имп}}$
+точная первая вариация расширенного функционала для нормальной
+экстремали содержит
+$\lVert\Delta\boldsymbol V^{\text{\normalfont имп}}\rVert-
+\boldsymbol p^{\mathsf T}\Delta\boldsymbol V^{\text{\normalfont имп}}$.
+Её неотрицательность при произвольном направлении даёт
+$\lVert\boldsymbol p\rVert\leq1$.
+Таким образом, условия Лоудена согласуются с полученными выше
+условиями, но их достаточность для нелинейной задачи из этой первой
+вариации не следует.
+
+\subsection{Базис-вектор на опорной круговой орбите}
+
+Положим теперь $R=r_0$ и рассмотрим вращающиеся единичные векторы
+$\boldsymbol e_r$, $\boldsymbol e_t$, $\boldsymbol e_z$,
+для которых
+\begin {equation}
+ \dot{\boldsymbol e}_r=n_0\boldsymbol e_t,
+ \qquad \dot{\boldsymbol e}_t=-n_0\boldsymbol e_r,
+ \qquad \dot{\boldsymbol e}_z=0.
+\end {equation}
+Компоненты $p_r,p_t,p_z$ определены разложением
+$\boldsymbol p=p_r\boldsymbol e_r+p_t\boldsymbol e_t+p_z\boldsymbol e_z$.
+При дифференцировании необходимо учитывать вращение осей:
+\begin {equation}
+ \dot{\boldsymbol p}
+ = (\dot p_r-n_0p_t)\boldsymbol e_r
+  +(\dot p_t+n_0p_r)\boldsymbol e_t
+  +\dot p_z\boldsymbol e_z.
+\end {equation}
+Подстановка второй производной в
+\eqref{eq:lawden-primer-ode} и переход от времени к
+$\varphi=n_0t+\varphi_0$ дают
+\begin {equation}
+ p_r''-2p_t'-3p_r=0,
+ \qquad p_t''+2p_r'=0,
+ \qquad p_z''+p_z=0.
+ \label {eq:circular-primer-ode}
+\end {equation}
+Из второго уравнения $p_t'+2p_r=C$.
+Тогда первое превращается в $p_r''+p_r=2C$.
+Общее решение имеет шесть постоянных:
+\begin {equation}
+ \begin {aligned}
+ p_r&=c_1\cos\varphi+c_2\sin\varphi+2C,\\
+ p_t&=2c_2\cos\varphi-2c_1\sin\varphi-3C\varphi+c_3,\\
+ p_z&=c_4\cos\varphi+c_5\sin\varphi.
+ \end {aligned}
+ \label {eq:circular-primer-general}
+\end {equation}
+
+Появление секулярного члена $-3C\varphi$ не противоречит
+\eqref{eq:primer-components}: ещё не использовано условие
+трансверсальности по свободному времени.
+В автономной задаче с конечным множеством, не зависящим явно от
+времени, и свободным конечным временем это условие есть $H=0$.
+Поясним появление этого равенства. Пусть
+$\boldsymbol Z=(\boldsymbol R,\boldsymbol V)$ и
+$\boldsymbol \Lambda=(\boldsymbol a,\boldsymbol p)$.
+Полная вариация конечного состояния связана с вариацией при
+фиксированном времени равенством
+$\delta\boldsymbol Z_f=\delta\boldsymbol Z(t_f)+
+\dot{\boldsymbol Z}(t_f)\delta t_f$.
+Поэтому конечный член после интегрирования по частям имеет вид
+\[
+ \boldsymbol \Lambda_f^{\mathsf T}\delta\boldsymbol Z_f-H_f\delta t_f.
+\]
+Трансверсальность по конечному состоянию означает, что
+$\boldsymbol \Lambda_f$ нормален к допустимому конечному многообразию.
+Его скалярное произведение с любой касательной вариацией
+$\delta\boldsymbol Z_f$ равно нулю. Так как само многообразие
+от времени не зависит, $\delta t_f$ независимо и произвольно:
+остаётся $H_f=0$. На пассивных дугах автономной задачи $H$ постоянно,
+а при свободных внутренних импульсах непрерывно; следовательно, $H=0$
+на всей экстремали. В нашей задаче конечное многообразие является
+заданной орбитой со свободной фазой. Её инвариантность относительно
+пассивного движения также согласуется с условием $H=0$.
+На круговой орбите $\boldsymbol V=V_0\boldsymbol e_t$,
+$\boldsymbol g=-n_0V_0\boldsymbol e_r$ и
+$\boldsymbol a=-\dot{\boldsymbol p}$, поэтому
+\begin {equation}
+ H=-n_0V_0(p_t'+2p_r)=-n_0V_0 C.
+\end {equation}
+Следовательно, $C=0$. Сравнение
+\eqref{eq:circular-primer-general} с
+\eqref{eq:primer-components} даёт
+\begin {equation}
+ c_1=-l_y,\qquad c_2=l_x,\qquad c_3=2l_a,
+ \qquad c_4=l_c,\qquad c_5=l_s.
+\end {equation}
+Итак, пятиконстантная форма базис-вектора следует и из точных
+сопряжённых уравнений после перехода к опорному кругу и использования
+свободного времени. Круговая орбита сама по себе не требует $C=0$.
+Для встречи с заданной фазой в заданное время условия
+трансверсальности и число граничных ограничений следует выводить
+заново.
+
+\subsection{Геометрия годографа и типы оптимальных переходов}
+\label{subsec:primer-geometry}
+
+Вначале предположим
+$R=\sqrt{l_x^2+l_y^2}>0$ и положим
+\begin {equation}
+ \begin {gathered}
+ \alpha=\operatorname {atan2}(l_y,l_x),
+ \qquad \psi=\varphi-\alpha,\qquad D=2l_a,\\
+ E=l_s\sin\alpha+l_c\cos\alpha,
+ \qquad F=l_s\cos\alpha-l_c\sin\alpha.
+ \end {gathered}
+\end {equation}
+Тогда
+\begin {equation}
+ \boldsymbol p(\psi)=
+ \begin {pmatrix}R\sin\psi\\D+2R\cos\psi\\E\cos\psi+F\sin\psi\end {pmatrix}
+ =\begin {pmatrix}0\\D\\0\end {pmatrix}
+ +\begin {pmatrix}0\\2R\\E\end {pmatrix}\cos\psi
+ +\begin {pmatrix}R\\0\\F\end {pmatrix}\sin\psi.
+ \label {eq:rotated-primer}
+\end {equation}
+Годограф в пространстве трёх \emph{вращающихся компонент} является
+эллипсом с центром $(0,D,0)$. Два вектора при синусе и косинусе
+задают его плоскость. Его радиально-трансверсальная проекция имеет
+полуоси $R$ и $2R$.
+Это вспомогательное пространство компонент, а не физическая
+траектория конца вектора в неподвижных координатах.
+
+Квадрат модуля равен
+\begin {equation}
+ \begin {aligned}
+ f(\psi)=\lVert\boldsymbol p(\psi)\rVert^2
+   &=D^2+R^2+F^2
+    +(3R^2+E^2-F^2)\cos^2\psi\\
+   &\quad+2EF\sin\psi\cos\psi+4DR\cos\psi.
+ \end {aligned}
+ \label {eq:primer-norm-quadratic}
+\end {equation}
+Импульсы возможны только в точках касания этого эллипса с единичной
+сферой, причём весь эллипс должен лежать внутри сферы.
+Положения и число точек касания определяют классификацию,
+используемую Эдельбаумом и Барановым
+\cite{edelbaum,baranov-ru,baranov-en}.
+
+\paragraph{Центральный эллипс: узловой случай (NC).}
+Если $D=0$, то
+$\boldsymbol p(\psi+\pi)=-\boldsymbol p(\psi)$.
+У некругового эллипса наиболее удалены от начала координат концы
+его большой оси. Таким образом, возможны два противоположных
+максимума; их фазы отличаются на $\pi$, а все локальные компоненты
+направлений импульсов противоположны.
+Для вычисления максимума достаточно максимального собственного
+значения симметричной матрицы
+\begin {equation}
+ Q=\begin {pmatrix}
+       4R^2+E^2&EF\\ EF&R^2+F^2
+    \end {pmatrix},
+ \qquad
+ f=(\cos\psi,\sin\psi)Q
+        \begin {pmatrix}\cos\psi\\\sin\psi\end {pmatrix}.
+\end {equation}
+Если оно равно единице, эллипс касается сферы концами большой оси.
+Название ``узловой'' будет обосновано при подстановке граничных
+условий пространственного перехода: для ${\Delta i}>0$ используемые точки
+окажутся на линии взаимных узлов.
+
+\paragraph{Смещённый эллипс: невырожденный случай (NDC).}
+Пусть $D\ne0$ и имеются две различные точки абсолютного максимума.
+Покажем, почему они должны быть симметричны относительно $\psi=0$.
+Функция $1-f(\psi)$ --- неотрицательный тригонометрический многочлен
+степени два. В каждой точке касания со сферой он имеет двойной нуль.
+Если два нуля обозначить $m-\delta$ и $m+\delta$, такой многочлен
+представляется в виде
+\begin {equation}
+ 1-f(\psi)=K[\cos(\psi-m)-\cos\delta]^2,
+ \qquad K>0.
+ \label {eq:contact-factorization}
+\end {equation}
+Действительно, произведение
+$\sin^2((\psi-m+\delta)/2)
+ \sin^2((\psi-m-\delta)/2)$ имеет именно эти два двойных нуля;
+раскрытие произведения даёт правую часть с постоянным множителем.
+Многочлен степени два с такими нулями определяется с точностью до
+этого множителя.
+Первая гармоника в \eqref{eq:primer-norm-quadratic} содержит только
+$\cos\psi$ и имеет ненулевой коэффициент $4DR$.
+Сравнение с \eqref{eq:contact-factorization} даёт
+$m=0$ по модулю $\pi$. Следовательно, точки можно записать как
+$\psi=\pm\psi_*$. Коэффициент при $\sin2\psi$ должен обращаться
+в нуль, то есть $EF=0$.
+
+Если бы $F=0$, зависимость от $c=\cos\psi$ была бы выпуклой
+квадратичной функцией с коэффициентом $3R^2+E^2>0$.
+При $DR\ne0$ она имеет единственный абсолютный максимум на
+$[-1,1]$, что противоречит наличию двух различных точек касания.
+Значит, $E=0$, и два максимума существуют при
+\begin {equation}
+ F^2>3R^2,\qquad
+ c_*:=\cos\psi_*=\frac{{2DR}}{{F^2-3R^2}},
+ \qquad |c_*|<1.
+ \label {eq:ndc-primer-angles}
+\end {equation}
+Эти формулы получаются дифференцированием
+$f(c)=D^2+R^2+F^2-(F^2-3R^2)c^2+4DRc$.
+Условие нормировки имеет вид
+\begin {equation}
+ D^2+R^2+F^2+\frac{{4D^2R^2}}{{F^2-3R^2}}=1.
+ \label {eq:ndc-primer-normalization}
+\end {equation}
+В двух точках касания трансверсальные компоненты базис-вектора
+одинаковы, а радиальные и нормальные компоненты противоположны.
+При $|c_*|=1$ точки сливаются; это граничный случай с возможным
+единственным ненулевым импульсом.
+
+\paragraph{Окружность: сингулярный случай (SC).}
+Если центральный эллипс имеет постоянный единичный радиус,
+разделение на отдельные точки максимума исчезает.
+Из $D=0$ и $Q$ равной единичной матрице получаем
+\begin {equation}
+ \begin {gathered}
+ E=0,\qquad R=\frac{1}{2},\qquad F=\pm\frac{{\sqrt3}}{{2}},\\
+ \boldsymbol p(\psi)=
+ \begin {pmatrix}
+   \tfrac{1}{2}\sin\psi\\ \cos\psi\\
+   \pm\tfrac{{\sqrt3}}{{2}}\sin\psi
+ \end {pmatrix},
+ \qquad \lVert\boldsymbol p(\psi)\rVert\equiv1.
+ \end {gathered}
+ \label {eq:singular-primer-circle}
+\end {equation}
+Все фазы имеют одинаковую предельную эффективность, но направления
+импульсов по-прежнему заданы функцией $\boldsymbol p(\psi)$.
+Свобода выбора фаз не снимает граничных условий и требования
+неотрицательности величин ${\Delta\widehat V_j^{\text{\normalfont имп}}}$.
+Различные допустимые распределения импульсов, удовлетворяющие
+\eqref{eq:certificate}, имеют одинаковую оптимальную стоимость.
+В частности, постоянным здесь является модуль, а не сам вектор.
+
+\paragraph{Вырождение в отрезок и точку.}
+При $R=0$ угол $\alpha$ не определён; делить на $R$ нельзя.
+В исходных координатах
+\begin {equation}
+ \boldsymbol p(\varphi)=
+      (0,D,l_s\sin\varphi+l_c\cos\varphi)^{\mathsf T}.
+ \label {eq:line-primer-general}
+\end {equation}
+Если $l_s^2+l_c^2>0$, годограф --- отрезок, и
+$\max\lVert\boldsymbol p\rVert^2=D^2+l_s^2+l_c^2$.
+Два конца отрезка соответствуют противоположным фазам;
+трансверсальные компоненты одинаковы, нормальные противоположны,
+радиальные равны нулю.
+При $l_s=l_c=0$ годограф вырождается в точку, а нормировка даёт
+$D=\pm1$. Этот предел особенно существенен для компланарных
+переходов с преобладающим изменением большой полуоси.
+
+Таким образом, геометрия базис-вектора определяет допустимые типы
+расположения импульсов. Она ещё не определяет, какой тип отвечает
+заданным ${\Delta a},{\Delta e_x},{\Delta e_y},{\Delta i}$: это устанавливается совместным решением
+граничных уравнений, условий касания и неравенств на величины
+импульсов. Именно эта задача решается в следующем разделе.
+
+% ==================== planar ====================
