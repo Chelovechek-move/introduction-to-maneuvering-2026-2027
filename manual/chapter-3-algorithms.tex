@@ -1,1169 +1,1068 @@
+% ==================== algorithms ====================
 \section{Алгоритмы перехода}
 \label{sec:algorithms}
 
-Исходными данными служат пять изменений орбитальных параметров из
-\eqref{eq:boundary-map}. После выбора оси вдоль линии взаимных узлов
-модуль изменения вектора эксцентриситета обозначим через $\Delta e$:
-\begin {equation}
- \Delta e=\sqrt{{(\Delta e_x)}^2+{(\Delta e_y)}^2}.
- \label {eq:short-data}
-\end {equation}
-Величина $\Delta e$ равна модулю разности векторов эксцентриситета;
-в общем случае она не равна разности их модулей $e_f-e_i$.
-Величина $\Delta a$ безразмерна.
-Искомые компоненты $\Delta\widehat V_{rj}^{\text{\normalfont имп}}$, $\Delta\widehat V_{tj}^{\text{\normalfont имп}}$ и $\Delta\widehat V_{zj}^{\text{\normalfont имп}}$ также безразмерны;
-окончательный переход к размерным импульсам выполняется умножением на $V_0$.
-Во всех формулах ниже ${\Delta\widehat V_j^{\text{\normalfont имп}}}=\lVert\Delta\widehat{\boldsymbol V}_j^{\text{\normalfont имп}}\rVert\geqslant0$.
-Знак отдельной компоненты импульса не является знаком его модуля.
+Теперь применим условия главы~\ref{sec:optimality} к расчёту манёвров.
+Для каждого типа решения будем выполнять одинаковые действия:
+устанавливать геометрию годографа, находить импульсы из граничных
+уравнений и проверять, что достигнута нижняя оценка затрат.
+Такой порядок соответствует геометрическому изложению Баранова
+\cite[гл.~2]{baranov-ru} и классификации Эдельбаума~\cite{edelbaum}.
+
+Исходные данные --- $\Delta a,\Delta e_x,\Delta e_y,\Delta i$ из
+раздела~\ref{sec:five-boundaries}. Напомним:
+\begin{equation}
+ \Delta a=\frac{a_f-a_i}{r_0},\qquad
+ \Delta e=\sqrt{(\Delta e_x)^2+(\Delta e_y)^2},\qquad \Delta i\geq0.
+ \label{eq:transfer-data}
+\end{equation}
+Здесь $\Delta e$ --- длина \emph{разности векторов} эксцентриситета,
+а не разность чисел $e_f-e_i$. Все компоненты импульсов ниже безразмерны.
+Для получения м/с их умножают на $V_0$, выраженную в м/с.
+Число $J$ есть сумма модулей, поэтому размерная характеристическая
+скорость равна $\Delta V_\Sigma=V_0J$.
 
 \subsection{Компланарный случай}
 \label{sec:planar}
 
-\subsubsection{Нижняя оценка характеристической скорости}
+\subsubsection{Какие изменения создаёт трансверсальный импульс}
 
-При ${\Delta i}=0$ нормальные компоненты не нужны. Действительно, их удаление
-сохраняет три плоских граничных условия и не увеличивает стоимость.
-Введём комплексную запись разности эксцентриситетов:
-\begin {equation}
- {\Delta e_x}+\mathrm i {\Delta e_y}
- =\sum_j(2{\Delta\widehat V_{tj}^{\text{\normalfont имп}}}-\mathrm i {\Delta\widehat V_{rj}^{\text{\normalfont имп}}})\exp(\mathrm i\varphi_j),
- \qquad {\Delta a}=2\sum_j{\Delta\widehat V_{tj}^{\text{\normalfont имп}}}.
- \label {eq:planar-complex}
-\end {equation}
-Мнимая единица $\mathrm i$ в этой формуле не обозначает наклонение орбиты.
-Модуль комплексного множителя одного импульса равен
-$\sqrt{4{(\Delta\widehat V_{tj}^{\text{\normalfont имп}})}^2+{(\Delta\widehat V_{rj}^{\text{\normalfont имп}})}^2}$ и не превосходит $2{\Delta\widehat V_j^{\text{\normalfont имп}}}$.
-По неравенству треугольника
+При $\Delta i=0$ нормальные импульсы не нужны: их удаление
+не меняет первые три граничных условия и уменьшает либо сохраняет $J$.
+Остаются радиальные и трансверсальные компоненты.
+Из анализа плоского годографа в разделе~\ref{sec:hodograph}
+получены схемы с трансверсальными импульсами.
+Сначала построим такие схемы, затем проверим их оптимальность
+среди всех импульсов, в том числе имеющих радиальные компоненты.
+
+При $\Delta\widehat V_{rj}=0$ условия перехода имеют вид
+\begin{equation}
+ \begin{aligned}
+ 2\sum_j\Delta\widehat V_{tj}&=\Delta a,\\
+ 2\sum_j\Delta\widehat V_{tj}\cos\varphi_j&=\Delta e_x,\\
+ 2\sum_j\Delta\widehat V_{tj}\sin\varphi_j&=\Delta e_y.
+ \end{aligned}
+ \label{eq:planar-boundaries}
+\end{equation}
+Один трансверсальный импульс изменяет большую полуось на
+$2\Delta\widehat V_t$ в принятой нормировке и добавляет к вектору
+эксцентриситета вектор
 \[
- |{\Delta a}|\leqslant2\sum_j|{\Delta\widehat V_{tj}^{\text{\normalfont имп}}}|\leqslant2J,
+ 2\Delta\widehat V_t(\cos\varphi,\sin\varphi).
+\]
+Это позволяет изображать переход на плоскости $(e_x,e_y)$.
+Точка на ней задаёт вектор эксцентриситета орбиты, а отрезок между
+двумя точками --- его изменение. Большая полуось учитывается
+первой строкой~\eqref{eq:planar-boundaries}. Длина отрезка равна
+$2|\Delta\widehat V_t|$. Для разгонного импульса направление отрезка
+совпадает с углом $\varphi$; для тормозного --- противоположно ему.
+Эта диаграмма не изображает траекторию аппарата в физическом пространстве.
+
+\subsubsection{Два импульса через полвитка}
+
+Если $\Delta e>0$, определим направление требуемого изменения
+эксцентриситета:
+\begin{equation}
+ \cos\varphi_e=\frac{\Delta e_x}{\Delta e},\qquad
+ \sin\varphi_e=\frac{\Delta e_y}{\Delta e}.
+ \label{eq:phi-e}
+\end{equation}
+Численно это $\varphi_e=\operatorname{atan2}(\Delta e_y,\Delta e_x)$.
+Функция $\operatorname{atan2}$ определяет угол с учётом знаков обеих
+компонент; обычный арктангенс их отношения не различает противоположные
+направления.
+
+Выберем места импульсов
+$\varphi_1=\varphi_e$, $\varphi_2=\varphi_e+\pi$.
+У второго импульса синус и косинус меняют знак. Поэтому из трёх
+уравнений~\eqref{eq:planar-boundaries} остаются два независимых:
+\[
+ 2(\Delta\widehat V_{t1}+\Delta\widehat V_{t2})=\Delta a,
  \qquad
- \Delta e\leqslant\sum_j\sqrt{4{(\Delta\widehat V_{tj}^{\text{\normalfont имп}})}^2+{(\Delta\widehat V_{rj}^{\text{\normalfont имп}})}^2}\leqslant2J.
+ 2(\Delta\widehat V_{t1}-\Delta\widehat V_{t2})=\Delta e.
 \]
-Следовательно, для любого числа импульсов
-\begin {equation}
- J\geqslant\frac{1}{2}\max\{|{\Delta a}|,\Delta e\}.
- \label {eq:planar-bound}
-\end {equation}
-Ниже построим управление, достигающее этой оценки. Поэтому оценка
-сразу станет формулой глобального минимума линейной задачи.
+Сложение и вычитание дают
+\begin{equation}
+ \boxed{\begin{aligned}
+ \varphi_1&=\varphi_e,&\varphi_2&=\varphi_e+\pi,\\
+ \Delta\widehat V_{t1}&=\frac{\Delta a+\Delta e}{4},&
+ \Delta\widehat V_{t2}&=\frac{\Delta a-\Delta e}{4},\\
+ \Delta\widehat V_{r1}&=0,&\Delta\widehat V_{r2}&=0.
+ \end{aligned}}
+ \label{eq:planar-impulses}
+\end{equation}
+Это \emph{компоненты}, поэтому они могут быть отрицательными.
+Стоимость найденного перехода равна
+\begin{equation}
+ \boxed{\ J=\frac{|\Delta a+\Delta e|+|\Delta a-\Delta e|}{4}
+       =\frac12\max\{|\Delta a|,\Delta e\}.\ }
+ \label{eq:planar-cost}
+\end{equation}
+Последнее равенство проверяется отдельно при
+$|\Delta a|\geq\Delta e$ и $|\Delta a|\leq\Delta e$.
+Направление $\varphi_e$ задаёт линия апсид \emph{относительной орбиты}:
+оно определяется разностью векторов эксцентриситета и не обязано
+совпадать с линией апсид какой-либо из двух исходных орбит.
 
-\subsubsection{Два противоположных места приложения}
+\subsubsection{Почему меньших затрат быть не может}
 
-Пусть $\Delta e>0$ и
-\begin {equation}
- \varphi_e=\operatorname {atan2}({\Delta e_y},{\Delta e_x}),\qquad
- \varphi_1=\varphi_e,\qquad\varphi_2=\varphi_e+\pi.
- \label {eq:planar-locations}
-\end {equation}
-Функция $\operatorname {atan2}$ восстанавливает угол по двум компонентам
-с учётом квадранта. Замена её на $\arctan({\Delta e_y}/{\Delta e_x})$ без проверки квадранта
-может переставить разгонный и тормозной импульсы.
-Выберем оба импульса трансверсальными. Граничные условия принимают вид
+Первое граничное условие при любых импульсах даёт
 \[
- 2({\Delta\widehat V_{t1}^{\text{\normalfont имп}}}+{\Delta\widehat V_{t2}^{\text{\normalfont имп}}})={\Delta a},\qquad
- 2({\Delta\widehat V_{t1}^{\text{\normalfont имп}}}-{\Delta\widehat V_{t2}^{\text{\normalfont имп}}})=\Delta e.
+ |\Delta a|=2\left|\sum_j\Delta\widehat V_{tj}\right|
+      \leq2\sum_j|\Delta\widehat V_{tj}|\leq2J.
 \]
-Отсюда
-\begin {equation}
- \boxed{\quad {\Delta\widehat V_{t1}^{\text{\normalfont имп}}}=\frac{{{\Delta a}+\Delta e}}{{4}},\qquad
- {\Delta\widehat V_{t2}^{\text{\normalfont имп}}}=\frac{{{\Delta a}-\Delta e}}{{4}},\qquad {\Delta\widehat V_{r1}^{\text{\normalfont имп}}}={\Delta\widehat V_{r2}^{\text{\normalfont имп}}}=0.\quad}
- \label {eq:planar-impulses}
-\end {equation}
-Стоимость равна
-\begin {equation}
- \boxed{\quad J_{\rm pl}=\frac{{|{\Delta a}+\Delta e|+|{\Delta a}-\Delta e|}}{{4}}
- =\frac{1}{2}\max\{|{\Delta a}|,\Delta e\}.\quad}
- \label {eq:planar-cost}
-\end {equation}
-Равенство с нижней оценкой доказывает оптимальность, включая возможность
-любого другого числа импульсов. Положительная ${\Delta\widehat V_t^{\text{\normalfont имп}}}$ означает разгон по
-трансверсальному направлению, отрицательная --- торможение.
-
-Приведённая пара углов относится к оси \emph{разности} векторов
-эксцентриситета. Она не обязана совпадать с линией апсид ни начальной,
-ни конечной орбиты. Это существенно при различных ориентациях их перицентров.
-
-\subsubsection{Пересекающиеся и непересекающиеся орбиты}
-
-В первом порядке радиус орбиты с параметрами $(a,e_x,e_y)$ равен
+Рассмотрим также изменение вектора эксцентриситета от одного импульса.
+Сумма квадратов его двух компонент равна
 \[
- r(\varphi)=a\,[1-e_x\cos\varphi-e_y\sin\varphi]+O(\varepsilon^2r_0).
+ (\Delta\widehat V_{rj}\sin\varphi_j+2\Delta\widehat V_{tj}\cos\varphi_j)^2
+ +(-\Delta\widehat V_{rj}\cos\varphi_j+2\Delta\widehat V_{tj}\sin\varphi_j)^2
+ =(\Delta\widehat V_{rj})^2+4(\Delta\widehat V_{tj})^2.
 \]
-Поэтому разность радиусов конечной и начальной орбит выражается как
-\begin {equation}
- \frac{{r_f(\varphi)-r_i(\varphi)}}{{r_0}}
- ={\Delta a}-{\Delta e_x}\cos\varphi-{\Delta e_y}\sin\varphi
- ={\Delta a}-\Delta e\cos(\varphi-\varphi_e).
- \label {eq:planar-intersection}
-\end {equation}
-В этой формуле и далее классификация пересечения относится именно
-к геометрии первого порядка.
+Смешанные слагаемые сокращаются, а $\sin^2\varphi_j+\cos^2\varphi_j=1$.
+Длина этого изменения не больше $2\Delta\widehat V_j$.
+Длина суммы векторов не превосходит суммы их длин, следовательно,
+$\Delta e\leq2J$. Вместе получаем
+\begin{equation}
+ J\geq\frac12\max\{|\Delta a|,\Delta e\}.
+ \label{eq:planar-bound}
+\end{equation}
+Схема~\eqref{eq:planar-impulses} достигает этой оценки.
+Значит, она оптимальна при любом разрешённом числе импульсов.
+Радиальные компоненты при доказательстве не запрещались.
 
-Если $\Delta e>|{\Delta a}|$, уравнение равенства радиусов имеет два решения.
-В \eqref{eq:planar-impulses} первая компонента положительна, вторая
-отрицательна; стоимость определяется изменением эксцентриситета.
-Равенство в цепочке оценок для $\Delta e$ требует ${\Delta\widehat V_{rj}^{\text{\normalfont имп}}}=0$ и сонаправленности
-всех ненулевых вкладов в разность векторов эксцентриситета.
-Следовательно, положительные трансверсальные импульсы могут располагаться
-только на луче $\varphi_e$, а отрицательные --- на противоположном луче.
-Импульсы, приложенные в одном месте на разных оборотах, можно объединить.
-Таким образом, два места \eqref{eq:planar-locations} не являются произвольным
-выбором: они следуют из условий достижения минимальной стоимости.
+\subsubsection{Пересечение орбит и вид годографа}
 
-Если $|{\Delta a}|>\Delta e$, орбиты не пересекаются. Теперь стоимость определяется
-изменением большой полуоси. Равенство $|{\Delta a}|=2J$ требует, чтобы все импульсы
-были трансверсальными и имели один знак $\operatorname {sgn}{\Delta a}$.
-Их места не определяются однозначно. При двух импульсах положим
+В первом порядке разность радиусов заданных орбит в одной фазе равна
+\begin{equation}
+ \frac{r_f(\varphi)-r_i(\varphi)}{r_0}
+ =\Delta a-\Delta e_x\cos\varphi-\Delta e_y\sin\varphi
+ =\Delta a-\Delta e\cos(\varphi-\varphi_e).
+ \label{eq:planar-intersection}
+\end{equation}
+Отсюда следуют три случая. Пересечение и касание здесь понимаются
+в геометрии первого приближения.
+
+\paragraph{Пересекающиеся орбиты: $|\Delta a|<\Delta e$.}
+Разность радиусов обращается в нуль при двух фазах.
+Первый импульс в~\eqref{eq:planar-impulses} разгонный,
+второй тормозной. Их вклады в вектор эксцентриситета сонаправлены,
+поскольку одновременно меняются знак импульса и направление радиуса.
+Стоимость равна $J=\Delta e/2$.
+
+Этой схеме отвечает центральный эллипс
+\begin{equation}
+ s_r=\tfrac12\sin(\varphi-\varphi_e),\qquad
+ s_t=\cos(\varphi-\varphi_e),\qquad s_z=0.
+ \label{eq:planar-central-primer}
+\end{equation}
+Действительно, $p^2=1-\tfrac34\sin^2(\varphi-\varphi_e)\leq1$.
+В двух местах импульсов $\boldsymbol s=(0,1,0)$ и $(0,-1,0)$.
+Они совпадают с направлениями найденных импульсов.
+Геометрическая и прямая проверки оптимальности дают одинаковый результат.
+Импульсы, вообще говоря, прикладываются не в точках пересечения орбит.
+Возможность перейти одним импульсом в точке пересечения ещё не означает
+минимума затрат.
+
+\paragraph{Непересекающиеся орбиты: $|\Delta a|>\Delta e$.}
+Разность радиусов не меняет знак. Оба импульса
+в~\eqref{eq:planar-impulses} имеют знак $\Delta a$:
+при увеличении большой полуоси оба разгонные, при уменьшении ---
+оба тормозные. Стоимость $J=|\Delta a|/2$.
+Годограф вырождается в точку
 \[
- w_j=\frac{{2{\Delta\widehat V_{tj}^{\text{\normalfont имп}}}}}{{{\Delta a}}}\geqslant0,\qquad w_1+w_2=1,
- \qquad \boldsymbol m=\frac{1}{{\Delta a}}\begin {pmatrix}{\Delta e_x}\\{\Delta e_y}\end {pmatrix}.
+ \boldsymbol s=(0,\operatorname{sgn}\Delta a,0).
 \]
-Тогда оставшиеся условия равносильны
-\begin {equation}
- \boldsymbol m=w_1\boldsymbol u_1+w_2\boldsymbol u_2,
- \qquad \boldsymbol u_j=(\cos\varphi_j,\sin\varphi_j)^\mathsf T.
- \label {eq:planar-chord}
-\end {equation}
-Поскольку $\lVert\boldsymbol m\rVert=\Delta e/|{\Delta a}|<1$, точка
-$\boldsymbol m$ лежит внутри единичного круга. Любая хорда, проходящая
-через неё, даёт допустимую пару импульсов той же стоимости.
+Условие единичного модуля выполнено при любой фазе.
+Поэтому противоположные места --- удобный выбор, но не единственный.
+
+\paragraph{Касание орбит: $|\Delta a|=\Delta e>0$.}
+Один импульс в~\eqref{eq:planar-impulses} исчезает.
+Остаётся трансверсальный импульс в точке касания:
+$\varphi=\varphi_e$ при $\Delta a>0$ и
+$\varphi=\varphi_e+\pi$ при $\Delta a<0$.
+Его компонента удовлетворяет
+$\Delta\widehat V_t=\Delta a/2$.
+Смещённый эллипс с единственным касанием на рис.~\ref{fig:planar-hodographs}
+соответствует именно такой геометрии перехода.
+
+\subsubsection{Графический метод на плоскости эксцентриситетов}
+
+Обозначим на этой плоскости начальную, конечную и промежуточную
+орбиты точками $A$, $K$ и $M$. Для двух трансверсальных импульсов
+\[
+ AM=2|\Delta\widehat V_{t1}|,\qquad
+ MK=2|\Delta\widehat V_{t2}|,\qquad AK=\Delta e.
+\]
+Если оба импульса разгонные, их сумма фиксирована условием на
+большую полуось, поэтому $AM+MK=\Delta a$.
+При двух тормозных импульсах так же получается
+$AM+MK=|\Delta a|$. Значит, при $|\Delta a|>\Delta e$
+точка $M$ лежит на эллипсе с фокусами $A,K$.
+Каждая точка этого эллипса задаёт оптимальный двухимпульсный переход
+той же стоимости $|\Delta a|/2$.
+
+Если $\Delta e>|\Delta a|$ и первый импульс разгонный, а второй
+тормозной, условие на большую полуось имеет вид $AM-MK=\Delta a$.
+При $\Delta a\ne0$ это одна из ветвей гиперболы; при $\Delta a=0$
+получается серединный перпендикуляр к $AK$. Стоимость равна
+$(AM+MK)/2$ и меняется
+при перемещении $M$ по ветви. Наименьшая сумма достигается,
+когда $M$ лежит на отрезке $AK$: тогда $AM+MK=AK=\Delta e$.
+Совместно с разностью длин это снова даёт~\eqref{eq:planar-impulses}.
 
 \begin{figure}[htbp]
 \centering
-\begin{tikzpicture}[scale=1.05,>=Latex]
- \draw[->,gray] (-2.15,0)--(2.25,0) node[right] {$u_x=\cos\varphi$};
- \draw[->,gray] (0,-1.95)--(0,2.15) node[above] {$u_y=\sin\varphi$};
- \draw[accent,thick] (0,0) circle(1.7);
- \coordinate (U1) at (1.597,.581);
- \coordinate (U2) at (-1.303,-1.092);
- \coordinate (M) at (.437,-.088);
- \draw[thick] (U2)--(U1);
- \fill[accent] (U1) circle(1.7pt) node[above right] {$\boldsymbol u_1$};
- \fill[accent] (U2) circle(1.7pt) node[below left] {$\boldsymbol u_2$};
- \fill (M) circle(1.7pt) node[below right] {$\boldsymbol m$};
- \draw[->,accent] (0,0)--(U1);
- \draw[->,accent] (0,0)--(U2);
+\begin{tikzpicture}[x=2cm,y=2cm,>=Latex]
+ \begin{scope}
+  \draw[->,gray] (-1.6,-1.15)--(1.65,-1.15) node[right] {$e_x$};
+  \draw[->,gray] (-1.6,-1.15)--(-1.6,1.35) node[above] {$e_y$};
+  \draw[accent,thick] (0,0) ellipse[x radius=1.25,y radius=.9605];
+  \coordinate (A) at (-.8,0); \coordinate (K) at (.8,0); \coordinate (M) at (0,.9605);
+  \draw[->,very thick,accent] (A)--(M); \draw[->,very thick,accent] (M)--(K);
+  \draw[dashed] (A)--(K);
+  \fill (A) circle(1.5pt) node[below] {$A$};
+  \fill (K) circle(1.5pt) node[below] {$K$};
+  \fill (M) circle(1.5pt) node[above] {$M$};
+  \node at (0,-1.5) {$AM+MK=|\Delta a|$};
+ \end{scope}
+ \begin{scope}[shift={(4.5,0)}]
+  \draw[->,gray] (-1.6,-1.15)--(1.65,-1.15) node[right] {$e_x$};
+  \draw[->,gray] (-1.6,-1.15)--(-1.6,1.35) node[above] {$e_y$};
+  \draw[accent,thick,domain=-1:1,samples=60] plot ({.35*sqrt(1+\x*\x/.6875)},\x);
+  \coordinate (A) at (-.9,0); \coordinate (K) at (.9,0); \coordinate (M) at (.35,0);
+  \coordinate (P) at ({.35*sqrt(1+.81/.6875)},.9);
+  \draw[dashed,gray] (A)--(P)--(K);
+  \draw[->,very thick,accent] (A)--(M);\draw[->,very thick,accent] (M)--(K);
+  \fill (A) circle(1.5pt) node[below] {$A$};
+  \fill (M) circle(1.5pt) node[below] {$M$};
+  \fill (K) circle(1.5pt) node[below] {$K$};
+  \fill (P) circle(1.5pt) node[above] {$M'$};
+  \node at (0,-1.5) {$AM-MK=\Delta a$};
+ \end{scope}
 \end{tikzpicture}
-\caption{Два трансверсальных импульса одного знака. Заданный вектор
-$\boldsymbol m$ представляется выпуклой комбинацией концов хорды.
-Вес определяет долю изменения большой полуоси.}
-\label{fig:planar-chord}
+\caption{Метод Баранова на плоскости эксцентриситетов, показанный
+для $\Delta e_y=0$, $\Delta a>0$. Слева все положения $M$ на эллипсе
+равноценны. Справа оптимально положение $M$ на отрезке $AK$;
+ломаная через $M'$ длиннее. Отрезки изображают изменения вектора
+эксцентриситета, а не перемещения аппарата.}
+\label{fig:eccentricity-geometry}
 \end{figure}
 
-Для явного расчёта выберем произвольное единичное направление
-$\boldsymbol v$ хорды и найдём пересечения прямой
-$\boldsymbol m+t\boldsymbol v$ с окружностью:
-\begin {equation}
- t_\pm=-\boldsymbol m\cdot\boldsymbol v
- \pm\sqrt{(\boldsymbol m\cdot\boldsymbol v)^2+1-\lVert\boldsymbol m\rVert^2}.
- \label {eq:chord-roots}
-\end {equation}
-Здесь $t_-<0<t_+$. Полагая
+\paragraph{Если место первого импульса выбрано заранее.}
+Для непересекающихся орбит можно задать любую фазу $\varphi_1$.
+Тогда из~\eqref{eq:planar-boundaries}
 \[
- \boldsymbol u_\pm=\boldsymbol m+t_\pm\boldsymbol v,\qquad
- w_+=\frac{{-t_-}}{{t_+-t_-}},\qquad
- w_-=\frac{{t_+}}{{t_+-t_-}},
+ 2\Delta\widehat V_{t2}\cos\varphi_2
+      =\Delta e_x-2\Delta\widehat V_{t1}\cos\varphi_1,\qquad
+ 2\Delta\widehat V_{t2}\sin\varphi_2
+      =\Delta e_y-2\Delta\widehat V_{t1}\sin\varphi_1.
 \]
-получаем ${\Delta\widehat V_{t\pm}^{\text{\normalfont имп}}}={\Delta a}w_\pm/2$ и
-$\varphi_\pm=\operatorname {atan2}(u_{\pm,y},u_{\pm,x})$.
-Оба веса положительны. Формулы \eqref{eq:planar-impulses}
-дают частную, наиболее простую для расчёта пару.
+Возведём эти равенства в квадрат, сложим и подставим
+$\Delta\widehat V_{t2}=\Delta a/2-\Delta\widehat V_{t1}$.
+Квадраты неизвестной компоненты сокращаются. Получаем формулы Баранова:
+\begin{equation}
+\begin{aligned}
+ \Delta\widehat V_{t1}&=
+ \frac{\Delta e^2-(\Delta a)^2}
+ {4(\Delta e_x\cos\varphi_1+\Delta e_y\sin\varphi_1-\Delta a)},\\
+ \Delta\widehat V_{t2}&=\frac{\Delta a}{2}-\Delta\widehat V_{t1},\\
+ \cos\varphi_2&=\frac{\Delta e_x-2\Delta\widehat V_{t1}\cos\varphi_1}
+                         {2\Delta\widehat V_{t2}},\qquad
+ \sin\varphi_2=\frac{\Delta e_y-2\Delta\widehat V_{t1}\sin\varphi_1}
+                         {2\Delta\widehat V_{t2}}.
+\end{aligned}
+\label{eq:planar-free-first}
+\end{equation}
+При $|\Delta a|>\Delta e$ знаменатели не равны нулю,
+а обе компоненты имеют знак $\Delta a$. По последним двум строкам
+восстанавливают угол с учётом квадранта, включая знак
+$\Delta\widehat V_{t2}$. При касании орбит пользуются одноимпульсной
+формулой, а не делят на исчезающий второй импульс.
 
-\subsubsection{Границы и нулевые данные}
+\subsubsection{Пример и простые предельные случаи}
 
-При $\Delta e=|{\Delta a}|>0$ один из двух импульсов
-\eqref{eq:planar-impulses} обращается в нуль.
-Остаётся один трансверсальный импульс в точке касания орбит первого порядка.
-При ${\Delta a}>0$ это $\varphi_e$; при ${\Delta a}<0$ это $\varphi_e+\pi$.
-Не следует отождествлять это утверждение с существованием точного касания
-двух заданных кеплеровых эллипсов: малые члены второго порядка могут
-изменить их взаимное положение.
-
-Если $\Delta e=0$, угол $\varphi_e$ не определён и вычислять его не нужно.
-При ${\Delta a}\ne0$ выбирают любую пару противоположных углов и
-${\Delta\widehat V_{t1}^{\text{\normalfont имп}}}={\Delta\widehat V_{t2}^{\text{\normalfont имп}}}={\Delta a}/4$. Это линейный аналог перехода между близкими
-круговыми орбитами. При ${\Delta a}=\Delta e=0$ манёвры не требуются.
-Случай ${\Delta a}=0$, $\Delta e>0$ даёт два противоположных трансверсальных
-импульса величин $\Delta e/4$ каждого знака; суммарное изменение
-большой полуоси равно нулю, но промежуточная орбита отличается от исходной.
-
-\subsubsection{Расчётный пример}
-
-Пусть $r_0=7000$ км, $\mu=398600{,}4418$ км$^3$/с$^2$,
-${\Delta a}=0{,}001$, ${\Delta e_x}=0{,}002$, ${\Delta e_y}=0{,}001$.
-Тогда $V_0=7{,}54605329$ км/с и
+Пусть $\Delta a=0{,}001$, $\Delta e_x=0{,}002$,
+$\Delta e_y=0{,}001$. Тогда
 \[
- \Delta e=0{,}00223606798>|{\Delta a}|,\qquad
- \varphi_1=26{,}565051^\circ,\qquad\varphi_2=206{,}565051^\circ.
+ \Delta e=0{,}00223607,\qquad \varphi_e=26{,}5651^\circ,
+ \qquad\Delta\widehat V_{t1}=0{,}000809017,
+ \quad\Delta\widehat V_{t2}=-0{,}000309017.
 \]
-Из \eqref{eq:planar-impulses}
+Второй импульс прикладывается при $206{,}5651^\circ$.
+При $r_0=7000$ км и $\mu=398600{,}4418$ км$^3$/с$^2$
+имеем $V_0=7546{,}053$ м/с. Размерные компоненты равны
+$6{,}105$ и $-2{,}332$ м/с, а их сумма модулей --- $8{,}437$ м/с.
+Условие на большую полуось проверяется сложением компонентов,
+условие на эксцентриситет --- их разностью:
 \[
- {\Delta\widehat V_{t1}^{\text{\normalfont имп}}}=0{,}000809016994,\qquad {\Delta\widehat V_{t2}^{\text{\normalfont имп}}}=-0{,}000309016994,
- \qquad J=0{,}001118033989.
+ 2(\Delta\widehat V_{t1}+\Delta\widehat V_{t2})=0{,}001,
+ \qquad 2(\Delta\widehat V_{t1}-\Delta\widehat V_{t2})=\Delta e.
 \]
-Размерные компоненты равны приблизительно $6{,}1049$ и $-2{,}3319$ м/с,
-суммарная характеристическая скорость --- $8{,}4367$ м/с.
-Проверка изменения большой полуоси даёт
-$2({\Delta\widehat V_{t1}^{\text{\normalfont имп}}}+{\Delta\widehat V_{t2}^{\text{\normalfont имп}}})=0{,}001$; проверка эксцентриситета ---
-$2({\Delta\widehat V_{t1}^{\text{\normalfont имп}}}-{\Delta\widehat V_{t2}^{\text{\normalfont имп}}})(\cos\varphi_e,\sin\varphi_e)=(0{,}002,0{,}001)$.
-Разность знаков и разность модулей имеют разный смысл:
-первая создаёт нужное изменение вектора эксцентриситета,
-вторая оставляет ненулевое суммарное изменение большой полуоси.
 
-Полученные плоские решения совпадают с классификацией
-\cite[гл.~2]{baranov-ru,baranov-en}. Их оптимальность здесь доказана
-непосредственно оценкой \eqref{eq:planar-bound}, поэтому не зависит
-от выбранной параметризации базис-вектора.
+При $\Delta e=0$ угол $\varphi_e$ не определён и вычислять его
+не нужно. Достаточно любых двух противоположных фаз и импульсов
+$\Delta\widehat V_{t1}=\Delta\widehat V_{t2}=\Delta a/4$.
+Это линейный аналог перехода между близкими круговыми орбитами.
+При $\Delta a=0$, $\Delta e>0$ компоненты равны $\Delta e/4$
+и $-\Delta e/4$. При $\Delta a=\Delta e=0$ манёвры не требуются.
 
 % ==================== spatial ====================
 \subsection{Некомпланарный случай}
 \label{sec:spatial}
 
-\subsubsection{Подготовка исходных данных}
+\subsubsection{Выбор осей и геометрия решений}
 
-Пусть $\boldsymbol k_i,\boldsymbol k_f$ --- единичные векторы
-орбитальных моментов начальной и конечной орбит.
-При ненулевом малом угле между плоскостями построим базис
-\begin {equation}
- \boldsymbol e_X=\frac{{\boldsymbol k_i\times\boldsymbol k_f}}{{\lVert\boldsymbol k_i\times\boldsymbol k_f\rVert}},\qquad
- \boldsymbol e_Z=\boldsymbol k_i,\qquad
- \boldsymbol e_Y=\boldsymbol e_Z\times\boldsymbol e_X.
- \label {eq:mutual-nodes-basis}
-\end {equation}
-Ось $X$ направлена к восходящему узлу конечной плоскости относительно
-начальной. Угол $\varphi$ отсчитывается от неё в направлении движения
-по начальной орбите. Если $\boldsymbol e_i,\boldsymbol e_f$ ---
-пространственные векторы эксцентриситета, то
-\begin {equation}
- {\Delta e_x}=(\boldsymbol e_f-\boldsymbol e_i)\cdot\boldsymbol e_X,\qquad
- {\Delta e_y}=(\boldsymbol e_f-\boldsymbol e_i)\cdot\boldsymbol e_Y,\qquad
- {\Delta i}=\operatorname {atan2}\bigl(\lVert\boldsymbol k_i\times\boldsymbol k_f\rVert,
- \boldsymbol k_i\cdot\boldsymbol k_f\bigr).
- \label {eq:spatial-input}
-\end {equation}
-Проекция векторов эксцентриситета на общую плоскость согласована
-с первым порядком: возникающие из-за взаимного наклона поправки имеют
-высший порядок. Для плоской задачи ${\Delta i}=0$ узловой базис не определён,
-но он и не требуется: применяется раздел~\ref{sec:planar} с любой
-фиксированной осью в общей плоскости.
-
-Если исходные данные заданы кеплеровыми элементами, взаимный угол
-следует вычислять по
+Теперь $\Delta i>0$. Как в разделе~\ref{sec:five-boundaries},
+ось $X$ направлена вдоль линии пересечения плоскостей к восходящему
+узлу конечной орбиты относительно начальной. Начальная плоскость
+служит опорной. В этих осях заданы $\Delta e_x,\Delta e_y$, а условия
+на нормальные импульсы равны
+\begin{equation}
+ \sum_j\Delta\widehat V_{zj}\sin\varphi_j=0,\qquad
+ \sum_j\Delta\widehat V_{zj}\cos\varphi_j=\Delta i.
+ \label{eq:plane-change-boundaries}
+\end{equation}
+Если исходные плоскости заданы наклонениями $i_i,i_f$ и долготами
+узлов $\Omega_i,\Omega_f$, то
 \[
- \cos {\Delta i}=\cos i_i\cos i_f+\sin i_i\sin i_f\cos(\Omega_f-\Omega_i),
+ \cos\Delta i=\cos i_i\cos i_f+
+       \sin i_i\sin i_f\cos(\Omega_f-\Omega_i).
 \]
-либо по более устойчивой вблизи нуля формуле \eqref{eq:spatial-input}.
-В общем случае ${\Delta i}\ne|i_f-i_i|$. В обозначениях Баранова встречается
-также величина $2\sin({\Delta i}/2)$; её отличие от ${\Delta i}$ имеет третий порядок
-и не влияет на рассматриваемую линейную теорию.
+В общем случае $\Delta i$ не равно $|i_f-i_i|$.
+Узловой базис можно построить по единичным нормалям
+$\boldsymbol k_i,\boldsymbol k_f$:
+\[
+ \boldsymbol e_X=\frac{\boldsymbol k_i\times\boldsymbol k_f}
+                         {\|\boldsymbol k_i\times\boldsymbol k_f\|},
+ \qquad\boldsymbol e_Z=\boldsymbol k_i,\qquad
+ \boldsymbol e_Y=\boldsymbol e_Z\times\boldsymbol e_X.
+\]
+Проекции $\boldsymbol e_f-\boldsymbol e_i$ на $\boldsymbol e_X,\boldsymbol e_Y$
+дают нужные $\Delta e_x,\Delta e_y$.
 
-\subsubsection{Области применимости}
+На рис.~\ref{fig:spatial-hodographs} показаны три геометрические
+конфигурации, рассмотренные в главе~2.
+Теперь для каждой из них получим направления и величины импульсов.
 
-Положим
-\begin {equation}
- B_* ={(\Delta e_x)}^2+{(\Delta e_y)}^2+\frac{{2}}{{\sqrt3}}{\Delta i}{|\Delta e_y|}-{(\Delta i)}^2.
- \label {eq:classification-B}
-\end {equation}
-Буква $B_*$ обозначает скаляр, в отличие от матрицы $B(\varphi)$.
-Классификация имеет вид
-\begin {align}
- \mathrm {NC}:&\quad {(\Delta a)}^2\leqslant {(\Delta e_x)}^2,\qquad {(\Delta i)}^2\geqslant3{(\Delta e_y)}^2,
- \label {eq:NC-region}\\
- \mathrm {SC}:&\quad {(\Delta a)}^2\leqslant B_*,\qquad {(\Delta i)}^2\leqslant3{(\Delta e_y)}^2,
- \label {eq:SC-region-summary}\\
- \mathrm {NDC}:&\quad {(\Delta a)}^2\geqslant\max\{{(\Delta e_x)}^2,B_*\}.
- \label {eq:NDC-region}
-\end {align}
-Здесь NC --- узловое решение, NDC --- невырожденное пространственное
-решение, SC --- особое, или сингулярное, решение.
-Области покрывают все данные. Действительно,
-$B_*-{(\Delta e_x)}^2=({|\Delta e_y|}-{\Delta i}/\sqrt3)({|\Delta e_y|}+\sqrt3{\Delta i})$:
-при ${\Delta i}\geqslant\sqrt3{|\Delta e_y|}$ имеем $B_*\leqslant {(\Delta e_x)}^2$, а при обратном
-неравенстве --- $B_*\geqslant {(\Delta e_x)}^2$. На общих границах стоимости
-соседних решений совпадают; один набор данных может допускать несколько
-равноценных представлений управления.
-
-Ниже области \eqref{eq:NC-region}--\eqref{eq:NDC-region}
-будут получены из условий существования допустимого базис-вектора
-и неотрицательности модулей импульсов. Их нельзя использовать независимо
-от этих условий, например выбирая просто наименьшее число из трёх
-формул стоимости вне соответствующих областей.
-
-\subsubsection{Узловое решение NC}
+\subsubsection{Узловое решение: сначала направления, затем величины}
 \label{sec:NC}
 
-В этом случае импульсы располагаются при $\varphi_1=0$ и
-$\varphi_2=\pi$. Их единичные направления в локальных осях
-противоположны. Обозначим первое направление через
-$\boldsymbol d=(d_r,d_t,d_z)^\mathsf T$ и положим
-$\Delta\widehat{\boldsymbol V}_1^{\text{\normalfont имп}}={\Delta\widehat V_1^{\text{\normalfont имп}}}\boldsymbol d$,
-$\Delta\widehat{\boldsymbol V}_2^{\text{\normalfont имп}}=-{\Delta\widehat V_2^{\text{\normalfont имп}}}\boldsymbol d$.
-Подстановка в граничные условия даёт
-\[
- \begin{aligned}
- \Delta a&=2d_t(\Delta\widehat V_1^{\text{\normalfont имп}}-\Delta\widehat V_2^{\text{\normalfont имп}}),&
- \Delta e_x&=2d_t(\Delta\widehat V_1^{\text{\normalfont имп}}+\Delta\widehat V_2^{\text{\normalfont имп}}),\\
- \Delta e_y&=-d_r(\Delta\widehat V_1^{\text{\normalfont имп}}+\Delta\widehat V_2^{\text{\normalfont имп}}),&
- \Delta i&=d_z(\Delta\widehat V_1^{\text{\normalfont имп}}+\Delta\widehat V_2^{\text{\normalfont имп}}).
- \end{aligned}
-\]
-Поскольку ${\Delta\widehat V_1^{\text{\normalfont имп}}}+{\Delta\widehat V_2^{\text{\normalfont имп}}}=J$ и $\lVert\boldsymbol d\rVert=1$,
-\begin {equation}
- \boxed{J_{\rm NC}=\sqrt{{(\Delta i)}^2+\frac{{{(\Delta e_x)}^2}}{{4}}+{(\Delta e_y)}^2},\qquad
- \boldsymbol d=\frac{1}{{J_{\rm NC}}}\begin {pmatrix}-{\Delta e_y}\\{\Delta e_x}/2\\{\Delta i}\end {pmatrix}.}
- \label {eq:NC-cost}
-\end {equation}
-При ${\Delta e_x}\ne0$ модули равны
-\begin {equation}
- {\Delta\widehat V_1^{\text{\normalfont имп}}}=\frac{{J_{\rm NC}}}{2}\left(1+\frac{{\Delta a}}{{\Delta e_x}}\right),\qquad
- {\Delta\widehat V_2^{\text{\normalfont имп}}}=\frac{{J_{\rm NC}}}{2}\left(1-\frac{{\Delta a}}{{\Delta e_x}}\right).
- \label {eq:NC-magnitudes}
-\end {equation}
-Оба модуля неотрицательны тогда и только тогда, когда ${(\Delta a)}^2\leqslant {(\Delta e_x)}^2$.
-Знак ${\Delta e_x}$ сохраняется в формулах: заменять ${\Delta a}/{\Delta e_x}$ на $|{\Delta a}/{\Delta e_x}|$ нельзя.
+У центрального эллипса противоположные касания соответствуют фазам,
+различающимся на $\pi$, и противоположным локальным направлениям.
+Пусть первое направление равно
+$\boldsymbol d=(d_r,d_t,d_z)$, $\|\boldsymbol d\|=1$.
+Тогда импульсы имеют вид
+$\Delta\widehat{\boldsymbol V}_1=\Delta\widehat V_1\boldsymbol d$,
+$\Delta\widehat{\boldsymbol V}_2=-\Delta\widehat V_2\boldsymbol d$.
+Их нормальный вклад в~\eqref{eq:plane-change-boundaries} пропорционален
+$Jd_z(\sin\varphi_1,\cos\varphi_1)$. При $\Delta i>0$ первая
+компонента должна быть нулевой, значит $\sin\varphi_1=0$.
+Можно нумеровать места как $\varphi_1=0$, $\varphi_2=\pi$.
+Так из геометрии годографа получается именно \emph{узловое} решение.
 
-Остаётся доказать оптимальность среди произвольных, в том числе
-неузловых, схем. Для этого выберем множители
-\begin {equation}
- \boldsymbol l=\frac{1}{{J_{\rm NC}}}
- \begin {pmatrix}0\\{\Delta e_x}/4\\{\Delta e_y}\\-3{\Delta e_x}{\Delta e_y}/(4{\Delta i})\\{\Delta i}\end {pmatrix}.
- \label {eq:NC-dual}
-\end {equation}
-Непосредственная подстановка в \eqref{eq:primer-components} даёт
-$\boldsymbol p(0)=\boldsymbol d$,
-$\boldsymbol p(\pi)=-\boldsymbol d$ и
-\begin {equation}
- \lVert\boldsymbol p(\varphi)\rVert^2
- =1-\frac{{({(\Delta i)}^2-3{(\Delta e_y)}^2)(1+3{(\Delta e_x)}^2/(16{(\Delta i)}^2))}}{{J_{\rm NC}^2}}
- \sin^2\varphi.
- \label {eq:NC-primer-norm}
-\end {equation}
-Условие ${(\Delta i)}^2\geqslant3{(\Delta e_y)}^2$ обеспечивает
-$\lVert\boldsymbol p\rVert\leqslant1$ на всём обороте.
-Равенство достигается в местах импульсов; следовательно, выполняется
-критерий достаточности \eqref{eq:certificate}.
-Это выводит вторую границу области NC и доказывает глобальный минимум
-линейной задачи.
-
-Если ${\Delta e_x}=0$, условие области требует ${\Delta a}=0$.
-Формулы \eqref{eq:NC-magnitudes} применять нельзя, однако сама задача
-остаётся определённой. Достаточен один импульс в узле $\varphi=0$:
-$\Delta\widehat{\boldsymbol V}^{\text{\normalfont имп}}=(-{\Delta e_y},0,{\Delta i})^\mathsf T$.
-Можно также произвольно разделить его модуль между противоположными
-узлами с направлениями $\boldsymbol d$ и $-\boldsymbol d$.
-На границе ${(\Delta i)}^2=3{(\Delta e_y)}^2$ норма \eqref{eq:NC-primer-norm}
-постоянна, и NC соприкасается с особым решением.
-
-\paragraph{Пример.}
-Пусть ${\Delta a}=0{,}001$, ${\Delta e_x}=0{,}002$, ${\Delta e_y}=0{,}0005$, ${\Delta i}=0{,}002$.
-Оба условия NC выполнены. Получаем
-\[
- J=0{,}002291287847,\qquad {\Delta\widehat V_1^{\text{\normalfont имп}}}=0{,}001718465886,
- \qquad {\Delta\widehat V_2^{\text{\normalfont имп}}}=0{,}000572821962,
-\]
-\begin {equation}
- \Delta\widehat{\boldsymbol V}_1^{\text{\normalfont имп}}=\begin {pmatrix}-0{,}000375\\0{,}000750\\0{,}001500\end {pmatrix},
+Подставим эти углы и направления в пять граничных уравнений:
+\begin{equation}
+\begin{aligned}
+ \Delta a&=2d_t(\Delta\widehat V_1-\Delta\widehat V_2),\\
+ \Delta e_x&=2d_t(\Delta\widehat V_1+\Delta\widehat V_2)=2Jd_t,\\
+ \Delta e_y&=-d_r(\Delta\widehat V_1+\Delta\widehat V_2)=-Jd_r,\\
+ \Delta i&=d_z(\Delta\widehat V_1+\Delta\widehat V_2)=Jd_z.
+\end{aligned}
+\label{eq:nc-balances}
+\end{equation}
+Условие с синусом выполнено автоматически. Из трёх последних строк
+находим направляющие косинусы. Их квадраты должны давать единицу:
+\begin{equation}
+ \boxed{\ J_{\rm NC}=\sqrt{\frac{(\Delta e_x)^2}{4}+(\Delta e_y)^2+(\Delta i)^2},
+ \qquad \boldsymbol d=\frac{1}{J_{\rm NC}}
+       \begin{pmatrix}-\Delta e_y\\\Delta e_x/2\\\Delta i\end{pmatrix}.\ }
+ \label{eq:nc-cost}
+\end{equation}
+Величины импульсов теперь находятся по их сумме и разности:
+\begin{equation}
+ \Delta\widehat V_1=\frac{J_{\rm NC}}2\left(1+\frac{\Delta a}{\Delta e_x}\right),
  \qquad
- \Delta\widehat{\boldsymbol V}_2^{\text{\normalfont имп}}=\begin {pmatrix}0{,}000125\\-0{,}000250\\-0{,}000500\end {pmatrix}.
- \label {eq:NC-example}
-\end {equation}
-Например, ${\Delta e_x}=2({\Delta\widehat V_{t1}^{\text{\normalfont имп}}}-{\Delta\widehat V_{t2}^{\text{\normalfont имп}}})=0{,}002$,
-${\Delta e_y}=-{\Delta\widehat V_{r1}^{\text{\normalfont имп}}}+{\Delta\widehat V_{r2}^{\text{\normalfont имп}}}=0{,}0005$,
-${\Delta i}={\Delta\widehat V_{z1}^{\text{\normalfont имп}}}-{\Delta\widehat V_{z2}^{\text{\normalfont имп}}}=0{,}002$.
-При $r_0=7000$ км размерная стоимость равна приблизительно $17{,}2902$ м/с.
+ \Delta\widehat V_2=\frac{J_{\rm NC}}2\left(1-\frac{\Delta a}{\Delta e_x}\right).
+ \label{eq:nc-magnitudes}
+\end{equation}
+Пока предполагается $\Delta e_x\ne0$.
+Модули не могут быть отрицательными, поэтому необходимо
+$|\Delta a|\leq|\Delta e_x|$. Это первое ограничение области NC.
 
-\subsubsection{Невырожденное решение NDC: вывод стоимости}
+\paragraph{Проверка годографа.}
+У центрального эллипса $\lambda_1=0$. Требование
+$\boldsymbol s(0)=\boldsymbol d$ определяет три множителя:
+$\lambda_3=d_t/2$, $\lambda_2=-d_r$, $\lambda_5=d_z$.
+Четвёртый находится из касания в узле:
+\[
+ \boldsymbol s(0)\cdot\boldsymbol s'(0)
+       =3\lambda_3\lambda_2+\lambda_5\lambda_4=0,
+ \qquad \lambda_4=-\frac{3\lambda_3\lambda_2}{\lambda_5}.
+\]
+Здесь $\lambda_5\ne0$, поскольку $\Delta i>0$.
+После подстановки получаем
+\begin{equation}
+ \|\boldsymbol s(\varphi)\|^2
+ =1-\frac{\bigl[(\Delta i)^2-3(\Delta e_y)^2\bigr]
+          \bigl[1+3(\Delta e_x)^2/(16(\Delta i)^2)\bigr]}
+             {J_{\rm NC}^2}\sin^2\varphi.
+ \label{eq:nc-norm}
+\end{equation}
+
+\begin{explanation}{Как получить и прочитать~\eqref{eq:nc-norm}}
+При $\lambda_1=0$ можно сгруппировать синусы и косинусы:
+\[
+ \boldsymbol s(\varphi)=\boldsymbol d\cos\varphi+
+             (\lambda_3,2\lambda_2,\lambda_4)\sin\varphi.
+\]
+Два постоянных вектора ортогональны благодаря условию касания.
+Поэтому квадрат модуля равен
+$\cos^2\varphi+(\lambda_3^2+4\lambda_2^2+\lambda_4^2)\sin^2\varphi$.
+Подстановка найденных множителей и выделение $1$ дают
+\eqref{eq:nc-norm}. Если коэффициент вычитаемого слагаемого
+неотрицателен, эллипс целиком лежит внутри единичной сферы.
+\end{explanation}
+
+Таким образом, узловое решение оптимально при
+\begin{equation}
+ \boxed{\quad |\Delta a|\leq|\Delta e_x|,\qquad
+                   \Delta i\geq\sqrt3\,|\Delta e_y|.\quad}
+ \label{eq:nc-region}
+\end{equation}
+Оба условия имеют понятное происхождение: первое обеспечивает
+неотрицательные модули, второе --- допустимый годограф.
+Все граничные условия уже выполнены, поэтому применима проверка
+из раздела~\ref{sec:optimality-check-full} при $\lambda_6=0$.
+
+Если $\Delta e_x=0$, условие области требует $\Delta a=0$.
+Делить на $\Delta e_x$ в~\eqref{eq:nc-magnitudes} нельзя.
+Достаточен один импульс $(-\Delta e_y,0,\Delta i)$ при $\varphi=0$.
+Его можно также разделить между двумя узлами с противоположными
+локальными направлениями без изменения суммы модулей.
+
+\paragraph{Численный пример.}
+Пусть $\Delta a=0{,}001$, $\Delta e_x=0{,}002$,
+$\Delta e_y=0{,}0005$, $\Delta i=0{,}002$.
+Оба неравенства~\eqref{eq:nc-region} выполнены. Получаем
+\[
+ \begin{gathered}
+ J=0{,}00229129,\\
+ \Delta\widehat{\boldsymbol V}_1=(-0{,}000375,\ 0{,}000750,\ 0{,}001500),\\
+ \Delta\widehat{\boldsymbol V}_2=(0{,}000125,\ -0{,}000250,\ -0{,}000500).
+ \end{gathered}
+\]
+Компоненты каждого вектора перечислены в порядке $(r,t,z)$.
+Например, $2(\Delta\widehat V_{t1}-\Delta\widehat V_{t2})=0{,}002$,
+$-\Delta\widehat V_{r1}+\Delta\widehat V_{r2}=0{,}0005$,
+$\Delta\widehat V_{z1}-\Delta\widehat V_{z2}=0{,}002$.
+При принятом выше $V_0$ размерная стоимость равна $17{,}290$ м/с.
+
+\subsubsection{Смещённый эллипс: симметрия двух импульсов}
 \label{sec:NDC}
 
-Параметрическое представление этого семейства используется
-в~\cite[с.~48--53]{edelbaum} и в линейной части~\cite{gobetz}.
-Сначала рассмотрим внутренность области NDC при ${\Delta i}>0$, ${|\Delta e_y|}>0$.
-Для двух симметричных максимумов базис-вектор имеет вид
-\begin {equation}
- \boldsymbol p(\varphi)=
- \begin {pmatrix}R\sin\psi\\D+2R\cos\psi\\F\sin\psi\end {pmatrix},
- \qquad \psi=\varphi-\alpha,
- \qquad R>0,\quad F^2>3R^2.
- \label {eq:NDC-primer}
-\end {equation}
-Буква $D$ здесь обозначает постоянную трансверсальную составляющую
-базис-вектора, а не характеристическую скорость.
-Если $c=\cos\psi$, то
-\[
- p^2=R^2+D^2+F^2+4RDc-(F^2-3R^2)c^2.
-\]
-Это вогнутая квадратичная функция $c$.
-Её максимум достигается при
-\begin {equation}
- c_0=\frac{{2RD}}{{F^2-3R^2}},\qquad
- (R^2+F^2)\left(1+\frac{{D^2}}{{F^2-3R^2}}\right)=1.
- \label {eq:NDC-normalization}
-\end {equation}
-Последнее равенство задаёт единичное значение максимума; дополнительно
-требуется $|c_0|\leqslant1$.
+Рассмотрим невырожденное решение NDC при $\Delta e_y\ne0$.
+Годограф имеет две симметричные точки касания, как на
+рис.~\ref{fig:spatial-hodographs}. Его удобно записать в виде
+\begin{equation}
+ s_r=R\sin\psi,\qquad s_t=D+2R\cos\psi,\qquad
+ s_z=F\sin\psi,\qquad \psi=\varphi-\alpha.
+ \label{eq:ndc-hodograph}
+\end{equation}
+Здесь $R>0$; $D$ --- смещение центра вдоль $s_t$.
+В отличие от узлового случая, два касания не противоположны.
+Пусть им отвечают $\psi=\beta$ и $\psi=-\beta$, где $0<\beta<\pi$.
+Тогда
+\begin{equation}
+ \varphi_+=\alpha+\beta,\qquad\varphi_-=\alpha-\beta,
+ \qquad
+ \boldsymbol d_+=(d_r,d_t,d_z),\quad
+ \boldsymbol d_-=(-d_r,d_t,-d_z).
+ \label{eq:ndc-symmetry}
+\end{equation}
+Знаки $+$ и $-$ обозначают стороны годографа, а не порядок манёвров
+во времени. На опорной орбите две выбранные фазы симметричны
+относительно направления $\alpha$, отсчитанного от узловой оси.
+Угол $\beta$ задаёт их смещение от этого направления.
+Это вспомогательные углы расчёта, не новые элементы орбиты.
 
-Построение оптимального базис-вектора удобно выполнять как максимизацию
-нижней оценки $\boldsymbol l\cdot\boldsymbol b$.
-Соответствие \eqref{eq:NDC-primer} компонентам множителей даёт
-\begin {equation}
- \boldsymbol l\cdot\boldsymbol b
- =\frac{{{\Delta a}D}}{{2}}+R{\Delta e_x}\cos\alpha+(R{\Delta e_y}-{\Delta i}F)\sin\alpha.
- \label {eq:NDC-dual-objective}
-\end {equation}
-При фиксированных $R,D,F$ максимум по $\alpha$ равен
-${\Delta a}D/2+\sqrt{R^2{(\Delta e_x)}^2+(R{\Delta e_y}-{\Delta i}F)^2}$.
-Для $R>0$ выбираем знак $F$, противоположный знаку ${\Delta e_y}$;
-тогда $|R{\Delta e_y}-{\Delta i}F|=R|{\Delta e_y}|+{\Delta i}|F|$.
-Введём
-\[
- \eta=\frac{{|F|}}{{R}}>\sqrt3,\qquad
- k=\sqrt{R^2+F^2},\qquad0\leqslant k\leqslant1.
-\]
-Из \eqref{eq:NDC-normalization}
-\[
- |D|=\sqrt{1-k^2}\sqrt{\frac{{\eta^2-3}}{{1+\eta^2}}},\qquad
- R=\frac{{k}}{{\sqrt{1+\eta^2}}}.
-\]
-Знак $D$ выбираем по знаку ${\Delta a}$.
-Поэтому выражение \eqref{eq:NDC-dual-objective}, максимизированное
-по ориентации, принимает вид
-\[
- a_\eta\sqrt{1-k^2}+b_\eta k,\qquad
- a_\eta=\frac{{|{\Delta a}|}}{{2}}\sqrt{\frac{{\eta^2-3}}{{1+\eta^2}}},\qquad
- b_\eta=\frac{{\sqrt{{(\Delta e_x)}^2+({|\Delta e_y|}+{\Delta i}\eta)^2}}}{{\sqrt{1+\eta^2}}}.
-\]
-Неравенство Коши даёт максимум $\sqrt{a_\eta^2+b_\eta^2}$,
-достигаемый при $k=b_\eta/\sqrt{a_\eta^2+b_\eta^2}$.
-Квадрат этой величины равен
-\begin {equation}
- \frac{{({(\Delta i)}^2+{(\Delta a)}^2/4)\eta^2+2{\Delta i}{|\Delta e_y|}\eta+({(\Delta e_x)}^2+{(\Delta e_y)}^2-3{(\Delta a)}^2/4)}}{{1+\eta^2}}.
- \label {eq:NDC-rayleigh}
-\end {equation}
-Это отношение $\boldsymbol v^\mathsf T M_N\boldsymbol v/\lVert\boldsymbol v\rVert^2$
-при $\boldsymbol v=(\eta,1)^\mathsf T$ и
-\begin {equation}
- M_N=\begin {pmatrix}
- {(\Delta i)}^2+{(\Delta a)}^2/4&{\Delta i}{|\Delta e_y|}\\{\Delta i}{|\Delta e_y|}&{(\Delta e_x)}^2+{(\Delta e_y)}^2-3{(\Delta a)}^2/4
- \end {pmatrix}.
- \label {eq:NDC-matrix}
-\end {equation}
-Максимум отношения для вещественной симметричной матрицы равен её
-наибольшему собственному значению. Это следует, например, из разложения
-по ортонормированным собственным векторам: отношение становится
-взвешенным средним собственных значений с неотрицательными весами.
-
-Для матрицы $2\times2$ собственные значения находятся из квадратного
-уравнения. Обозначив
-\begin {equation}
- K={(\Delta i)}^2-{(\Delta e_x)}^2-{(\Delta e_y)}^2+{(\Delta a)}^2,\qquad H=\sqrt{K^2+4{(\Delta i)}^2{(\Delta e_y)}^2},
- \label {eq:NDC-KH}
-\end {equation}
+Сначала выразим условие касания через направления.
+Дифференцируя квадрат модуля~\eqref{eq:ndc-hodograph} при $\psi=\beta$,
 получаем
-\begin {equation}
- \boxed{\quad J_{\rm NDC}=
- \sqrt{\frac{{{(\Delta i)}^2+{(\Delta e_x)}^2+{(\Delta e_y)}^2-{(\Delta a)}^2/2+H}}{{2}}}.\quad}
- \label {eq:NDC-cost}
-\end {equation}
-Пока найдена кандидатная нижняя оценка в выбранном семействе.
-Для доказательства, что это стоимость допустимого оптимального перехода,
-необходимо восстановить импульсы, проверить ограничение $|c_0|\leqslant1$
-и неотрицательность их модулей. Эти проверки выполняются далее.
-
-\subsubsection{NDC: углы, направления и модули импульсов}
-
-Собственный вектор, отвечающий большему собственному значению
-\eqref{eq:NDC-matrix}, имеет положительные компоненты при ${\Delta i}{|\Delta e_y|}>0$.
-Удобно вычислять его отношение
-\begin {equation}
- \eta=\frac{{K+H}}{{2{\Delta i}{|\Delta e_y|}}},\qquad
- L=\sqrt{{(\Delta e_x)}^2+({|\Delta e_y|}+{\Delta i}\eta)^2},\qquad \sigma=\operatorname {sgn}{\Delta e_y}.
- \label {eq:NDC-eta}
-\end {equation}
-Символ $L$ здесь вспомогательный; он не обозначает функцию Лагранжа.
-Восстановление параметров базис-вектора даёт
-\begin {align}
- \alpha&=\operatorname {atan2}\bigl(\sigma({|\Delta e_y|}+{\Delta i}\eta),{\Delta e_x}\bigr),
- \label {eq:NDC-alpha}\\
- R&=\frac{{L}}{{(1+\eta^2)J}},\qquad
- D=\frac{{{\Delta a}(\eta^2-3)}}{{2(1+\eta^2)J}},\qquad F=-\sigma\eta R.
- \label {eq:NDC-RDF}
-\end {align}
-Здесь и до конца этого подраздела $J=J_{\rm NDC}$.
-Из \eqref{eq:NDC-normalization} следует $c_0={\Delta a}/L$, поэтому
-\begin {equation}
- \theta=\arccos({\Delta a}/L),\qquad
- \varphi_+=\alpha+\theta,\qquad\varphi_-=\alpha-\theta.
- \label {eq:NDC-angles}
-\end {equation}
-Индексы $+$ и $-$ обозначают две геометрические ветви и не задают
-хронологический порядок манёвров.
-Единичные направления равны
-\begin {equation}
- \boldsymbol d_\pm=
- \begin {pmatrix}\pm R\sin\theta\\D+2R\cos\theta\\\pm F\sin\theta\end {pmatrix}.
- \label {eq:NDC-directions}
-\end {equation}
-Радиальные и нормальные компоненты противоположны, трансверсальные
-совпадают. Это утверждение касается направлений, а не размерных
-компонент: модули импульсов, вообще говоря, различны.
-
-Положим ${\Delta\widehat V_\pm^{\text{\normalfont имп}}}=J(1\pm\delta)/2$. Для вывода $\delta$ запишем
-нормальные граничные условия в комплексной форме:
-\begin {equation}
- {\Delta i}=\sum_j{\Delta\widehat V_{zj}^{\text{\normalfont имп}}}\exp(\mathrm i\varphi_j)
- =JF\sin\theta\,\exp(\mathrm i\alpha)
- (\delta\cos\theta+\mathrm i\sin\theta).
- \label {eq:NDC-plane-balance}
-\end {equation}
-Мнимая часть равна нулю, откуда
-$\delta\cos\theta\sin\alpha+\sin\theta\cos\alpha=0$.
-Подстановка \eqref{eq:NDC-alpha} и \eqref{eq:NDC-angles} даёт
-\begin {equation}
- \boxed{\quad
- \delta=-\frac{{\sigma {\Delta e_x}\sqrt{L^2-{(\Delta a)}^2}}}{{{\Delta a}({|\Delta e_y|}+{\Delta i}\eta)}},\qquad
- {\Delta\widehat V_\pm^{\text{\normalfont имп}}}=\frac{J}{2}(1\pm\delta),\qquad
- \Delta\widehat{\boldsymbol V}_\pm^{\text{\normalfont имп}}={\Delta\widehat V_\pm^{\text{\normalfont имп}}}\boldsymbol d_\pm.\quad}
- \label {eq:NDC-magnitudes}
-\end {equation}
-Во внутренности области NDC ${\Delta a}\ne0$, поэтому знаменатель не обращается
-в нуль. Граничные и вырожденные данные рассматриваются отдельно.
-
-Проверим область применимости. Из уравнения собственного вектора
-матрицы \eqref{eq:NDC-matrix}
-\begin {equation}
- K={\Delta i}{|\Delta e_y|}(\eta-\eta^{-1}).
- \label {eq:NDC-eigen-identity}
-\end {equation}
-Правая часть строго возрастает при $\eta>0$.
-Поэтому $\eta>\sqrt3$ равносильно ${(\Delta a)}^2>B_*$.
-Ещё одно следствие \eqref{eq:NDC-eigen-identity}:
-\begin {equation}
- L^2-{(\Delta a)}^2=\frac{{{\Delta i}(1+\eta^2)({|\Delta e_y|}+{\Delta i}\eta)}}{{\eta}}>0.
- \label {eq:NDC-cos-feasible}
-\end {equation}
-Таким образом, угол \eqref{eq:NDC-angles} существует и $|c_0|<1$.
-Наконец,
 \[
- \delta^2\leqslant1
- \quad\Longleftrightarrow\quad
- {(\Delta e_x)}^2(L^2-{(\Delta a)}^2)\leqslant {(\Delta a)}^2({|\Delta e_y|}+{\Delta i}\eta)^2
- \quad\Longleftrightarrow\quad {(\Delta e_x)}^2\leqslant {(\Delta a)}^2.
+ (R^2+F^2)\cos\beta=2R(D+2R\cos\beta)=2R d_t.
 \]
-Это второе условие области NDC. При строгом неравенстве оба модуля
-положительны; при равенстве один из них может исчезнуть.
+Введём отношение амплитуд нормальной и радиальной компонент
+\begin{equation}
+ \sigma=\operatorname{sgn}\Delta e_y,\qquad
+ F=-\sigma\eta R,\qquad \eta>\sqrt3.
+ \label{eq:ndc-eta-definition}
+\end{equation}
+Знак в этой записи соответствует рассматриваемому решению при
+$\Delta i>0$; он будет проверен нормальными граничными условиями.
+Поскольку $d_r=R\sin\beta$, условие касания теперь равно
+\begin{equation}
+ (1+\eta^2)d_r\cos\beta=2d_t\sin\beta,
+ \qquad d_z=-\sigma\eta d_r.
+ \label{eq:ndc-tangency}
+\end{equation}
+Ограничение $\eta>\sqrt3$ обеспечивает два максимума модуля
+смещённого эллипса. Его смысл будет виден и при проверке годографа.
 
-Для полноты проверим остальные граничные условия.
-В точках максимумов $D+2R\cos\theta={\Delta a}/(2J)$, поэтому
-$2({\Delta\widehat V_{t+}^{\text{\normalfont имп}}}+{\Delta\widehat V_{t-}^{\text{\normalfont имп}}})={\Delta a}$.
-Комплексная разность эксцентриситетов вычисляется как
-\begin {equation}
- {\Delta e_x}+\mathrm i {\Delta e_y}=
- J\exp(\mathrm i\alpha)
- \left[2d_t\cos\theta+R\sin^2\theta
- +\mathrm i\delta(2d_t\sin\theta-R\sin\theta\cos\theta)\right],
- \label {eq:NDC-ecc-balance}
-\end {equation}
-где $d_t={\Delta a}/(2J)$. После подстановки
-\eqref{eq:NDC-eta}--\eqref{eq:NDC-magnitudes} действительная
-и мнимая части равны соответственно ${\Delta e_x}$ и ${\Delta e_y}$; сокращения используют
-тождество \eqref{eq:NDC-eigen-identity}.
-Действительная часть \eqref{eq:NDC-plane-balance} равна ${\Delta i}$
-в силу \eqref{eq:NDC-cos-feasible}.
-Тем самым проверены все пять условий.
+Введём сумму модулей и их относительную разность:
+\begin{equation}
+ \Delta\widehat V_+=\frac J2(1+\delta),\qquad
+ \Delta\widehat V_-=\frac J2(1-\delta).
+ \label{eq:ndc-split}
+\end{equation}
+Таким образом, $\delta$ определяет распределение затрат между
+двумя импульсами. Неотрицательность обоих модулей равносильна
+$|\delta|\leq1$.
 
-В силу \eqref{eq:NDC-normalization} базис-вектор имеет норму не более
-единицы на всём обороте, а в двух выбранных точках его норма равна единице.
-Модули неотрицательны. Критерий достаточности доказывает, что
-\eqref{eq:NDC-cost} является минимумом полной линейной задачи,
-а не только минимумом в заранее выбранном двухимпульсном классе.
-
-\paragraph{Замечание о вычислениях.}
-При очень малом ${|\Delta e_y|}$ отношение $\eta$ может быть велико.
-В таком случае численно устойчивее вычислить нормированный собственный
-вектор матрицы \eqref{eq:NDC-matrix}, чем образовывать большие степени
-$\eta$. Значение ${|\Delta e_y|}=0$ следует обрабатывать отдельными формулами ниже.
-Округление аргумента $\arccos$ до $[-1,1]$ допустимо лишь для устранения
-ошибки машинного округления после проверки области применимости.
-
-\paragraph{Пример.}
-При ${\Delta a}=0{,}004$, ${\Delta e_x}={\Delta e_y}=0{,}001$, ${\Delta i}=0{,}002$
-имеем $B_*<{(\Delta a)}^2$ и ${(\Delta e_x)}^2<{(\Delta a)}^2$. Формулы дают
+Чтобы раскрыть синусы $\alpha\pm\beta$ без длинных выражений,
+временно запишем компоненты изменения эксцентриситета в осях,
+повёрнутых на $\alpha$:
 \[
- J=0{,}002866974792,\qquad
- \varphi_+=165{,}02574460^\circ,\qquad
- \varphi_-=9{,}01738577^\circ,
-\]
-\begin {equation}
- \Delta\widehat{\boldsymbol V}_+^{\text{\normalfont имп}}=\begin {pmatrix}
- 0{,}000084628214\\0{,}000755128527\\-0{,}000770943752
- \end {pmatrix},\qquad
- \Delta\widehat{\boldsymbol V}_-^{\text{\normalfont имп}}=\begin {pmatrix}
- -0{,}000139514328\\0{,}001244871473\\0{,}001270943752
- \end {pmatrix}.
- \label {eq:NDC-example}
-\end {equation}
-Выполнение сначала импульса с индексом $-$ даёт перелёт по меньшей
-положительной дуге между указанными углами. При тех же $r_0$ и $\mu$
-размерная стоимость составляет приблизительно $21{,}6343$ м/с.
-Обратный порядок также допустим в идеальной задаче со свободным временем,
-но задаёт другую пассивную дугу и другие ошибки при реализации
-в точной модели.
-
-\subsubsection{Вырожденный годограф-отрезок: ${\Delta e_y}=0$}
-\label{sec:line}
-
-Пусть ${\Delta i}>0$, ${\Delta e_y}=0$, ${(\Delta a)}^2\geqslant {(\Delta e_x)}^2$.
-Оптимальный базис-вектор имеет вид
-\begin {equation}
- J=\sqrt{{(\Delta i)}^2+{(\Delta a)}^2/4},\qquad
- \boldsymbol p(\varphi)=\frac{1}{J}
- \begin {pmatrix}0\\{\Delta a}/2\\{\Delta i}\cos\varphi\end {pmatrix}.
- \label {eq:line-primer}
-\end {equation}
-Годограф является отрезком, а не невырожденным эллипсом.
-Поэтому вывод, использовавший деление на $R$, к нему неприменим.
-Очевидно, $p^2=({(\Delta a)}^2/4+{(\Delta i)}^2\cos^2\varphi)/J^2\leqslant1$.
-Два места приложения --- $0$ и $\pi$; при ${\Delta a}\ne0$
-\begin {equation}
- \begin{gathered}
- \Delta\widehat V_1^{\text{\normalfont имп}}=\frac{J}{2}\left(1+\frac{\Delta e_x}{\Delta a}\right),\qquad
- \Delta\widehat V_2^{\text{\normalfont имп}}=\frac{J}{2}\left(1-\frac{\Delta e_x}{\Delta a}\right),\\[4pt]
- \Delta\widehat{\boldsymbol V}_1^{\text{\normalfont имп}}=\frac{\Delta\widehat V_1^{\text{\normalfont имп}}}{J}
- \begin{pmatrix}0\\\Delta a/2\\\Delta i\end{pmatrix},\qquad
- \Delta\widehat{\boldsymbol V}_2^{\text{\normalfont имп}}=\frac{\Delta\widehat V_2^{\text{\normalfont имп}}}{J}
- \begin{pmatrix}0\\\Delta a/2\\-\Delta i\end{pmatrix}.
- \end{gathered}
- \label {eq:line-impulses}
-\end {equation}
-Граничные условия проверяются прямой подстановкой, а неотрицательность
-модулей эквивалентна $|{\Delta e_x}|\leqslant|{\Delta a}|$.
-При ${\Delta a}={\Delta e_x}=0$ достаточно одного нормального импульса величины ${\Delta i}$ в узле.
-Если ${\Delta e_y}=0$, но ${(\Delta a)}^2<{(\Delta e_x)}^2$, применяется NC, а не
-\eqref{eq:line-impulses}.
-
-В классификации Баранова годограф-отрезок выделяется как дополнительный
-вырожденный тип. Его стоимость согласуется с пределом
-\eqref{eq:NDC-cost}. Само наличие отдельной формулы не означает
-разрыва оптимальной стоимости при ${\Delta e_y}\to0$.
-
-% ==================== singular ====================
-\subsubsection{Особый случай: постоянный модуль базис-вектора}
-\label{sec:singular}
-
-В особом случае модуль базис-вектора равен единице при любом
-угле. Поэтому условия оптимальности определяют направления
-импульсов, но не выделяют отдельные точки их приложения.
-Для расчёта воспользуемся конструкцией Эдельбаума
-\cite[с.~56]{edelbaum}: у всех импульсов выбирается одинаковое
-значение $\sin^2(\varphi-\alpha)$, а величины определяются из оставшихся
-граничных условий. Ниже эта конструкция доводится до явных формул
-с неотрицательными модулями. Она использует не более трёх импульсов.
-Достаточность двух импульсов, отдельно установленная
-в~\cite[с.~55--56]{edelbaum}, не означает, что каждый удобный
-расчётный алгоритм обязан использовать именно два.
-Сначала считаем, что ${\Delta i}>0$. Тогда в рассматриваемом случае
-${\Delta e_y}\ne0$. Введём
-\begin {equation}
- \sigma=\operatorname {sgn}{\Delta e_y},\qquad
- J_s=\frac{1}{2}\sqrt{{(\Delta e_x)}^2+({|\Delta e_y|}+\sqrt3 {\Delta i})^2},\qquad
- \alpha=\operatorname {atan2}({\Delta e_y}+\sigma\sqrt3 {\Delta i},{\Delta e_x}).
- \label {eq:sc-price}
-\end {equation}
-Положим $\psi=\varphi-\alpha$ и рассмотрим базис-вектор
-\begin {equation}
- \boldsymbol p(\varphi)=
- \begin {pmatrix}
-  \tfrac{1}{2}\sin\psi\\
-  \cos\psi\\
-  -\sigma\tfrac{{\sqrt3}}{{2}}\sin\psi
- \end {pmatrix}.
- \label {eq:sc-primer}
-\end {equation}
-Он имеет требуемый вид~\eqref{eq:primer-components} и удовлетворяет
-равенству $\lVert\boldsymbol p\rVert^2=
-\tfrac{1}{4}\sin^2\psi+\cos^2\psi+\tfrac{3}{4}\sin^2\psi=1$.
-Ему соответствуют множители
-\begin {equation}
- \boldsymbol l=
- \begin {pmatrix}
-  0\\ \tfrac{1}{2}\cos\alpha\\ \tfrac{1}{2}\sin\alpha\\
-  -\sigma\tfrac{{\sqrt3}}{{2}}\cos\alpha\\
-  \sigma\tfrac{{\sqrt3}}{{2}}\sin\alpha
- \end {pmatrix},
+ \Delta e'_x=\Delta e_x\cos\alpha+\Delta e_y\sin\alpha,
  \qquad
- \boldsymbol l^{\mathsf T}\boldsymbol b
- =\frac{1}{2}\bigl[{\Delta e_x}\cos\alpha+
-       ({\Delta e_y}+\sigma\sqrt3 {\Delta i})\sin\alpha\bigr]=J_s.
- \label {eq:sc-certificate}
-\end {equation}
-Следовательно, $J_s$ является нижней оценкой стоимости любого
-допустимого перехода. Чтобы доказать достижимость оценки, нужно
-построить неотрицательные величины ${\Delta\widehat V_j^{\text{\normalfont имп}}}$ и углы $\varphi_j$, для которых
-$\Delta\widehat{\boldsymbol V}_j^{\text{\normalfont имп}}={\Delta\widehat V_j^{\text{\normalfont имп}}}\boldsymbol p(\varphi_j)$ удовлетворяют всем пяти
-граничным уравнениям. Именно эту задачу решаем далее.
-
-\paragraph{Сведение граничных уравнений.}
-Повернём компоненты изменения эксцентриситета на угол $\alpha$:
-\begin {equation}
- {\Delta e'_x}={\Delta e_x}\cos\alpha+{\Delta e_y}\sin\alpha,
- \qquad {\Delta e'_y}=-{\Delta e_x}\sin\alpha+{\Delta e_y}\cos\alpha.
- \label {eq:sc-rotated-e}
-\end {equation}
-Штрих у $\Delta e'_x,\Delta e'_y$ обозначает компоненты в повёрнутых
-осях, а не дифференцирование.
-Подстановка~\eqref{eq:sc-primer} в уравнения перехода даёт
-\begin {align}
- \sum_j {\Delta\widehat V_j^{\text{\normalfont имп}}}&=J_s,
- &\sum_j {\Delta\widehat V_j^{\text{\normalfont имп}}}\cos\psi_j&=\frac{{\Delta a}}{2},
- \label {eq:sc-moment-a}\\
- \sum_j {\Delta\widehat V_j^{\text{\normalfont имп}}}\sin^2\psi_j&=U,
- &\sum_j {\Delta\widehat V_j^{\text{\normalfont имп}}}\sin\psi_j\cos\psi_j&=V,
- \label {eq:sc-moment-b}
-\end {align}
-где
-\begin {equation}
- U=\frac{2}{3}(2J_s-{\Delta e'_x})
-   =\frac{{{\Delta i}({|\Delta e_y|}+\sqrt3 {\Delta i})}}{{\sqrt3 J_s}},
- \qquad
- V=\frac{2}{3}{\Delta e'_y}=-\frac{{\sigma {\Delta i} {\Delta e_x}}}{{\sqrt3 J_s}}.
- \label {eq:sc-uv}
-\end {equation}
-Например, первое уравнение для эксцентриситета в повёрнутых осях
-имеет вид
-\[
- {\Delta e'_x}=\sum_j{\Delta\widehat V_j^{\text{\normalfont имп}}}(\tfrac{1}{2}\sin^2\psi_j+2\cos^2\psi_j)
- =2J_s-\tfrac{3}{2}U.
+ \Delta e'_y=-\Delta e_x\sin\alpha+\Delta e_y\cos\alpha.
 \]
-Второе уравнение даёт ${\Delta e'_y}=\tfrac{3}{2}V$.
-Нормальные граничные условия в тех же осях записываются как
-\[
- -\sigma\frac{{\sqrt3}}{{2}}U=-{\Delta i}\sin\alpha,
- \qquad
- -\sigma\frac{{\sqrt3}}{{2}}V={\Delta i}\cos\alpha.
-\]
-Они выполнены в силу~\eqref{eq:sc-uv}. Таким образом, четыре
-соотношения~\eqref{eq:sc-moment-a}--\eqref{eq:sc-moment-b}
-обеспечивают все пять требуемых изменений орбитальных параметров
-и заданную суммарную стоимость.
+Штрих обозначает поворот осей, а не производную.
+Подстановка~\eqref{eq:ndc-symmetry}--\eqref{eq:ndc-split}
+в пять граничных уравнений даёт
+\begin{equation}
+\begin{aligned}
+ \Delta a&=2Jd_t,\\
+ \Delta e'_x&=J(d_r\sin\beta+2d_t\cos\beta),\\
+ \Delta e'_y&=J\delta(2d_t\sin\beta-d_r\cos\beta),\\
+ -\Delta i\sin\alpha&=Jd_z\sin\beta,\\
+ \Delta i\cos\alpha&=J\delta d_z\cos\beta.
+\end{aligned}
+\label{eq:ndc-five-balances}
+\end{equation}
+Например, в первой строке компоненты $d_t$ одинаковы, поэтому
+модули складываются. Во второй строке радиальная компонента
+и синус одновременно меняют знак, поэтому они также дают сумму.
+В третьей строке остаётся разность модулей $J\delta$.
+Последние две строки --- повернутые условия~\eqref{eq:plane-change-boundaries}.
 
-\paragraph{Одинаковый квадрат синуса для всех импульсов.}
-Положим $w_j={\Delta\widehat V_j^{\text{\normalfont имп}}}/J_s$; тогда $w_j\ge0$ и $\sum_jw_j=1$.
-Следуя указанному построению Эдельбаума, потребуем
-\begin {equation}
- \sin^2\psi_j=s_*^2,\qquad
- s_*^2=\frac{{U}}{{J_s}},\qquad c_*^2=1-s_*^2,
- \qquad s_*\ge0,\quad c_*\ge0.
- \label {eq:sc-equal-sine}
-\end {equation}
-Тогда условие на $U$ выполнено автоматически при любой разбивке
-суммарного импульса. Для невырожденного случая $0<s_*<1$
-введём угол $\beta=\operatorname {atan2}(s_*,c_*)\in(0,\pi/2)$.
-Имеются четыре возможных положения; соответствующие знаки
-косинуса и произведения синуса на косинус приведены в таблице:
+\subsubsection{Расчёт NDC: одно квадратное уравнение}
+
+Исключение неизвестных из~\eqref{eq:ndc-tangency}
+и~\eqref{eq:ndc-five-balances} приводит к следующему квадратному
+уравнению для $\eta$:
+\begin{equation}
+ \Delta i|\Delta e_y|\eta^2-
+ \bigl[(\Delta a)^2+(\Delta i)^2-\Delta e^2\bigr]\eta
+ -\Delta i|\Delta e_y|=0.
+ \label{eq:ndc-quadratic}
+\end{equation}
+Для удобства вычисления обозначим его средний коэффициент через
+$\kappa=(\Delta a)^2+(\Delta i)^2-\Delta e^2$.
+Положительный корень и дальнейшие параметры равны
+\begin{equation}
+\begin{aligned}
+ \eta&=\frac{\kappa+\sqrt{\kappa^2+4(\Delta i)^2(\Delta e_y)^2}}
+                  {2\Delta i|\Delta e_y|},\\
+ L&=\sqrt{(\Delta e_x)^2+(|\Delta e_y|+\Delta i\eta)^2},\\
+ \cos\alpha&=\frac{\Delta e_x}{L},\qquad
+ \sin\alpha=\frac{\sigma(|\Delta e_y|+\Delta i\eta)}{L},\qquad
+ \cos\beta=\frac{\Delta a}{L}.
+\end{aligned}
+\label{eq:ndc-angles}
+\end{equation}
+$L$ здесь --- длина двумерного вектора, определяющего $\alpha$;
+она нужна только для компактной записи расчётных формул.
+Угол $\alpha$ определяют через $\operatorname{atan2}$,
+а $\beta=\arccos(\Delta a/L)$ выбирают в $(0,\pi)$.
+
+\begin{explanation}{От системы~\eqref{eq:ndc-five-balances} к углам}
+Из первой строки $Jd_t=\Delta a/2$.
+Из условия касания
+$Jd_r\cos\beta=\Delta a\sin\beta/(1+\eta^2)$.
+Подставляя это и $d_z=-\sigma\eta d_r$ в третью и пятую строки,
+получаем
+\[
+ \Delta e'_y=-\sigma\eta\Delta i\cos\alpha,
+ \quad\text{то есть}\quad
+ \Delta e_x\sin\alpha=(\Delta e_y+\sigma\eta\Delta i)\cos\alpha.
+\]
+Это даёт формулы для $\sin\alpha,\cos\alpha$ в~\eqref{eq:ndc-angles}.
+Из второй и четвёртой строк аналогично следуют
+\begin{align*}
+ \Delta a L\cos\beta
+    &=L^2-\Delta i(\eta+\eta^{-1})(|\Delta e_y|+\Delta i\eta),\\
+ \Delta a L\frac{\sin^2\beta}{\cos\beta}
+    &=\Delta i(\eta+\eta^{-1})(|\Delta e_y|+\Delta i\eta).
+\end{align*}
+Сложение даёт $\Delta a L/\cos\beta=L^2$, то есть
+$\cos\beta=\Delta a/L$. Подстановка в первую строку даёт
+\[
+ (\Delta a)^2=L^2-\Delta i(\eta+\eta^{-1})(|\Delta e_y|+\Delta i\eta).
+\]
+Раскрывая $L^2$ и сокращая слагаемые, получаем
+$\kappa=\Delta i|\Delta e_y|(\eta-\eta^{-1})$.
+Умножение на $\eta$ даёт~\eqref{eq:ndc-quadratic}.
+Деление на $\cos\beta$ допустимо во внутренности области NDC,
+где $\Delta a\ne0$. Границы ниже отнесены к соседним семействам.
+\end{explanation}
+
+Теперь вычислим направления и суммарную стоимость.
+Первые два соотношения в предыдущем блоке дают
+\begin{equation}
+ d_t=\frac{\Delta a}{2J},\qquad
+ d_r=\frac{L\sin\beta}{(1+\eta^2)J},\qquad
+ d_z=-\sigma\eta d_r.
+ \label{eq:ndc-directions}
+\end{equation}
+Требование $d_r^2+d_t^2+d_z^2=1$ определяет $J$:
+\begin{equation}
+ \boxed{\ J_{\rm NDC}=
+ \sqrt{\frac{(\Delta a)^2}{4}+
+             \frac{L^2-(\Delta a)^2}{1+\eta^2}}.\ }
+ \label{eq:ndc-cost}
+\end{equation}
+После исключения $L,\eta$ получается выражение Эдельбаума
+\cite[с.~52, формула (68)]{edelbaum}:
+\[
+ J_{\rm NDC}^2=
+ \frac{(\Delta i)^2+\Delta e^2-(\Delta a)^2/2+
+       \sqrt{\kappa^2+4(\Delta i)^2(\Delta e_y)^2}}{2}.
+\]
+В практическом расчёте достаточно одной из этих двух равносильных формул.
+
+Из последней строки~\eqref{eq:ndc-five-balances} находим разность
+модулей, а затем сами импульсы:
+\begin{equation}
+\begin{aligned}
+ \delta&=-\frac{\sigma\Delta e_x\sqrt{L^2-(\Delta a)^2}}
+                    {\Delta a(|\Delta e_y|+\Delta i\eta)},\\
+ \Delta\widehat{\boldsymbol V}_+
+      &=\frac{J_{\rm NDC}}2(1+\delta)(d_r,d_t,d_z),\\
+ \Delta\widehat{\boldsymbol V}_-
+      &=\frac{J_{\rm NDC}}2(1-\delta)(-d_r,d_t,-d_z).
+\end{aligned}
+\label{eq:ndc-impulses}
+\end{equation}
+При восстановлении направлений в~\eqref{eq:ndc-directions}
+берётся именно $J=J_{\rm NDC}$.
+
+\paragraph{Область применимости и проверка минимума.}
+Из квадратного уравнения следует
+\[
+ \eta>\sqrt3\quad\Longleftrightarrow\quad
+ (\Delta a)^2>\Delta e^2+\frac{2\Delta i|\Delta e_y|}{\sqrt3}-(\Delta i)^2.
+\]
+Кроме того,
+\[
+ L^2-(\Delta a)^2=
+ \frac{\Delta i(1+\eta^2)(|\Delta e_y|+\Delta i\eta)}{\eta}>0.
+\]
+Поэтому угол $\beta$ существует. Подстановка последнего тождества
+в выражение для $\delta$ показывает, что $|\delta|\leq1$
+равносильно $|\Delta a|\geq|\Delta e_x|$.
+Во внутренности семейства принимаем строгие неравенства:
+\begin{equation}
+ \boxed{\begin{gathered}
+ |\Delta a|>|\Delta e_x|,\\
+ (\Delta a)^2>\Delta e^2+
+            \frac{2\Delta i|\Delta e_y|}{\sqrt3}-(\Delta i)^2.
+ \end{gathered}}
+ \label{eq:ndc-region}
+\end{equation}
+Равенства на границах можно обрабатывать формулами NC или SC.
+
+Для проверки годографа восстановим его коэффициенты:
+\[
+ R=\frac{L}{(1+\eta^2)J},\qquad F=-\sigma\eta R,
+ \qquad D=\frac{\Delta a(\eta^2-3)}{2(1+\eta^2)J}.
+\]
+Вычисление квадрата модуля и выделение полного квадрата дают
+\begin{equation}
+ \|\boldsymbol s(\varphi)\|^2
+ =1-(F^2-3R^2)\,[\cos(\varphi-\alpha)-\cos\beta]^2.
+ \label{eq:ndc-norm}
+\end{equation}
+Так как $F^2-3R^2=R^2(\eta^2-3)>0$, годограф нигде не выходит
+за сферу. Равенство достигается при $\varphi=\alpha\pm\beta$.
+Граничные уравнения выполнены по построению, модули положительны,
+направления совпадают с базис-вектором. Поэтому найденный переход
+оптимален по критерию раздела~\ref{sec:optimality-check-full}
+при $\lambda_6=0$.
+
+\paragraph{Численный пример.}
+При $\Delta a=0{,}004$, $\Delta e_x=\Delta e_y=0{,}001$,
+$\Delta i=0{,}002$ получаем
+\[
+ J=0{,}00286697,\qquad
+ \varphi_-=9{,}01739^\circ,\qquad\varphi_+=165{,}02574^\circ.
+\]
+Компоненты импульсов приведены в единицах $10^{-4}$:
 \begin{center}
-\begin{tabular}{c|c|cc}
- $j$&$\psi_j$&$\cos\psi_j/c_*$&
- $\sin\psi_j\cos\psi_j/(s_*c_*)$\\\hline
- 1&$\pi-\beta$&$-1$&$-1$\\
- 2&$-\beta$&$1$&$-1$\\
- 3&$\beta$&$1$&$1$\\
- 4&$\pi+\beta$&$-1$&$1$
+\begin{tabular}{c|rrr}
+ Фаза, град & $\Delta\widehat V_r$ & $\Delta\widehat V_t$ & $\Delta\widehat V_z$\\\hline
+ $9{,}01739$ & $-1{,}39514$ & $12{,}44871$ & $12{,}70944$\\
+ $165{,}02574$ & $0{,}84628$ & $7{,}55129$ & $-7{,}70944$
 \end{tabular}
 \end{center}
-Два ещё не выполненных условия записываются в виде
-\begin {equation}
- -w_1+w_2+w_3-w_4=\xi,\qquad
- -w_1-w_2+w_3+w_4=\zeta,
- \label {eq:sc-weight-balances}
-\end {equation}
-где
-\begin {equation}
- \xi=\frac{{{\Delta a}}}{{2J_sc_*}},\qquad
- \zeta=\frac{{V}}{{J_ss_*c_*}}.
- \label {eq:sc-rectangle-point}
-\end {equation}
-Каждому из четырёх углов отвечает одна вершина квадрата
-с координатами $(\pm1,\pm1)$.
-Следовательно, найти неотрицательные веса означает представить
-точку $(\xi,\zeta)$ как взвешенное среднее этих вершин.
-Это возможно тогда и только тогда, когда
-$|\xi|\le1$ и $|\zeta|\le1$.
+Например, сумма трансверсальных компонентов равна $0{,}002$,
+что обеспечивает $\Delta a=0{,}004$. При принятом $V_0$
+размерная стоимость составляет $21{,}634$ м/с.
+
+\subsubsection{Простой предел: годограф-отрезок}
+\label{sec:line}
+
+Если $\Delta e_y=0$, формула для $\eta$ содержит деление на нуль.
+Сначала проверяют область NC. Если $|\Delta a|\leq|\Delta e_x|$,
+применяется узловая схема. Если $|\Delta a|>|\Delta e_x|$,
+можно взять годограф-отрезок
+\begin{equation}
+ J=\sqrt{\frac{(\Delta a)^2}{4}+(\Delta i)^2},\qquad
+ \boldsymbol s(\varphi)=\frac1J(0,\Delta a/2,\Delta i\cos\varphi).
+ \label{eq:line-primer}
+\end{equation}
+Его модуль не превосходит единицы, а концы отрезка при
+$\varphi_1=0$, $\varphi_2=\pi$ лежат на сфере.
+Трансверсальные направления теперь совпадают, а нормальные противоположны.
+
+Подставим направления $\boldsymbol s(0),\boldsymbol s(\pi)$
+в граничные уравнения. Условия на $\Delta a,\Delta i$ выполняются
+при сумме модулей $J$; условие на $\Delta e_x$ задаёт разность.
+В результате
+\begin{equation}
+\begin{aligned}
+ \Delta\widehat V_1&=\frac J2\left(1+\frac{\Delta e_x}{\Delta a}\right),&
+ \Delta\widehat V_2&=\frac J2\left(1-\frac{\Delta e_x}{\Delta a}\right),\\
+ \Delta\widehat{\boldsymbol V}_1&=
+       \frac{\Delta\widehat V_1}{J}(0,\Delta a/2,\Delta i),&
+ \Delta\widehat{\boldsymbol V}_2&=
+       \frac{\Delta\widehat V_2}{J}(0,\Delta a/2,-\Delta i).
+\end{aligned}
+\label{eq:line-impulses}
+\end{equation}
+Оба модуля положительны в указанной области. Радиальные условия
+выполнены, поскольку $\Delta e_y=0$.
+Особенно прост пример $\Delta e_x=\Delta e_y=0$:
+два равных по модулю импульса одновременно меняют радиус круговой
+орбиты и её плоскость. При $\Delta a=0$, $\Delta e_x=\Delta e_y=0$
+достаточно одного нормального импульса $\Delta\widehat V_z=\Delta i$
+в восходящем узле; это уже предельный случай NC.
+
+\subsubsection{Особое решение: годограф целиком лежит на сфере}
+\label{sec:singular}
+
+В особом случае SC модуль базис-вектора равен единице при всех
+фазах. В названии «особый» нет указания на ошибку или отсутствие
+решения: исчезает однозначность выбора мест импульсов.
+Направление в каждой фазе остаётся определённым.
+
+При $\Delta i>0$ для этого семейства $\Delta e_y\ne0$.
+Положим $\sigma=\operatorname{sgn}\Delta e_y$ и рассмотрим
+\begin{equation}
+ \boldsymbol s(\varphi)=
+ \left(\tfrac12\sin\psi,\ \cos\psi,
+          -\sigma\tfrac{\sqrt3}{2}\sin\psi\right),
+ \qquad\psi=\varphi-\alpha.
+ \label{eq:sc-primer}
+\end{equation}
+Квадраты радиальной и нормальной компонент в сумме равны
+$\sin^2\psi$, поэтому $\|\boldsymbol s\|^2=\sin^2\psi+\cos^2\psi=1$.
+Этот вектор имеет форму~\eqref{eq:primer-components}; соответствующие
+множители равны
+\[
+ \lambda_1=0,\quad \lambda_3=\tfrac12\cos\alpha,\quad \lambda_2=\tfrac12\sin\alpha,
+ \quad \lambda_4=-\sigma\tfrac{\sqrt3}{2}\cos\alpha,
+ \quad \lambda_5=\sigma\tfrac{\sqrt3}{2}\sin\alpha.
+\]
+При $\lambda_6=0$ оценка~\eqref{eq:lower-bound-full} принимает вид
+\[
+ J\geq\frac12[\Delta e_x\cos\alpha+
+                   (\Delta e_y+\sigma\sqrt3\Delta i)\sin\alpha].
+\]
+Выберем $(\cos\alpha,\sin\alpha)$ сонаправленным вектору
+$(\Delta e_x,\Delta e_y+\sigma\sqrt3\Delta i)$.
+Скалярное произведение тогда равно его длине, и получаем
+\begin{equation}
+\begin{aligned}
+ J_s&=\frac12\sqrt{(\Delta e_x)^2+(|\Delta e_y|+\sqrt3\Delta i)^2},\\
+ \cos\alpha&=\frac{\Delta e_x}{2J_s},\qquad
+ \sin\alpha=\frac{\sigma(|\Delta e_y|+\sqrt3\Delta i)}{2J_s},
+ \qquad J\geq J_s.
+\end{aligned}
+\label{eq:sc-cost}
+\end{equation}
+Пока $J_s$ является только нижней оценкой. Она станет достигаемым
+минимумом, если удастся распределить импульсы суммарной величины $J_s$
+по направлениям~\eqref{eq:sc-primer} так, чтобы выполнить все
+граничные условия.
+
+\paragraph{Какие уравнения остаётся решить.}
+Подставим $\Delta\widehat{\boldsymbol V}_j
+=\Delta\widehat V_j\boldsymbol s(\varphi_j)$ в граничные уравнения.
+Как и в NDC, используем временно повернутые компоненты
+$\Delta e'_x,\Delta e'_y$ с углом $\alpha$.
+Получаются четыре простые суммы:
+\begin{equation}
+\begin{aligned}
+ \sum_j\Delta\widehat V_j&=J_s,&
+ \sum_j\Delta\widehat V_j\cos\psi_j&=\frac{\Delta a}{2},\\
+ \sum_j\Delta\widehat V_j\sin^2\psi_j&=\Sigma_{ss},&
+ \sum_j\Delta\widehat V_j\sin\psi_j\cos\psi_j&=\Sigma_{sc},
+\end{aligned}
+\label{eq:sc-four-balances}
+\end{equation}
+где две вспомогательные суммы заранее известны:
+\begin{equation}
+ \Sigma_{ss}=\frac{\Delta i(|\Delta e_y|+\sqrt3\Delta i)}{\sqrt3J_s},
+ \qquad \Sigma_{sc}=-\frac{\sigma\Delta i\Delta e_x}{\sqrt3J_s}.
+ \label{eq:sc-uv}
+\end{equation}
+Индексы у $\Sigma_{ss}$ и $\Sigma_{sc}$ указывают на множители
+$\sin\psi\sin\psi$ и $\sin\psi\cos\psi$ в соответствующих суммах.
+
+\begin{explanation}{Почему четырёх сумм~\eqref{eq:sc-four-balances} достаточно}
+После поворота осей изменения эксцентриситета равны
+\[
+ \Delta e'_x=\sum_j\Delta\widehat V_j
+       (\tfrac12\sin^2\psi_j+2\cos^2\psi_j)
+       =2J_s-\tfrac32\Sigma_{ss},
+ \qquad \Delta e'_y=\tfrac32\Sigma_{sc}.
+\]
+Нормальные условия в этих же осях имеют вид
+\[
+ -\sigma\tfrac{\sqrt3}{2}\Sigma_{ss}=-\Delta i\sin\alpha,
+ \qquad -\sigma\tfrac{\sqrt3}{2}\Sigma_{sc}=\Delta i\cos\alpha.
+\]
+Последние две формулы дают~\eqref{eq:sc-uv}.
+Подстановка $\alpha,J_s$ из~\eqref{eq:sc-cost} показывает, что они
+одновременно удовлетворяют обоим условиям на эксцентриситет.
+Условие на большую полуось --- вторая сумма
+в~\eqref{eq:sc-four-balances}. Таким образом, выполнены все пять
+орбитальных условий и назначена суммарная стоимость.
+\end{explanation}
+
+\paragraph{Выбор мест по построению Эдельбаума.}
+Следуя~\cite[с.~56]{edelbaum}, выберем одинаковое значение
+$\sin^2\psi_j$ для всех импульсов. Обозначим
+\begin{equation}
+ s=\sqrt{\Sigma_{ss}/J_s},\qquad c=\sqrt{1-s^2},\qquad
+ \beta=\operatorname{atan2}(s,c).
+ \label{eq:sc-angle}
+\end{equation}
+Эти $s,c$ --- сокращённая запись синуса и косинуса вспомогательного
+угла $\beta$ только в данном расчёте.
+При $0<s,c<1$ допустимы четыре положения:
+\begin{equation}
+ \psi_1=\pi-\beta,\qquad \psi_2=-\beta,\qquad
+ \psi_3=\beta,\qquad \psi_4=\pi+\beta.
+ \label{eq:sc-four-angles}
+\end{equation}
+Условие с $\sin^2\psi_j$ теперь выполнено автоматически:
+его левая часть равна $s^2\sum_j\Delta\widehat V_j=s^2J_s=\Sigma_{ss}$.
 
 \begin{figure}[htbp]
 \centering
-\begin{tikzpicture}[scale=1.6,>=Latex]
- \fill[accent!8] (-1,-1)--(1,-1)--(1,1)--cycle;
- \draw[->,gray] (-1.35,0)--(1.42,0) node[right] {$\xi$};
- \draw[->,gray] (0,-1.35)--(0,1.42) node[above] {$\zeta$};
- \draw[thick] (-1,-1) rectangle (1,1);
- \draw[accent] (-1,-1)--(1,1);
- \foreach \xx/\yy in {-1/-1,1/-1,1/1,-1/1}
-  {\fill (\xx,\yy) circle(.9pt);}
- \node[below left] at (-1,-1) {$1$};
- \node[below right] at (1,-1) {$2$};
- \node[above right] at (1,1) {$3$};
- \node[above left] at (-1,1) {$4$};
- \fill[accent] (.74,-.12) circle(1.2pt);
- \node[below,accent] at (.63,-.2) {$(\xi,\zeta)$};
+\begin{tikzpicture}[scale=2,>=Latex]
+ \draw[->,gray] (-1.25,0)--(1.45,0) node[right] {$\cos\psi$};
+ \draw[->,gray] (0,-1.25)--(0,1.3) node[above] {$\sin\psi$};
+ \draw[accent,thick] (0,0) circle(1);
+ \draw[dashed] (-1.1,.6)--(1.1,.6) node[right] {$s$};
+ \draw[dashed] (-1.1,-.6)--(1.1,-.6) node[right] {$-s$};
+ \foreach \xx/\yy/\name in {-.8/.6/{1},.8/-.6/{2},.8/.6/{3},-.8/-.6/{4}}{
+  \fill[accent] (\xx,\yy) circle(1.4pt);
+  \draw[accent] (0,0)--(\xx,\yy);}
+ \node[above left] at (-.8,.6) {$\psi_1$};
+ \node[below right] at (.8,-.6) {$\psi_2$};
+ \node[above right] at (.8,.6) {$\psi_3$};
+ \node[below left] at (-.8,-.6) {$\psi_4$};
+ \draw[->] (.4,0) arc[start angle=0,end angle=36.87,radius=.4];
+ \node at (.5,.16) {$\beta$};
 \end{tikzpicture}
-\caption{Выбор трёх импульсов в конструкции Эдельбаума.
-При $\zeta\leqslant\xi$ используются вершины $1,2,3$;
-при $\zeta\geqslant\xi$ --- вершины $1,3,4$.
-Веса являются долями суммарной характеристической скорости.}
-\label{fig:SC-square}
+\caption{Четыре вспомогательных угла с одинаковым квадратом синуса.
+Физические места импульсов имеют фазы $\varphi_j=\alpha+\psi_j$.
+Для решения достаточно выбрать не более трёх из четырёх мест.}
+\label{fig:sc-four-angles}
 \end{figure}
 
-Покажем, что эти ограничения совпадают с областью особого решения.
-Из~\eqref{eq:sc-uv} следует
-\begin {align}
- c_*^2&=\frac{{{(\Delta e_x)}^2+{(\Delta e_y)}^2+2{\Delta i}{|\Delta e_y|}/\sqrt3-{(\Delta i)}^2}}{{4J_s^2}},
- \label {eq:sc-cos-square}\\
- s_*^2c_*^2-\left(\frac{{V}}{{J_s}}\right)^2
- &=\frac{{{\Delta i}(\sqrt3{|\Delta e_y|}-{\Delta i})}}{{3J_s^2}}.
- \label {eq:sc-rectangle-determinant}
-\end {align}
-Поэтому $|\xi|\le1$ и $|\zeta|\le1$ эквивалентны
-\begin {equation}
- \boxed{\qquad
- {(\Delta i)}^2\le3{(\Delta e_y)}^2,\qquad
- {(\Delta a)}^2\le {(\Delta e_x)}^2+{(\Delta e_y)}^2+\frac{{2{\Delta i}|{\Delta e_y}|}}{{\sqrt3}}-{(\Delta i)}^2.
- \qquad}
- \label {eq:sc-region}
-\end {equation}
-Внутри этой области $c_*^2\ge0$, а $s_*^2\ge0$ следует
-из~\eqref{eq:sc-uv}; при этом их сумма равна единице.
-Таким образом, выбранные углы существуют.
-
-\paragraph{Выбор трёх углов и величин импульсов.}
-Диагональ $\zeta=\xi$ делит квадрат на два треугольника.
-Если $\zeta\le\xi$, выбираем вершины $1,2,3$ и полагаем $w_4=0$.
-Решение двух уравнений~\eqref{eq:sc-weight-balances} и условия
-$w_1+w_2+w_3=1$ даёт
-\begin {equation}
- w_1=\frac{{1-\xi}}{{2}},\qquad
- w_2=\frac{{\xi-\zeta}}{{2}},\qquad
- w_3=\frac{{1+\zeta}}{{2}},\qquad w_4=0.
- \label {eq:sc-weights-lower}
-\end {equation}
-Если $\zeta\ge\xi$, выбираем вершины $1,3,4$:
-\begin {equation}
- w_1=\frac{{1-\zeta}}{{2}},\qquad w_2=0,\qquad
- w_3=\frac{{1+\xi}}{{2}},\qquad
- w_4=\frac{{\zeta-\xi}}{{2}}.
- \label {eq:sc-weights-upper}
-\end {equation}
-Все веса неотрицательны, поскольку $\xi,\zeta\in[-1,1]$
-и выбор треугольника согласован со знаком $\xi-\zeta$.
-Их сумма равна единице. На диагонали оба варианта совпадают
-и ненулевых весов не более двух.
-Можно пользоваться одной объединённой записью:
-\begin {align}
- w_1&=\tfrac{1}{2}\bigl(1-\max(\xi,\zeta)\bigr),&
- w_2&=\tfrac{1}{2}\max(\xi-\zeta,0),\notag\\
- w_3&=\tfrac{1}{2}\bigl(1+\min(\xi,\zeta)\bigr),&
- w_4&=\tfrac{1}{2}\max(\zeta-\xi,0).
- \label {eq:sc-weights-unified}
-\end {align}
-Один из весов $w_2,w_4$ всегда равен нулю; поэтому алгоритм
-действительно требует не более трёх импульсов.
-
-Окончательно
-\begin {equation}
- \varphi_j=\alpha+\psi_j\pmod{2\pi},\qquad
- {\Delta\widehat V_j^{\text{\normalfont имп}}}=J_sw_j,\qquad
- \Delta\widehat{\boldsymbol V}_j^{\text{\normalfont имп}}={\Delta\widehat V_j^{\text{\normalfont имп}}}\boldsymbol p(\varphi_j).
- \label {eq:sc-impulses}
-\end {equation}
-Члены с $w_j=0$ исключаются. Углы следует расположить в требуемом
-порядке движения; номера вершин квадрата сами по себе не являются
-порядковыми номерами манёвров по времени.
-Все четыре соотношения~\eqref{eq:sc-moment-a}--\eqref{eq:sc-moment-b}
-выполнены по построению, а значит, выполнены и пять граничных
-уравнений исходной задачи. Кроме того,
-$\sum_j{\Delta\widehat V_j^{\text{\normalfont имп}}}=J_s$ и $\lVert\boldsymbol p\rVert=1$.
-Нижняя оценка~\eqref{eq:sc-certificate} достигнута, что доказывает
-глобальную оптимальность в линейной модели.
-
-\paragraph{Граничные случаи и порядок расчёта.}
-При $c_*=0$ формулы для $\xi$ и $\zeta$ неприменимы.
-Однако из~\eqref{eq:sc-cos-square} и условий области следуют
-${\Delta a}={\Delta e_x}=0$, ${\Delta i}=\sqrt3{|\Delta e_y|}$, а из~\eqref{eq:sc-uv} --- $V=0$.
-Достаточен один импульс с ${\Delta\widehat V_1^{\text{\normalfont имп}}}=J_s$ при $\psi_1=\pi/2$.
-Он удовлетворяет всем четырём приведённым граничным условиям.
-При $s_*=0$ имеем ${\Delta i}=0$, и следует применять компланарное решение.
-Если $J_s=0$, то в области SC все изменения равны нулю и импульсы
-не требуются.
-
-\needspace{4\baselineskip}
-Практический расчёт выполняется в следующем порядке:
-\begin{enumerate}
- \item Проверить область~\eqref{eq:sc-region}; вычислить $J_s$ и $\alpha$.
- \item Найти $U,V$ по~\eqref{eq:sc-uv} и $s_*,c_*$
-       по~\eqref{eq:sc-equal-sine}; отдельно обработать нулевые значения.
- \item Найти $\beta$, четыре угла из таблицы и координаты
-       $(\xi,\zeta)$ по~\eqref{eq:sc-rectangle-point}.
- \item Вычислить веса по~\eqref{eq:sc-weights-unified}, исключить
-       нулевые импульсы и восстановить векторы~\eqref{eq:sc-impulses}.
- \item Проверить пять исходных граничных уравнений и сумму модулей.
-\end{enumerate}
-Вблизи границы $c_*=0$ для вычисления его квадрата удобно использовать
-алгебраически равносильную запись
-\[
- c_*^2=\frac{{{(\Delta e_x)}^2+(\sqrt3{|\Delta e_y|}-{\Delta i})({|\Delta e_y|}/\sqrt3+{\Delta i})}}{{4J_s^2}}.
-\]
-Она не требует вычитания близких положительных слагаемых.
-Небольшой выход вычисленного $\xi$ или $\zeta$ за $[-1,1]$
-можно исправлять только в пределах ошибки округления после
-проверки принадлежности области; значительный выход означает ошибку.
-
-\paragraph{Численный пример.}
-Пусть
-\[
- {\Delta a}=10^{-3},\qquad {\Delta e_x}=0,\qquad {\Delta e_y}=10^{-3},\qquad {\Delta i}=2\cdot10^{-4}.
-\]
-Оба неравенства~\eqref{eq:sc-region} выполнены. Получаем
-$J_s=6{,}73205081\cdot10^{-4}$, $\alpha=\pi/2$,
-$\beta=35{,}85253018^\circ$ и $\zeta=0$.
-Результат после сортировки углов приведён в таблице.
-Компоненты и модули указаны в единицах $10^{-4}$:
+Остаются сумма модулей и два уравнения, зависящих только от знаков
+синуса и косинуса. Их удобно прочитать из таблицы:
 \begin{center}
 \begin{tabular}{c|rrrr}
- $\varphi_j$, град & ${\Delta\widehat V_{rj}^{\text{\normalfont имп}}}$ & ${\Delta\widehat V_{tj}^{\text{\normalfont имп}}}$ & ${\Delta\widehat V_{zj}^{\text{\normalfont имп}}}$ & ${\Delta\widehat V_j^{\text{\normalfont имп}}}$\\\hline
- $54{,}14746982$ & $-0{,}90327174$ & $2{,}50000000$ & $1{,}56451254$ & $3{,}08441232$\\
- $125{,}85253018$ & $0{,}98574228$ & $2{,}72825506$ & $-1{,}70735571$ & $3{,}36602540$\\
- $234{,}14746982$ & $0{,}08247054$ & $-0{,}22825506$ & $-0{,}14284316$ & $0{,}28161309$
+ Номер места &1&2&3&4\\\hline
+ $\cos\psi_j$ & $-c$ & $c$ & $c$ & $-c$\\
+ $\sin\psi_j\cos\psi_j$ & $-sc$ & $-sc$ & $sc$ & $sc$
 \end{tabular}
 \end{center}
-Подстановка неокруглённых значений даёт
+Поэтому система для четырёх модулей равна
+\begin{equation}
+\begin{aligned}
+ \Delta\widehat V_1+\Delta\widehat V_2+\Delta\widehat V_3+\Delta\widehat V_4&=J_s,\\
+ -\Delta\widehat V_1+\Delta\widehat V_2+\Delta\widehat V_3-\Delta\widehat V_4
+       &=\frac{\Delta a}{2c},\\
+ -\Delta\widehat V_1-\Delta\widehat V_2+\Delta\widehat V_3+\Delta\widehat V_4
+       &=\frac{\Sigma_{sc}}{sc}.
+\end{aligned}
+\label{eq:sc-linear-system}
+\end{equation}
+Это три линейных уравнения с четырьмя неизвестными.
+Одно неизвестное можно обнулить, выбрав вариант, при котором
+остальные три неотрицательны.
+
+Если $2\Sigma_{sc}\leq\Delta a\,s$, полагаем $\Delta\widehat V_4=0$:
+\begin{equation}
+ \Delta\widehat V_1=\frac{J_s}{2}-\frac{\Delta a}{4c},\qquad
+ \Delta\widehat V_2=\frac{\Delta a}{4c}-\frac{\Sigma_{sc}}{2sc},\qquad
+ \Delta\widehat V_3=\frac{J_s}{2}+\frac{\Sigma_{sc}}{2sc}.
+ \label{eq:sc-first-three}
+\end{equation}
+Если $2\Sigma_{sc}\geq\Delta a\,s$, полагаем $\Delta\widehat V_2=0$:
+\begin{equation}
+ \Delta\widehat V_1=\frac{J_s}{2}-\frac{\Sigma_{sc}}{2sc},\qquad
+ \Delta\widehat V_3=\frac{J_s}{2}+\frac{\Delta a}{4c},\qquad
+ \Delta\widehat V_4=\frac{\Sigma_{sc}}{2sc}-\frac{\Delta a}{4c}.
+ \label{eq:sc-last-three}
+\end{equation}
+При равенстве оба варианта совпадают и остаются не более двух
+ненулевых импульсов. Окончательные векторы:
+\begin{equation}
+ \varphi_j=\alpha+\psi_j\pmod{2\pi},\qquad
+ \Delta\widehat{\boldsymbol V}_j=
+       \Delta\widehat V_j\boldsymbol s(\varphi_j).
+ \label{eq:sc-final-impulses}
+\end{equation}
+Нулевые импульсы исключают, остальные сортируют по фазе.
+
+\paragraph{Когда построение допустимо.}
+Из~\eqref{eq:sc-linear-system} видно, что при неотрицательных модулях
 \[
- \sum_jB(\varphi_j)\Delta\widehat{\boldsymbol V}_j^{\text{\normalfont имп}}
- =\begin {pmatrix}10^{-3}&0&10^{-3}&0&2\cdot10^{-4}\end {pmatrix}^{\mathsf T},
- \qquad \sum_j{\Delta\widehat V_j^{\text{\normalfont имп}}}=6{,}73205081\cdot10^{-4}.
+ |\Delta a|\leq2J_sc,\qquad |\Sigma_{sc}|\leq J_ssc.
 \]
-Для перевода импульсов в размерные единицы все компоненты
-таблицы необходимо умножить на $10^{-4}V_0$.
+Эти же условия обеспечивают неотрицательность всех модулей
+в выбранной тройке~\eqref{eq:sc-first-three} или~\eqref{eq:sc-last-three}.
+Выразим ограничения через исходные орбиты:
+\begin{equation}
+ \boxed{\begin{gathered}
+ \Delta i\leq\sqrt3\,|\Delta e_y|,\\
+ (\Delta a)^2\leq\Delta e^2+
+         \frac{2\Delta i|\Delta e_y|}{\sqrt3}-(\Delta i)^2.
+ \end{gathered}}
+ \label{eq:sc-region}
+\end{equation}
 
-% ==================== validation ====================
-\subsubsection{Сводный порядок расчёта пространственного перехода}
-
-Для реализации не требуется решать общую нелинейную задачу оптимизации
-по всем углам и компонентам одновременно. Достаточно следующего порядка.
-\begin{enumerate}
- \item Построить общие оси и вычислить ${\Delta a},{\Delta e_x},{\Delta e_y},{\Delta i}$.
- При ${\Delta i}=0$ перейти к компланарному алгоритму.
- \item При ${(\Delta a)}^2\leqslant {(\Delta e_x)}^2$ и ${(\Delta i)}^2\geqslant3{(\Delta e_y)}^2$ использовать NC.
- Обработать ${\Delta e_x}=0$ отдельно, как указано в разделе~\ref{sec:NC}.
- \item Иначе, при ${(\Delta i)}^2\leqslant3{(\Delta e_y)}^2$ и ${(\Delta a)}^2\leqslant B_*$
- использовать SC с явным выбором не более трёх ненулевых весов.
- \item Для оставшихся данных использовать NDC.
- При ${\Delta e_y}=0$ применить формулы годографа-отрезка
- \eqref{eq:line-impulses}; при ${\Delta e_y}\ne0$ ---
- \eqref{eq:NDC-eta}--\eqref{eq:NDC-magnitudes}.
- \item Исключить нулевые импульсы, привести углы к одному обороту
- и выбрать их хронологический порядок.
- Восстановить размерные компоненты умножением на $V_0$.
-\end{enumerate}
-Порядок проверок задаёт однозначную вычислительную ветвь на общих
-границах, хотя само оптимальное управление там может быть неединственным.
-При численном сравнении учитывают масштаб данных и точность вычислений.
-Отрицательный модуль импульса нельзя исправлять изменением его знака:
-это изменяет направление относительно базис-вектора и, как правило,
-нарушает граничные условия или оптимальность.
-
-Для всех полученных решений обязательна проверка в исходных,
-а не в промежуточно преобразованных уравнениях:
-\begin {equation}
- \boldsymbol r_b=\sum_jB(\varphi_j)\Delta\widehat{\boldsymbol V}_j^{\text{\normalfont имп}}-
- \begin {pmatrix}{\Delta a}\\{\Delta e_x}\\{\Delta e_y}\\0\\{\Delta i}\end {pmatrix},\qquad
- r_J=\sum_j\lVert\Delta\widehat{\boldsymbol V}_j^{\text{\normalfont имп}}\rVert-J_*.
- \label {eq:algorithm-residuals}
-\end {equation}
-В точной арифметике обе невязки равны нулю.
-Дополнительно проверяются неотрицательность модулей, направления
-импульсов по базис-вектору и его глобальное ограничение по норме.
-Для NC ограничение следует из \eqref{eq:NC-primer-norm},
-для NDC --- из вогнутого квадратичного выражения
-\eqref{eq:NDC-normalization}, для SC --- из тождества $p^2=1$.
-Проверка нормы только на конечной сетке углов сама по себе не заменяет
-эти аналитические условия.
-
-\subsection{Проверка в точной кеплеровой модели}
-\label{sec:exact-verification}
-
-\subsubsection{Что именно проверяется}
-
-Удовлетворение пяти линейным условиям означает точность первого
-порядка по малым параметрам. Для оценки фактического выхода на орбиту
-нужно выполнить импульсы в нелинейной модели и заново вычислить
-конечные элементы. После каждого импульса положение сохраняется,
-а скорость заменяется на $\boldsymbol V^+=\boldsymbol V^-+
-\Delta\boldsymbol V^{\text{\normalfont имп}}$. Между импульсами используются уравнения
-\eqref{eq:cartesian-dynamics} при нулевом управлении.
-
-По состоянию после последнего импульса вычисляют
-\begin {align}
- a_{\rm calc}&=\left(\frac{{2}}{{\lVert\boldsymbol R\rVert}}
-                   -\frac{{\lVert\boldsymbol V\rVert^2}}{{\mu}}\right)^{-1},
- \label {eq:exact-a-check}\\
- \boldsymbol e_{\rm calc}
- &=\frac{{\boldsymbol V\times(\boldsymbol R\times\boldsymbol V)}}{{\mu}}
-          -\frac{{\boldsymbol R}}{{\lVert\boldsymbol R\rVert}},\qquad
- \boldsymbol k_{\rm calc}
- =\frac{{\boldsymbol R\times\boldsymbol V}}{{\lVert\boldsymbol R\times\boldsymbol V\rVert}}.
- \label {eq:exact-ei-check}
-\end {align}
-Характеристики ошибки удобно выбирать без деления на малые
-эксцентриситеты и наклонения:
-\begin {equation}
- \begin {aligned}
- \delta a&=a_{\rm calc}-a_f,\\
- \delta\boldsymbol e_\parallel
- &=\begin {pmatrix}
- (\boldsymbol e_{\rm calc}-\boldsymbol e_f)\cdot\boldsymbol e_X\\
- (\boldsymbol e_{\rm calc}-\boldsymbol e_f)\cdot\boldsymbol e_Y
- \end {pmatrix},\\
- \delta\gamma&=\operatorname {atan2}
- \bigl(\lVert\boldsymbol k_{\rm calc}\times\boldsymbol k_f\rVert,
-       \boldsymbol k_{\rm calc}\cdot\boldsymbol k_f\bigr).
- \end {aligned}
- \label {eq:exact-residual-measures}
-\end {equation}
-Погрешность аргумента перицентра для почти круговой орбиты может быть
-большой даже при малой ошибке вектора эксцентриситета. Поэтому она
-не является надёжным самостоятельным показателем точности такого перехода.
-
-\subsubsection{Воспроизводимая схема численного опыта}
-
-Для примеров предыдущих подразделов примем одинаковые
-$r_0=7000$ км и $\mu=398600{,}4418$ км$^3$/с$^2$.
-Начальная орбита круговая, лежит в плоскости $XY$ и имеет радиус
-$a_i=r_0(1-{\Delta a}/2)$; конечная большая полуось равна $a_f=r_0(1+{\Delta a}/2)$.
-Конечная плоскость получена поворотом начальной на угол ${\Delta i}$ вокруг
-оси $X$. Для неё зададим точный вектор эксцентриситета
+\begin{explanation}{Переход к области~\eqref{eq:sc-region}}
+Из определения $c$ следует
 \[
- \boldsymbol e_f={\Delta e_x}\boldsymbol e_X+{\Delta e_y}\boldsymbol e_Y
-                      +{\Delta e_y}\tan {\Delta i}\,\boldsymbol e_Z.
+ 4J_s^2c^2=\Delta e^2+
+       \frac{2\Delta i|\Delta e_y|}{\sqrt3}-(\Delta i)^2.
 \]
-Он лежит в конечной плоскости и имеет заданные проекции $({\Delta e_x},{\Delta e_y})$.
-Такое задание определяет точные орбиты, с которыми сравнивается результат.
-
-Алгоритмические углы приводятся к $[0,2\pi)$ и сортируются по
-возрастанию. Начальный аппарат устанавливается на своей круговой
-орбите в первом из этих углов. Между последовательными импульсами
-задаётся время
-\begin {equation}
- \Delta t_j=\frac{{\varphi_{j+1}-\varphi_j}}{{n_0}}.
- \label {eq:verification-timing}
-\end {equation}
-Это время по опорному кругу; в точном движении фактическая долгота
-к следующему манёвру немного отличается от алгоритмической.
-Векторы импульсов прикладываются с рассчитанными компонентами
-в цилиндрическом базисе \eqref{eq:cylindrical-basis}, построенном
-по фактическому положению аппарата. Таким образом, способ переноса
-линейного решения в точную модель определён полностью.
-Другой способ, например включение при достижении заданной геометрической
-долготы, даст другие члены второго порядка и должен проверяться отдельно.
-
-Пассивные дуги интегрировались в единицах $r_0,V_0,1/n_0$
-методом DOP853 с относительным допуском $2\cdot10^{-13}$ и абсолютным
-допуском $2\cdot10^{-15}$. При этих допусках численная ошибка существенно
-меньше приведённых ниже невязок модели. Результаты относятся к
-неокруглённым импульсам из аналитических формул.
-
-\begin{table}[htbp]
-\centering
-\caption{Невязки конечной орбиты при выполнении линейного решения в точной модели.
-$\delta\gamma$ выражена в угловых секундах.}
-\label{tab:exact-check}
-\renewcommand{\arraystretch}{1.2}
-\begin{tabular}{@{}lrrrr@{}}
-\toprule
-Случай & $\Delta V_\Sigma$, м/с & $\delta a$, м &
-$\lVert\delta\boldsymbol e_\parallel\rVert$ & $\delta\gamma$, угл.~с\\
-\midrule
-Компланарный & $8{,}43674$ & $17{,}5107$ & $3{,}28783\cdot10^{-6}$ & $0$\\
-NC & $17{,}29018$ & $43{,}7774$ & $1{,}95361\cdot10^{-6}$ & $0{,}33260$\\
-NDC & $21{,}63434$ & $35{,}7720$ & $2{,}77055\cdot10^{-6}$ & $0{,}46261$\\
-SC & $5{,}08004$ & $4{,}1859$ & $5{,}04182\cdot10^{-7}$ & $0{,}02701$\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-Линейные граничные невязки для этих примеров менее $10^{-17}$
-в безразмерной норме. Ненулевые значения в таблице~\ref{tab:exact-check}
-возникают при переходе к точной модели.
-Они не противоречат доказанной линейной оптимальности.
-Значение $\Delta V_\Sigma$ при указанной реализации сохраняется:
-компоненты тех же импульсов пересчитываются между ортонормированными
-базисами. Однако полученная точная орбита отличается от заданной,
-и расход после устранения этой невязки заранее неизвестен.
-
-Проверим порядок ошибки, умножая одновременно ${\Delta a},{\Delta e_x},{\Delta e_y},{\Delta i}$ примера NDC
-на $\kappa$, где $0<\kappa\le1$. Углы импульсов при таком масштабировании не меняются,
-а их величины пропорциональны $\kappa$.
-Введём безразмерную норму пяти конечных ошибок
+Поэтому $|\Delta a|\leq2J_sc$ даёт вторую строку области.
+Для второго ограничения вычислим
 \[
- \varepsilon_b=\left\lVert
- \left(\delta a/r_0,\ \delta e_x,\ \delta e_y,
-             \delta i_y,\ \delta i_x\right)^{\mathsf T}\right\rVert.
+ s^2c^2-\frac{\Sigma_{sc}^2}{J_s^2}
+   =\frac{\Delta i(\sqrt3|\Delta e_y|-\Delta i)}{3J_s^2}.
 \]
-\needspace{10\baselineskip}
-Компоненты наклонения для этой проверки вычисляются из точной
-нормали как $i_x=i\cos\Omega$, $i_y=i\sin\Omega$ в опорном базисе.
-Получаем
+Левая часть должна быть неотрицательной. При $\Delta i>0$
+это даёт первую строку области. Внутри неё $s,c$ действительны,
+а формулы трёх модулей удовлетворяют всем ограничениям.
+\end{explanation}
+
+Построенные импульсы достигают нижней оценки $J_s$, значит,
+переход оптимален. Отсутствие $\Delta a$ в формуле стоимости
+не означает, что большая полуось не меняется: её изменение
+обеспечивает перераспределение модулей между выбранными местами.
+Это возможно только в области~\eqref{eq:sc-region}.
+
+Построение использует не более трёх импульсов. Эдельбаум также
+показывает существование двухимпульсных оптимальных реализаций
+особого случая~\cite[с.~55--56]{edelbaum}, но их явный расчёт сложнее.
+Трёхимпульсная схема имеет ту же минимальную характеристическую
+скорость. Здесь минимизируется сумма модулей, а не число включений.
+
+При $c=0$ деление в~\eqref{eq:sc-linear-system} недопустимо.
+Из условий области тогда следуют
+$\Delta a=\Delta e_x=0$, $\Delta i=\sqrt3|\Delta e_y|$.
+Это общая граница с NC, где достаточно одного импульса
+$(-\Delta e_y,0,\Delta i)$ в узле. При $s=0$ имеем
+$\Delta i=0$ и применяем компланарный алгоритм.
+
+\paragraph{Численный пример.}
+Пусть $\Delta a=0{,}001$, $\Delta e_x=0$,
+$\Delta e_y=0{,}001$, $\Delta i=0{,}0002$.
+Тогда $J_s=0{,}000673205$, $\alpha=90^\circ$,
+$\beta=35{,}85253^\circ$ и $\Sigma_{sc}=0$.
+Схема~\eqref{eq:sc-first-three} после сортировки фаз даёт
+следующие компоненты в единицах $10^{-4}$:
 \begin{center}
-\begin{tabular}{@{}crr@{}}
-\toprule
-$\kappa$ & $\varepsilon_b$ & Отношение к предыдущей невязке\\
-\midrule
-$1$ & $6{,}23065\cdot10^{-6}$ & ---\\
-$1/2$ & $1{,}55762\cdot10^{-6}$ & $0{,}2500$\\
-$1/4$ & $3{,}89401\cdot10^{-7}$ & $0{,}2500$\\
-$1/8$ & $9{,}73497\cdot10^{-8}$ & $0{,}2500$\\
-\bottomrule
+\begin{tabular}{c|rrr}
+ Фаза, град & $\Delta\widehat V_r$ & $\Delta\widehat V_t$ & $\Delta\widehat V_z$\\\hline
+ $54{,}14747$ & $-0{,}90327$ & $2{,}50000$ & $1{,}56451$\\
+ $125{,}85253$ & $0{,}98574$ & $2{,}72826$ & $-1{,}70736$\\
+ $234{,}14747$ & $0{,}08247$ & $-0{,}22826$ & $-0{,}14284$
 \end{tabular}
 \end{center}
-Уменьшение входных отклонений вдвое уменьшает невязку приблизительно
-вчетверо, что согласуется со вторым порядком отброшенных членов.
-Это проверка конкретной серии примеров при ограниченной длительности,
-а не универсальная оценка ошибки для любых близких орбит и любых
-добавленных оборотов.
+Сумма трансверсальных компонентов равна $0{,}0005$, как требуется
+для $\Delta a=0{,}001$. При принятом $V_0$ стоимость составляет
+$5{,}080$ м/с.
 
-\subsubsection{Уточнение и предельные проверки}
+\subsection{Порядок расчёта и проверка результата}
+\label{sec:transfer-check}
 
-Если фактическая невязка неприемлема, линейное решение служит начальным
-приближением для коррекции параметров манёвров в точной модели.
-Пусть $\boldsymbol z$ содержит свободные компоненты импульсов
-и выбранные параметры времени, а $\boldsymbol F(\boldsymbol z)$ ---
-пять точных невязок орбиты. Первый шаг дифференциальной коррекции
-определяется системой
+Классификацию удобно применять в следующем порядке. Это одновременно
+устраняет деление на нуль в формулах отдельных семейств.
+\begin{enumerate}
+ \item Если $\Delta i=0$, использовать компланарный алгоритм.
+ При нулевых $\Delta a,\Delta e$ импульсы отсутствуют.
+ \item Если $|\Delta a|\leq|\Delta e_x|$ и
+ $\Delta i\geq\sqrt3|\Delta e_y|$, использовать NC.
+ При $\Delta e_x=0$ применяется отдельная одноимпульсная формула.
+ \item Если $\Delta e_y=0$ и NC не подходит, использовать
+ годограф-отрезок~\eqref{eq:line-primer}--\eqref{eq:line-impulses}.
+ \item Если выполнены оба неравенства~\eqref{eq:sc-region},
+ использовать построение SC.
+ \item В остальных случаях использовать NDC:
+ решить~\eqref{eq:ndc-quadratic}, найти углы, направления и модули
+ по~\eqref{eq:ndc-angles}--\eqref{eq:ndc-impulses}.
+\end{enumerate}
+
+Почему случаев достаточно? Разность двух границ по $(\Delta a)^2$
+разлагается на множители:
 \[
- \frac{{\partial\boldsymbol F}}{{\partial\boldsymbol z}}
- \delta\boldsymbol z=-\boldsymbol F(\boldsymbol z).
+ \Delta e^2+\frac{2\Delta i|\Delta e_y|}{\sqrt3}-(\Delta i)^2
+       -(\Delta e_x)^2
+ =\left(|\Delta e_y|-\frac{\Delta i}{\sqrt3}\right)
+       \left(|\Delta e_y|+\sqrt3\Delta i\right).
 \]
-При избытке переменных необходимо дополнительно задать правило выбора
-поправки или решать задачу минимизации стоимости с точными ограничениями.
-Само обнуление невязки доказывает достижение конечной орбиты,
-но не доказывает оптимальность уточнённого перехода.
-Задача такого уточнения выходит за пределы аналитического первого порядка.
+При $\Delta i\geq\sqrt3|\Delta e_y|$ первой достигается граница NC,
+а при обратном неравенстве --- граница SC. Если соответствующая
+граница по $|\Delta a|$ превышена, выполнены условия NDC.
+На общих границах стоимости совпадают, а оптимальная схема
+может иметь несколько представлений.
 
-Несколько простых пределов полезны для проверки нормировки всех формул:
-\begin {align*}
- {\Delta i}={\Delta e_x}={\Delta e_y}=0&:\qquad J_*=|{\Delta a}|/2,\\
- {\Delta a}={\Delta i}=0&:\qquad J_*=\sqrt{{(\Delta e_x)}^2+{(\Delta e_y)}^2}/2,\\
- {\Delta a}={\Delta e_x}={\Delta e_y}=0&:\qquad J_*={\Delta i},\\
- {\Delta e_x}={\Delta e_y}=0&:\qquad J_*=\sqrt{{(\Delta i)}^2+{(\Delta a)}^2/4}.
-\end {align*}
-Кроме того, оптимальная стоимость должна быть положительно однородной:
-$J_*(\kappa\boldsymbol b)=\kappa J_*(\boldsymbol b)$ при $\kappa\geqslant0$.
-Эти свойства непосредственно следуют из линейных граничных условий
-и используются наряду с подстановкой полного решения.
-Именно они позволяют обнаруживать ошибочные коэффициенты при
-переносе формул между различными обозначениями источников.
+\begin{explanation}{Что проверять после расчёта}
+По найденным фазам и компонентам независимо вычисляют левые части
+всех пяти уравнений~\eqref{eq:opt-boundaries} и сравнивают с
+$\Delta a,\Delta e_x,\Delta e_y,0,\Delta i$.
+Далее независимо вычисляют сумму модулей:
+\[
+ J=\sum_j\sqrt{(\Delta\widehat V_{rj})^2+
+(\Delta\widehat V_{tj})^2+(\Delta\widehat V_{zj})^2}.
+\]
+Её сравнивают с формулой выбранного семейства.
+Отрицательной может быть компонента; отрицательный модуль
+означает, что выбранное семейство или распределение неприменимо.
+Проверка ограничений на годограф уже доказана аналитически
+для каждой указанной области.
+\end{explanation}
 
-В алгоритмах раздела~\ref{sec:spatial} радиальная компонента не запрещена.
-Описанные Барановым решения с дополнительным условием отсутствия
-радиальных импульсов и его универсальная приближённая схема решают
-отдельную ограниченную или приближённую задачу.
-Их нельзя подставлять вместо общего оптимального решения без указания
-этого дополнительного предположения.
+Фазы сначала определяются по модулю $2\pi$. Для выполнения манёвра
+выбирают их хронологический порядок: после импульса в фазе
+$\varphi_1$ следующий должен иметь больший развёрнутый угол.
+При необходимости к фазе добавляют $2\pi$. В принятой модели
+пассивный интервал равен $\Delta t=(\varphi_2-\varphi_1)/n_0$.
+Перестановка манёвров может менять промежуточную орбиту и длительность,
+но сохраняет пять суммарных условий перехода и сумму модулей.
+
+Приведённые алгоритмы решают задачу с любыми разрешёнными фазами,
+свободной длительностью и без ограничений на промежуточную орбиту.
+Для встречи в заданный момент нужно дополнительно выполнить фазовое
+условие из главы~1; его нельзя автоматически считать выполненным
+после решения пяти уравнений перехода.
