@@ -1,0 +1,927 @@
+% !TeX program = pdflatex
+% !TeX encoding = UTF-8
+\documentclass[11pt,aspectratio=169,t]{beamer}
+\input{../common/preamble.tex}
+\usepackage{booktabs,array}
+\setlength{\abovedisplayskip}{5pt}
+\setlength{\belowdisplayskip}{5pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\newcommand{\eqcompact}{\fontsize{10}{12}\selectfont}
+\newcommand{\figcaption}[1]{{\usebeamerfont{caption}\color{coursemuted}#1\par}}
+\newcommand{\dvr}{\Delta\widehat V_r}
+\newcommand{\dvt}{\Delta\widehat V_t}
+\newcommand{\drh}{\Delta\widehat r}
+\newcommand{\vz}{\widehat V_z}
+\newcommand{\zh}{\widehat z}
+\newcommand{\imp}{\text{\normalfont имп}}
+\setcounter{lecture}{5}
+\title{Околокруговое приближение.\\Одноимпульсные манёвры. Условия оптимальности.}
+\date{20 октября 2026 г.}
+
+\begin{document}
+
+% Только интервалы около формул; основной текст остаётся 11/14 pt.
+\newcommand{\derivationmathspacing}{%
+  \setlength{\abovedisplayskip}{2pt}%
+  \setlength{\belowdisplayskip}{3pt}%
+  \setlength{\abovedisplayshortskip}{2pt}%
+  \setlength{\belowdisplayshortskip}{2pt}%
+  \setlength{\jot}{2pt}}
+
+\begin{frame}[plain]
+\titlepage
+\end{frame}
+
+% Система граничных условий и материал лекции 4.
+\begin{frame}{Полная система граничных условий}
+\relax
+\derivationmathspacing
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.64\textwidth}
+{\eqcompact\derivationmathspacing
+\centering\(\displaystyle
+\begin{aligned}[t]
+ &2\sum\nolimits_j\Delta\widehat V_{tj}=\Delta a,\\[4pt]
+ &\sum\nolimits_j(\Delta\widehat V_{rj}\sin\varphi_j+
+              2\Delta\widehat V_{tj}\cos\varphi_j)=\Delta e_x,\\[4pt]
+ &\sum\nolimits_j(-\Delta\widehat V_{rj}\cos\varphi_j+
+              2\Delta\widehat V_{tj}\sin\varphi_j)=\Delta e_y,\\[4pt]
+ &-\sum\nolimits_j\Delta\widehat V_{zj}\sin\varphi_j=0,\\[4pt]
+ &\sum\nolimits_j\Delta\widehat V_{zj}\cos\varphi_j=\Delta i,\\[4pt]
+ &\sum\nolimits_j\bigl[2\Delta\widehat V_{rj}(1-\cos\varphi_j)
+       +\Delta\widehat V_{tj}(-3\varphi_j+4\sin\varphi_j)\bigr]
+       =\\[2pt]
+ &\hspace{10mm}\Delta t-\frac32\varphi_f\Delta a
+       +2\Delta e_x\sin\varphi_f+2\Delta e_y(1-\cos\varphi_f).
+\end{aligned}
+\)\par}
+\end{column}
+\begin{column}{.33\textwidth}
+{\eqcompact\derivationmathspacing
+\[
+\begin{aligned}
+ \Delta a&=\frac{a_f-a_i}{r_0},\\[2pt]
+ \Delta e_x&=e_{xf}-e_{xi},\\[2pt]
+ \Delta e_y&=e_{yf}-e_{yi}.
+\end{aligned}
+\]
+}
+\RaggedRight
+% Баранов, диссертация, с. 38--39: угол между плоскостями орбит.
+{\eqcompact\derivationmathspacing
+\[
+\begin{aligned}
+ \cos\Delta\gamma={}&\cos i_f\cos i_i\\
+   &+\sin i_f\sin i_i\cos\Delta\Omega,\\[2pt]
+ \Delta\Omega={}&\Omega_f-\Omega_i,\\[2pt]
+ \Delta i={}&2\sin\frac{\Delta\gamma}{2}\simeq\Delta\gamma.\quad\text{\cite{BaranovDissertation}}
+\end{aligned}
+\]
+}
+$i$ --- наклонение; $\Omega$ --- ДВУ.
+\par\smallskip
+Аргумент широты $\varphi$ отсчитывается от линии узлов.
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Оптимальное импульсное маневрирование}
+\relax
+При поиске оптимального импульсного перехода необходимо определить \cite{EdelbaumGobetzWashington1966}:
+\medskip
+\begin{enumerate}
+ \setlength{\itemsep}{10pt}
+ \item Количество импульсов.
+ \item Точки их приложения.
+ \item Направления импульсов скорости.
+ \item Величины импульсов и распределение суммарной характеристической скорости между ними.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Верхняя оценка числа импульсов}
+\relax
+{\justifying
+В линейной задаче без дополнительных ограничений для оптимального маневрирования достаточно числа импульсов, не превышающего числа независимых граничных условий \cite{Edelbaum1966,Neustadt1964,SternPotter1965}.\par}
+\medskip
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}l@{\qquad}l@{\qquad}c@{}}
+\toprule
+Задача & Параметры & Число импульсов\\
+\midrule
+Компланарный переход & $a,e_x,e_y$ & $\leq 3$\\
+Пространственный переход & $a,e_x,e_y,i_x,i_y$ & $\leq 5$\\
+Компланарная встреча & $a,e_x,e_y,u$ & $\leq 4$\\
+Пространственная встреча & $a,e_x,e_y,i_x,i_y,u$ & $\leq 6$\\
+\bottomrule
+\end{tabular}
+\end{center}
+\smallskip
+Для задачи встречи конечный момент времени задан.
+\end{frame}
+
+\begin{frame}{Число импульсов}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\begin{block}{Один импульс}
+\begin{itemize}
+ \setlength{\itemsep}{5pt}
+ \item Переход возможен только между орбитами, имеющими общую точку.
+ \item Может уступать нескольким импульсам по затратам характеристической скорости.
+ \item Одно включение ДУ упрощает выполнение манёвра и повышает надёжность.
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{.48\textwidth}
+\begin{block}{Несколько импульсов}
+\begin{itemize}
+ \setlength{\itemsep}{5pt}
+ \item Позволяют перейти между орбитами, не имеющими общей точки.
+ \item Могут уменьшить суммарную характеристическую скорость.
+ \item Повторные включения ДУ предъявляют дополнительные требования к её ресурсу и надёжности.
+\end{itemize}
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Изменение большой полуоси}
+\relax
+\begin{itemize}
+ \setlength{\itemsep}{7pt}
+ \item Большую полуось изменяет только трансверсальная составляющая импульса.
+ \item Величина изменения не зависит от точки приложения импульса.
+ \item Радиальная и нормальная составляющие в первом приближении не изменяют большую полуось.
+\end{itemize}
+\medskip
+Величина трансверсальной составляющей:
+\[
+ 2\Delta\widehat V_t=\Delta a,
+\]
+\[
+ \boxed{\Delta\widehat V_t=\frac12\Delta a.}
+\]
+\end{frame}
+
+\begin{frame}{Изменение вектора эксцентриситета}
+\relax
+\begin{itemize}
+ \setlength{\itemsep}{5pt}
+ \item Вектор эксцентриситета изменяют трансверсальная и радиальная составляющие импульса.
+ \item Изменение зависит от точки приложения импульса.
+\end{itemize}
+\[
+ \Delta e=\sqrt{(\Delta e_x)^2+(\Delta e_y)^2}.
+\]
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\begin{block}{Трансверсальный импульс}
+\centering $\displaystyle |\Delta\widehat V_t|=\frac12\Delta e.$\par\smallskip
+\RaggedRight
+Одновременно изменяет большую полуось.
+\end{block}
+\end{column}
+\begin{column}{.48\textwidth}
+\begin{block}{Радиальный импульс}
+\centering $\displaystyle \vphantom{\frac12}|\Delta\widehat V_r|=\Delta e.$\par\smallskip
+\RaggedRight
+Большая полуось не меняется в первом приближении.
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Изменение эксцентриситета в апсидах}
+\relax
+{\justifying
+Для изменения эксцентриситета при неизменном направлении перицентра трансверсальный импульс прикладывают в перицентре или апоцентре.\par}
+\smallskip
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\begin{block}{В перицентре}
+\[
+ \Delta\widehat V_t=\frac{e_f-e_i}{2}.
+\]
+\begin{itemize}
+ \setlength{\itemsep}{3pt}
+ \item Положительный импульс увеличивает эксцентриситет.
+ \item Отрицательный импульс уменьшает эксцентриситет.
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{.48\textwidth}
+\begin{block}{В апоцентре}
+\[
+ \Delta\widehat V_t=-\frac{e_f-e_i}{2}.
+\]
+\begin{itemize}
+ \setlength{\itemsep}{3pt}
+ \item Положительный импульс уменьшает эксцентриситет.
+ \item Отрицательный импульс увеличивает эксцентриситет.
+\end{itemize}
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Поворот плоскости орбиты}
+\relax
+\begin{itemize}
+ \setlength{\itemsep}{8pt}
+ \item Плоскости орбит совмещаются одним нормальным импульсом на линии их пересечения.
+ \item Модуль импульса определяется углом $\Delta i$ между плоскостями.
+\end{itemize}
+\medskip
+\[
+ \boxed{\Delta\widehat V_z=\pm\Delta i.}
+\]
+\medskip
+\begin{itemize}
+ \setlength{\itemsep}{8pt}
+ \item Знак «$+$» соответствует восходящему узлу конечной орбиты относительно начальной, знак «$-$» — нисходящему.
+ \item В первом приближении большая полуось и эксцентриситет не меняются.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Радиальный импульс: орбита}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.50\textwidth}
+{\justifying
+Исходная орбита — круговая.\par}
+\smallskip
+\centering\input{images/radial-orbit.tex}
+\figcaption{Чёрная линия --- опорный круг; голубой пунктир --- орбита после импульса. Отклонения увеличены.}
+\end{column}
+\begin{column}{.47\textwidth}
+Импульс $\Delta\widehat V_r>0$ приложен при $t=0$, $\theta=n_0t$.
+{\eqcompact
+\setlength{\abovedisplayskip}{3pt}\setlength{\belowdisplayskip}{3pt}
+\setlength{\abovedisplayshortskip}{2pt}\setlength{\belowdisplayshortskip}{2pt}
+\[
+ \begin{aligned}
+ \Delta r&=r_0{\Delta\widehat V_r}\sin\theta,\\
+ \Delta a&=0,\\
+ \Delta\boldsymbol e&=-{\Delta\widehat V_r}\boldsymbol e_t.
+ \end{aligned}
+\]
+}
+Перицентр расположен за $90^\circ$ до точки приложения импульса.
+{\eqcompact
+\setlength{\abovedisplayskip}{3pt}\setlength{\belowdisplayskip}{3pt}
+\setlength{\abovedisplayshortskip}{2pt}\setlength{\belowdisplayshortskip}{2pt}
+\[
+ \Delta r_\alpha=r_0{\Delta\widehat V_r},\qquad \Delta r_\pi=-r_0{\Delta\widehat V_r}.
+\]
+}
+{\justifying
+Здесь $\alpha$ --- апоцентр, $\pi$ --- перицентр.\par}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Радиальный импульс: фаза}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.50\textwidth}
+\centering\input{images/radial-phase.tex}
+\end{column}
+\begin{column}{.47\textwidth}
+Для $\Delta\widehat V_r>0$:
+{\eqcompact
+\setlength{\abovedisplayskip}{3pt}\setlength{\belowdisplayskip}{3pt}
+\setlength{\abovedisplayshortskip}{2pt}\setlength{\belowdisplayshortskip}{2pt}
+\[
+ \Delta u=2{\Delta\widehat V_r}(\cos\theta-1).
+\]
+}
+Максимальное отставание при $\theta=\pi$:
+{\eqcompact
+\setlength{\abovedisplayskip}{3pt}\setlength{\belowdisplayskip}{3pt}
+\setlength{\abovedisplayshortskip}{2pt}\setlength{\belowdisplayshortskip}{2pt}
+\[
+ \Delta u_{\min}=-4\Delta\widehat V_r.
+\]
+}
+Через один опорный период:
+{\eqcompact
+\setlength{\abovedisplayskip}{3pt}\setlength{\belowdisplayskip}{3pt}
+\setlength{\abovedisplayshortskip}{2pt}\setlength{\belowdisplayshortskip}{2pt}
+\[
+ \Delta u(2\pi)=0,\qquad T_0=\frac{2\pi}{n_0}.
+\]
+}
+{\justifying
+Вековое смещение в первом приближении отсутствует.\par}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Радиальный импульс: траектория}
+\relax
+Движение относительно КА на опорном круге, $\eta=r_0\Delta u$.
+\smallskip
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.50\textwidth}
+\centering\input{images/radial-relative.tex}
+\end{column}
+\begin{column}{.47\textwidth}
+{\eqcompact
+\setlength{\abovedisplayskip}{3pt}\setlength{\belowdisplayskip}{3pt}
+\setlength{\abovedisplayshortskip}{2pt}\setlength{\belowdisplayshortskip}{2pt}
+\[
+ \left(\frac{\eta+2r_0{\Delta\widehat V_r}}{2r_0{\Delta\widehat V_r}}\right)^2
+ +\left(\frac{\Delta r}{r_0{\Delta\widehat V_r}}\right)^2=1.
+\]
+}
+\begin{itemize}
+ \setlength{\itemsep}{2pt}
+ \item $T_0/4$: наибольшее увеличение радиуса.
+ \item $T_0/2$: наибольшее отставание, $\Delta r=0$.
+ \item $3T_0/4$: наименьший радиус.
+ \item $T_0$: возврат в исходную относительную точку.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Сближение радиальными импульсами}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.50\textwidth}
+\centering\input{images/radial-approach.tex}
+\end{column}
+\begin{column}{.47\textwidth}
+{\justifying
+В точке $A$ КА находится на орбите цели, позади неё. Импульс $\Delta V_r<0$ начинает движение по нижней половине эллипса.\par}
+\smallskip
+Через полвитка КА возвращается на исходный радиус и приближается к цели на $4r_0|\Delta\widehat V_r|$.
+\par\smallskip
+{\justifying
+В $B,C$ импульсы $2\Delta V_r$ меняют знак радиальной скорости. В $O$ импульс $\Delta V_r$ гасит её.\par}
+\end{column}
+\end{columns}
+\smallskip
+{\justifying
+\textbf{При пропуске импульса в $C$} КА возвращается в $B$ по верхней половине эллипса.\par}
+\end{frame}
+
+\begin{frame}{Трансверсальный импульс: орбита}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.50\textwidth}
+\centering\input{images/tangential-orbit.tex}
+\figcaption{Чёрная линия --- опорный круг; голубой пунктир --- орбита после импульса. Отклонения увеличены.}
+\end{column}
+\begin{column}{.47\textwidth}
+Положительный трансверсальный импульс: $\Delta\widehat V_t>0$.
+{\eqcompact
+\setlength{\abovedisplayskip}{3pt}\setlength{\belowdisplayskip}{3pt}
+\setlength{\abovedisplayshortskip}{2pt}\setlength{\belowdisplayshortskip}{2pt}
+\[
+ \begin{aligned}
+ \Delta r&=2r_0{\Delta\widehat V_t}(1-\cos\theta),\\
+ \Delta a&=2{\Delta\widehat V_t}.
+ \end{aligned}
+\]
+}
+{\justifying
+Точка импульса становится перицентром новой орбиты; противоположная точка --- апоцентром.\par}
+{\eqcompact
+\setlength{\abovedisplayskip}{3pt}\setlength{\belowdisplayskip}{3pt}
+\setlength{\abovedisplayshortskip}{2pt}\setlength{\belowdisplayshortskip}{2pt}
+\[
+ \Delta r_\pi=0,\qquad \Delta r_\alpha=4r_0{\Delta\widehat V_t}.
+\]
+}
+{\justifying
+При ${\Delta\widehat V_t}<0$ точка импульса становится апоцентром; радиус противоположной апсиды уменьшается.\par}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Трансверсальный импульс: фаза}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.50\textwidth}
+\centering\input{images/tangential-phase.tex}
+\end{column}
+\begin{column}{.47\textwidth}
+Для $\Delta\widehat V_t>0$:
+{\eqcompact
+\setlength{\abovedisplayskip}{3pt}\setlength{\belowdisplayskip}{3pt}
+\setlength{\abovedisplayshortskip}{2pt}\setlength{\belowdisplayshortskip}{2pt}
+\[
+ \Delta u={\Delta\widehat V_t}(4\sin\theta-3\theta).
+\]
+}
+Максимум опережения:
+{\eqcompact
+\setlength{\abovedisplayskip}{3pt}\setlength{\belowdisplayskip}{3pt}
+\setlength{\abovedisplayshortskip}{2pt}\setlength{\belowdisplayshortskip}{2pt}
+\[
+ \begin{aligned}
+ \theta_{\max}&\approx41^\circ24'35'',\\[3pt]
+ \Delta u_{\max}&\approx0{,}4776\Delta\widehat V_t.
+ \end{aligned}
+\]
+}
+После $\theta\approx73^\circ05'32''$ начинается отставание.
+\smallskip
+
+За один опорный период:
+{\eqcompact
+\setlength{\abovedisplayskip}{3pt}\setlength{\belowdisplayskip}{3pt}
+\setlength{\abovedisplayshortskip}{2pt}\setlength{\belowdisplayshortskip}{2pt}
+\[
+ \Delta u(2\pi)=-6\pi {\Delta\widehat V_t}.
+\]
+}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Трансверсальный импульс: траектория}
+\relax
+\centering\input{images/tangential-relative.tex}\par
+\raggedright
+$\Delta V_t=2$ м/с, $r_0=6700$ км.
+\smallskip
+
+$\Delta r_{\max}\approx6{,}95$ км;
+$\eta(T_0)\approx-32{,}75$ км.
+\smallskip
+
+{\justifying
+Сначала КА смещается вперёд и наружу, затем отстаёт, продолжая подъём. После апоцентра он снижается до исходного радиуса позади невозмущённого КА. Пунктир --- начало следующего витка.\par}
+\end{frame}
+
+\begin{frame}{Нормальный импульс}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.50\textwidth}
+\centering\input{images/normal-orbit.tex}
+\figcaption{Чёрная линия --- опорный круг; голубой пунктир --- орбита после импульса. Угол поворота увеличен.}
+\end{column}
+\begin{column}{.47\textwidth}
+После нормального импульса $\Delta\widehat V_z$:
+{\eqcompact
+\setlength{\abovedisplayskip}{3pt}\setlength{\belowdisplayskip}{3pt}
+\[
+ \begin{aligned}
+ z&=r_0{\Delta\widehat V_z}\sin\theta,\\
+ V_z&=V_0{\Delta\widehat V_z}\cos\theta.
+ \end{aligned}
+\]
+}
+Угол поворота плоскости: $\Delta i=|\Delta\widehat V_z|$.
+\smallskip
+
+Амплитуда отклонения: $|z|_{\max}=r_0|{\Delta\widehat V_z}|$.
+\smallskip
+
+{\justifying
+В первом порядке $\Delta r=\Delta u=0$: движение относительно опорного КА состоит из колебаний по нормали.\par}
+
+\end{column}
+\end{columns}
+\end{frame}
+
+% Глава 2 методички: основной текст и формулы, без блоков explanation.
+\begin{frame}{Постановка задачи оптимизации}
+\relax
+\derivationmathspacing
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.49\textwidth}
+\begin{block}{Граничные условия}
+\justifying
+Пусть заданы начальная и конечная орбиты, начальное и конечное
+положения аппарата и моменты $t_i,t_f$.
+\par\smallskip
+Опорная плоскость совпадает с начальной, а ось $X$ направлена
+по линии пересечения плоскостей к восходящему узлу конечной орбиты.
+\end{block}
+\end{column}
+\begin{column}{.48\textwidth}
+\begin{block}{Параметры импульсов}
+\justifying
+Сначала считаем число импульсов $N$ выбранным и все импульсы
+ненулевыми. Неизвестны их компоненты и фазы $\varphi_j$.
+Функционал равен\par
+{\centering$\displaystyle J=\sum\nolimits_{j=1}^N\Delta\widehat V_j.$\par}
+Крышка над импульсом означает деление на $V_0$.
+\end{block}
+\end{column}
+\end{columns}
+Величина $\Delta\widehat V_j$ есть модуль импульса:
+{\eqcompact\derivationmathspacing
+\[
+ \Delta\widehat V_j=
+ \sqrt{(\Delta\widehat V_{rj})^2+(\Delta\widehat V_{tj})^2+
+                         (\Delta\widehat V_{zj})^2}\geq0.
+\]
+}
+\end{frame}
+
+\begin{frame}{Полная система граничных условий}
+\relax
+\derivationmathspacing
+{\eqcompact\derivationmathspacing
+\centering\(\displaystyle
+\begin{aligned}[t]
+ &2\sum\nolimits_j\Delta\widehat V_{tj}=\Delta a,\\[4pt]
+ &\sum\nolimits_j(\Delta\widehat V_{rj}\sin\varphi_j+
+              2\Delta\widehat V_{tj}\cos\varphi_j)=\Delta e_x,\\[4pt]
+ &\sum\nolimits_j(-\Delta\widehat V_{rj}\cos\varphi_j+
+              2\Delta\widehat V_{tj}\sin\varphi_j)=\Delta e_y,\\[4pt]
+ &-\sum\nolimits_j\Delta\widehat V_{zj}\sin\varphi_j=0,\\[4pt]
+ &\sum\nolimits_j\Delta\widehat V_{zj}\cos\varphi_j=\Delta i,\\[4pt]
+ &\sum\nolimits_j\bigl[2\Delta\widehat V_{rj}(1-\cos\varphi_j)
+       +\Delta\widehat V_{tj}(-3\varphi_j+4\sin\varphi_j)\bigr]
+       =\Delta t-\frac32\varphi_f\Delta a\\[2pt]
+ &\hspace{10mm}+2\Delta e_x\sin\varphi_f
+                   +2\Delta e_y(1-\cos\varphi_f).
+\end{aligned}
+\)\par}
+\medskip
+\justifying
+Аргумент широты $\varphi$ отсчитывается от линии узлов.
+\end{frame}
+
+\begin{frame}{Функция Лагранжа}
+\relax
+\derivationmathspacing
+\justifying
+Введём постоянные множители Лагранжа $l_1,\ldots,l_6$
+в порядке строк системы.
+{\eqcompact\derivationmathspacing
+\setlength{\jot}{1pt}
+\[
+\begin{aligned}
+ \mathcal L={}&J-l_1\left[2\sum\nolimits_j\Delta\widehat V_{tj}-\Delta a\right]\\
+ &-l_2\left[\sum\nolimits_j(\Delta\widehat V_{rj}\sin\varphi_j+
+                    2\Delta\widehat V_{tj}\cos\varphi_j)-\Delta e_x\right]\\
+ &-l_3\left[\sum\nolimits_j(-\Delta\widehat V_{rj}\cos\varphi_j+
+                    2\Delta\widehat V_{tj}\sin\varphi_j)-\Delta e_y\right]\\
+ &-l_4\left[-\sum\nolimits_j\Delta\widehat V_{zj}\sin\varphi_j\right]\\
+ &-l_5\left[\sum\nolimits_j\Delta\widehat V_{zj}\cos\varphi_j
+                    -\Delta i\right]\\
+ &-l_6\left[\sum\nolimits_j\bigl[2\Delta\widehat V_{rj}(1-\cos\varphi_j)
+       +\Delta\widehat V_{tj}(-3\varphi_j+4\sin\varphi_j)\bigr]\right.\\
+ &\hspace{20mm}\left.-\Delta t+\frac32\varphi_f\Delta a
+         -2\Delta e_x\sin\varphi_f-2\Delta e_y(1-\cos\varphi_f)\right].
+\end{aligned}
+\]
+}
+\end{frame}
+
+\begin{frame}{Стационарность по компонентам импульса}
+\relax
+\derivationmathspacing
+Приравняем к нулю производные функции Лагранжа по трём компонентам $j$-го импульса:
+{\eqcompact\derivationmathspacing
+\[
+\begin{aligned}
+ \frac{\partial\mathcal L}{\partial\Delta\widehat V_{rj}}
+ &=\frac{\Delta\widehat V_{rj}}{\Delta\widehat V_j}
+       -l_2\sin\varphi_j+l_3\cos\varphi_j-2l_6(1-\cos\varphi_j)=0,\\[2pt]
+ \frac{\partial\mathcal L}{\partial\Delta\widehat V_{tj}}
+ &=\frac{\Delta\widehat V_{tj}}{\Delta\widehat V_j}
+       -2l_1-2l_2\cos\varphi_j-2l_3\sin\varphi_j
+       -l_6(-3\varphi_j+4\sin\varphi_j)=0,\\[2pt]
+ \frac{\partial\mathcal L}{\partial\Delta\widehat V_{zj}}
+ &=\frac{\Delta\widehat V_{zj}}{\Delta\widehat V_j}
+       +l_4\sin\varphi_j-l_5\cos\varphi_j=0.
+\end{aligned}
+\]
+}
+\end{frame}
+
+\begin{frame}{Базис-вектор Лоудена}
+\relax
+\derivationmathspacing
+Перейдём к константам Баранова:
+{\derivationmathspacing
+\[
+\boxed{\begin{aligned}
+ \lambda_1&=l_1,&\lambda_2&=l_3+2l_6,&\lambda_3&=l_2,\\
+ \lambda_4&=-l_4,&\lambda_5&=l_5,&\lambda_6&=l_6.
+\end{aligned}}
+\]
+}{\derivationmathspacing
+\[
+\boxed{\begin{aligned}
+ s_r(\varphi)&=\lambda_3\sin\varphi-\lambda_2\cos\varphi+2\lambda_6,\\
+ s_t(\varphi)&=2\lambda_1+2\lambda_3\cos\varphi
+                         +2\lambda_2\sin\varphi-3\lambda_6\varphi,\\
+ s_z(\varphi)&=\lambda_4\sin\varphi+\lambda_5\cos\varphi.
+\end{aligned}}
+\]
+}
+\medskip
+\justifying
+Вектор $\boldsymbol s=(s_r,s_t,s_z)$ называется базис-вектором Лоудена.
+У Баранова те же компоненты обозначаются также $\lambda,\mu,\nu$;
+им соответствуют $s_r,s_t,s_z$ в таком же порядке.
+\end{frame}
+
+\begin{frame}{Направления и фазы импульсов}
+\relax
+\derivationmathspacing
+{\derivationmathspacing
+\[
+\Delta\widehat{\boldsymbol V}_j=
+           \Delta\widehat V_j\boldsymbol s(\varphi_j),
+ \qquad \|\boldsymbol s(\varphi_j)\|=1.
+\]
+}
+\justifying
+Для импульса, расположенного внутри рассматриваемого интервала,
+можно варьировать также фазу $\varphi_j$.
+Поэтому необходимое условие стационарности имеет вид
+{\derivationmathspacing
+\[
+\frac{\partial\mathcal L}{\partial\varphi_j}
+ =-\boldsymbol s'(\varphi_j)\cdot\Delta\widehat{\boldsymbol V}_j=0,
+ \qquad
+ \left.\frac{\mathrm d}{\mathrm d\varphi}\|\boldsymbol s(\varphi)\|^2
+                  \right|_{\varphi_j}=0.
+\]
+}
+\medskip
+\justifying
+Обычное правило множителей Лагранжа даёт необходимые условия
+при независимости дифференциалов ограничений по свободным
+параметрам манёвра и ненулевых импульсах.
+Одна стационарность ещё не доказывает минимум и не исключает
+улучшения схемы изменением числа импульсов.
+\end{frame}
+
+\begin{frame}{Базис-вектор со сдвигом фазы}
+\relax
+\derivationmathspacing
+При $\lambda_2^2+\lambda_3^2>0$ определим угол
+{\eqcompact\derivationmathspacing
+\setlength{\jot}{0pt}
+\[
+\cos\alpha=\frac{\lambda_3}{\sqrt{\lambda_2^2+\lambda_3^2}},
+ \qquad
+ \sin\alpha=\frac{\lambda_2}{\sqrt{\lambda_2^2+\lambda_3^2}}.
+\]
+}
+Тогда полный базис-вектор принимает вид
+{\eqcompact\derivationmathspacing
+\setlength{\jot}{0pt}
+\[
+\boxed{\begin{aligned}
+ s_r&=\sqrt{\lambda_2^2+\lambda_3^2}\,\sin(\varphi-\alpha)+2\lambda_6,\\
+ s_t&=2\lambda_1+2\sqrt{\lambda_2^2+\lambda_3^2}\,
+                       \cos(\varphi-\alpha)-3\lambda_6\varphi,\\
+ s_z&=\frac{\lambda_3\lambda_4-\lambda_2\lambda_5}
+                {\sqrt{\lambda_2^2+\lambda_3^2}}\,\sin(\varphi-\alpha)+\frac{\lambda_2\lambda_4+\lambda_3\lambda_5}
+                {\sqrt{\lambda_2^2+\lambda_3^2}}\,\cos(\varphi-\alpha).
+\end{aligned}}
+\]
+}
+\end{frame}
+
+\begin{frame}{Взвешенная сумма граничных условий}
+\relax
+\derivationmathspacing
+\justifying
+Умножим шесть граничных уравнений на $l_1,\ldots,l_6$ и сложим.
+Коэффициенты при компонентах каждого импульса совпадают
+с правыми частями условий на направляющие косинусы, поэтому
+{\derivationmathspacing
+\[
+\begin{aligned}
+ \sum\nolimits_j\boldsymbol s(\varphi_j)\cdot\Delta\widehat{\boldsymbol V}_j
+   ={}&l_1\Delta a+l_2\Delta e_x+l_3\Delta e_y+l_5\Delta i\\
+      &+l_6\left[\Delta t-\frac32\varphi_f\Delta a
+          +2\Delta e_x\sin\varphi_f+2\Delta e_y(1-\cos\varphi_f)\right].
+\end{aligned}
+\]
+}
+\medskip
+\justifying
+Правая часть зависит только от заданных конечных условий
+и выбранных множителей. Для любого набора импульсов,
+выполняющего эти условия, она одинакова.
+\end{frame}
+
+\begin{frame}{Добавление нового импульса}
+\relax
+\derivationmathspacing
+\justifying
+Теперь допускаем изменение числа импульсов. В произвольной
+точке $\varphi$ добавим малый импульс
+\[
+ \Delta\widehat{\boldsymbol V}_{\text{нов}}=\eta\boldsymbol d,
+ \qquad \eta>0,\qquad \|\boldsymbol d\|=1.
+\]
+Здесь $\eta$ --- его безразмерный модуль, а $\boldsymbol d$ ---
+единичный вектор направления. Одновременно корректируем прежние
+импульсы и их свободные фазы, сохраняя все шесть граничных условий.
+Возможность такой малой компенсации обеспечивает уже принятое
+условие регулярности ограничений.
+\par\smallskip
+Множители $l_1,\ldots,l_6$ при сравнении сохраняем теми же,
+что у исходного манёвра. У оптимального манёвра такая допустимая
+поправка не должна уменьшать $J$.
+{\derivationmathspacing
+\[
+\|\boldsymbol s(\varphi)\|\leq1
+ \qquad\text{при всех допустимых }\varphi\in[\varphi_i,\varphi_f].
+\]
+}
+\end{frame}
+
+\begin{frame}{Достаточные условия оптимальности}
+\relax
+\derivationmathspacing
+\justifying
+Теперь докажем достаточность. Для любого набора множителей,
+обеспечивающего ограничение $\|\boldsymbol s(\varphi)\|\leq1$,
+получается нижняя оценка затрат:
+{\derivationmathspacing
+\[
+\begin{aligned}
+ J\geq{}&l_1\Delta a+l_2\Delta e_x+l_3\Delta e_y+l_5\Delta i\\
+       &+l_6\left[\Delta t-\frac32\varphi_f\Delta a
+          +2\Delta e_x\sin\varphi_f+2\Delta e_y(1-\cos\varphi_f)\right].
+\end{aligned}
+\]
+}
+\medskip
+\justifying
+Таким образом, при
+$\Delta\widehat{\boldsymbol V}_j=\Delta\widehat V_j\boldsymbol s(\varphi_j)$
+нижняя оценка достигается, и никакой другой допустимый манёвр
+не имеет меньших затрат.
+\par\smallskip
+При $\lambda_6\ne0$ базис-вектор непериодичен из-за члена
+$-3\lambda_6\varphi$, поэтому проверять его только на одном
+произвольно выбранном обороте недостаточно.
+\end{frame}
+
+\begin{frame}{Достаточные условия глобального минимума}
+\relax
+\derivationmathspacing
+\justifying
+В линейной задаче с произвольным числом импульсов манёвр
+обеспечивает глобальный минимум $J$, если выполнены следующие условия.
+\begin{enumerate}
+\setlength{\itemsep}{0pt}
+ \item Импульсы выполняют все шесть граничных
+ условий, а их фазы принадлежат
+ допустимому интервалу $[\varphi_i,\varphi_f]$.
+ \item Существует один набор постоянных
+ $\lambda_1,\ldots,\lambda_6$, задающий базис-вектор
+ по формулам слайда~22, для которого в точке
+ каждого ненулевого импульса выполнено:
+ {\eqcompact\derivationmathspacing
+\[
+\boldsymbol s(\varphi_j)
+     =\frac{\Delta\widehat{\boldsymbol V}_j}{\Delta\widehat V_j},
+  \qquad \|\boldsymbol s(\varphi_j)\|=1.
+\]
+}
+ \item Для того же базис-вектора выполнено достаточное
+ условие:
+ {\eqcompact\derivationmathspacing
+\[
+\|\boldsymbol s(\varphi)\|\leq1
+  \qquad\text{при всех }\varphi\in[\varphi_i,\varphi_f].
+\]
+}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Достаточные условия глобального минимума}
+\relax
+\derivationmathspacing
+\justifying
+Внутри интервала в точках ненулевых импульсов также выполнено
+условие стационарности:
+{\eqcompact\derivationmathspacing
+\[
+\left.\frac{\mathrm d}{\mathrm d\varphi}\|\boldsymbol s(\varphi)\|^2
+          \right|_{\varphi_j}=0.
+\]
+}
+Оно следует из второго и третьего пунктов: в точке импульса
+квадрат модуля достигает своего максимального значения $1$.
+На фиксированных концах интервала равенство производной нулю
+не требуется.
+
+Перечисленная совокупность \emph{достаточна} для глобального
+минимума без предположения регулярности. При принятой выше
+регулярности она также \emph{необходима}: для оптимального
+манёвра существуют множители, удовлетворяющие этим условиям.
+Таким образом, для регулярного случая получены необходимые
+и достаточные условия оптимальности.
+\end{frame}
+
+\begin{frame}{Переход на заданную орбиту}
+\relax
+\derivationmathspacing
+\justifying
+Конечная орбита задана, а положение аппарата на ней и длительность
+перехода свободны. Фазовая строка больше не ограничивает
+импульсы. Соответствующий множитель исчезает:
+$l_6=0$, $\lambda_6=0$.
+{\derivationmathspacing
+\[
+\boxed{\begin{aligned}
+ s_r(\varphi)&=\lambda_3\sin\varphi-\lambda_2\cos\varphi,\\
+ s_t(\varphi)&=2\lambda_1+2\lambda_3\cos\varphi+2\lambda_2\sin\varphi,\\
+ s_z(\varphi)&=\lambda_4\sin\varphi+\lambda_5\cos\varphi.
+\end{aligned}}
+\]
+}
+\medskip
+\justifying
+Условие на плоскость орбиты не снято, поэтому
+$\lambda_4,\lambda_5$ в общем случае ненулевые.
+\par\smallskip
+При задаче встречи фазовое условие сохраняется;
+свободная длительность сама по себе не позволяет исключить $\lambda_6$.
+\end{frame}
+
+\begin{frame}{Компланарный переход}
+\relax
+\derivationmathspacing
+\justifying
+Если обе орбиты лежат в одной плоскости, $\Delta i=0$.
+В линейной модели нормальные импульсы не меняют $a,e_x,e_y$,
+а их добавление к заданным плоским компонентам увеличивает
+модуль импульса. Следовательно, оптимальное решение можно
+искать при $\Delta\widehat V_{zj}=0$.
+{\derivationmathspacing
+\[
+\lambda_6=0,\qquad \lambda_4=\lambda_5=0,\qquad s_z=0.
+\]
+}
+Для $\lambda_2^2+\lambda_3^2>0$ базис-вектор принимает вид
+{\derivationmathspacing
+\[
+\boxed{\begin{aligned}
+ s_r&=\sqrt{\lambda_2^2+\lambda_3^2}\,\sin(\varphi-\alpha),\\
+ s_t&=2\lambda_1+2\sqrt{\lambda_2^2+\lambda_3^2}\,
+                         \cos(\varphi-\alpha),\\
+ s_z&=0.
+\end{aligned}}
+\]
+}
+\end{frame}
+
+\begin{frame}{Источники}
+\relax
+\setbeamertemplate{bibliography item}{\insertbiblabel}
+\begin{thebibliography}{9}
+\bibitem{Baranov}
+Баранов А. А. Маневрирование космических аппаратов в окрестности круговой орбиты.
+М.: Спутник+, 2016. 511~с. Гл.~1--2.
+\bibitem{EdelbaumGobetzWashington1966}
+Edelbaum T. N., Gobetz F. W., Washington M.
+\href{https://ntrs.nasa.gov/citations/19660030604}{Minimum-Impulse Time-Free Transfer Between Elliptic Orbits}.
+NASA CR-636, 1966.
+\bibitem{Edelbaum1966}
+Edelbaum T. N.
+\href{https://doi.org/10.2514/6.1966-7}{How many impulses?}
+AIAA Paper 66-7, 1966.
+\bibitem{Neustadt1964}
+Neustadt L. W.
+\href{https://doi.org/10.1137/0302004}{Optimization, a Moment Problem, and Nonlinear Programming}.
+Journal of the Society for Industrial and Applied Mathematics, Series A: Control.
+1964. Vol.~2, No.~1. P.~33--53.
+\end{thebibliography}
+\end{frame}
+
+\begin{frame}{Источники}
+\relax
+\setbeamertemplate{bibliography item}{\insertbiblabel}
+\begin{thebibliography}{9}
+\setcounter{enumiv}{4}
+\bibitem{SternPotter1965}
+Stern R. G., Potter J. E.
+\href{https://www.sciencedirect.com/science/article/abs/pii/S1474667017690700}{Optimization of Midcourse Velocity Corrections}.
+IFAC Proceedings Volumes. 1965. Vol.~2, No.~1. P.~70--83.
+\bibitem{Lawden}
+Lawden D. F. Optimal Trajectories for Space Navigation.
+London: Butterworths, 1963. Гл.~3, \S~5.1, гл.~6.
+\bibitem{Edelbaum1967}
+Edelbaum T. N.
+\href{https://ntrs.nasa.gov/citations/19670020044}{A General Solution for Minimum Impulse Transfers in the Near Vicinity of a Circular Orbit}.
+First Compilation of Papers on Trajectory Analysis and Guidance Theory.
+NASA SP-141, 1967. P.~37--71.
+\bibitem{BaranovDissertation}
+Баранов А. А. Разработка методов расчета параметров маневров космических аппаратов
+в окрестностях круговой орбиты: дис.\ д-ра физ.-мат.\ наук. М., 2019. 304~с.
+\S~1.3, с.~38--39.
+\end{thebibliography}
+\end{frame}
+
+\end{document}

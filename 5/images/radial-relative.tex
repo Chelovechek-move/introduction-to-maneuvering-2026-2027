@@ -1,0 +1,22 @@
+% Baranov, Sec. 1.4.1, Fig. 1.11(a). Native size: 70 x 40 mm.
+% xi = eta/(r0 q), rho = Delta r/(r0 q), q = Delta V_r/V0 > 0.
+\begin{tikzpicture}[course diagram,x=1mm,y=1mm]
+\path[use as bounding box] (-59,-20) rectangle (11,20);
+\draw[vector line] (-54,0)--(8,0) node[above] {$\eta$};
+\draw[vector line] (0,-16)--(0,17) node[above right] {$\Delta r$};
+\draw[orbit line] (-24,0) ellipse[x radius=24,y radius=12];
+\draw[courseaccent,line width=1pt,->] plot[domain=43:59,samples=12,variable=\a]
+ ({24*(cos(\a)-1)},{12*sin(\a)});
+\draw[courseaccent,line width=1pt,->] plot[domain=223:239,samples=12,variable=\a]
+ ({24*(cos(\a)-1)},{12*sin(\a)});
+\draw[aux line,dashed] (-24,-12)--(-24,12);
+\fill[courseaccent] (0,0) circle[radius=.7];
+\node[anchor=north west,inner sep=1mm] at (0,0) {$0,\ T_0$};
+\node[above=1mm,inner sep=0pt] at (-24,12) {$T_0/4$};
+\node[below=1mm,inner sep=0pt] at (-24,-12) {$3T_0/4$};
+\node[below=1.2mm,inner sep=0pt] at (-48,0) {$T_0/2$};
+\draw[aux line] (-48,0)--(-48,14);
+\node[above=1mm,inner sep=0pt] at (-46,14) {$-4r_0\Delta\widehat V_r$};
+\node[anchor=south west,inner sep=0pt] at (-18,12) {$r_0\Delta\widehat V_r$};
+\node[anchor=north west,inner sep=0pt] at (-18,-12) {$-r_0\Delta\widehat V_r$};
+\end{tikzpicture}

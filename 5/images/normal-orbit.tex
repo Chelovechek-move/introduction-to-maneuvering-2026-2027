@@ -1,0 +1,25 @@
+% Baranov, Sec. 1.4.3, Fig. 1.16. Native size: 70 x 40 mm.
+% Oblique projection; the line of nodes is the x axis.
+% The change of radius is second order and is omitted.
+\begin{tikzpicture}[course diagram,x=1mm,y=1mm]
+\path[use as bounding box] (-32,-20) rectangle (38,20);
+\draw[vector line] (0,0)--(-14,-16) node[below left] {$X$};
+\draw[vector line] (0,0)--(30,0) node[right] {$Y$};
+\draw[vector line] (0,0)--(0,18) node[above left] {$Z$};
+\draw[courseink,line width=.65pt] plot[domain=0:360,samples=181,variable=\a]
+ ({-10*cos(\a)+23*sin(\a)},{-11*cos(\a)});
+\draw[orbit line,dashed] plot[domain=0:360,samples=181,variable=\a]
+ ({-10*cos(\a)+23*sin(\a)},{-11*cos(\a)+7*sin(\a)});
+\draw[courseaccent,line width=1.1pt,->] (-10,-11)--(-10,-2.5)
+ node[pos=.8,left=1mm] {$\Delta V_z$};
+\fill[courseaccent] (-10,-11) circle[radius=.7];
+\node[below right,inner sep=1mm] at (-10,-11) {$P$};
+\draw[aux line] (0,0)--(23,7);
+\draw[courseaccent,line width=.7pt] (10,0) arc[start angle=0,end angle=16.93,radius=10];
+\node[inner sep=0pt] at (13.1,1.8) {$\Delta i$};
+\draw[courseaccent,line width=.65pt,<->] (24.5,0)--(24.5,7)
+ node[midway,right=1mm] {$|z|_{\max}$};
+\draw[aux line] (23,7)--(26,7);
+\node[text=coursemuted,font=\fontsize{8}{10}\selectfont] at (3,-18)
+ {$|z|_{\max}=r_0|\Delta\widehat V_z|$};
+\end{tikzpicture}

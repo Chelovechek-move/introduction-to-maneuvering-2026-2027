@@ -1,0 +1,35 @@
+% Baranov, Sec. 1.4.1, Fig. 1.11(b). Native size: 70 x 40 mm.
+% Repeated negative radial impulses: lower half-ellipses A -> B -> C -> O.
+% With no impulse at C, passive upper half-ellipse returns to B.
+% Equal arcs: Delta V_r < 0 at A and O; 2 Delta V_r at B and C.
+% All axes have the same scale; the radial/along-track semiaxis ratio is 1:2.
+\begin{tikzpicture}[course diagram,x=1mm,y=1mm]
+\path[use as bounding box] (-63,-21) rectangle (7,19);
+\draw[vector line] (-61,0)--(6,0) node[above] {$\eta$};
+\draw[vector line] (0,-15)--(0,17) node[above right] {$\Delta r$};
+\foreach \c in {-47.5,-28.5,-9.5}{
+ \draw[orbit line] plot[domain=180:360,samples=61,variable=\a]
+  ({\c+9.5*cos(\a)},{4.75*sin(\a)});
+ \draw[courseaccent,line width=1pt,->] plot[domain=258:276,samples=9,variable=\a]
+  ({\c+9.5*cos(\a)},{4.75*sin(\a)});}
+\draw[courseink,line width=.7pt,dashed] plot[domain=0:180,samples=61,variable=\a]
+ ({-28.5+9.5*cos(\a)},{4.75*sin(\a)});
+\draw[courseink,line width=.7pt,->] plot[domain=80:98,samples=9,variable=\a]
+ ({-28.5+9.5*cos(\a)},{4.75*sin(\a)});
+\foreach \x/\lab in {-57/A,-38/B,0/O}{
+ \fill[courseaccent] (\x,0) circle[radius=.7];
+ \node[above left,inner sep=1mm] at (\x,0) {$\lab$};}
+\fill[courseaccent] (-19,0) circle[radius=.7];
+\node[above right,inner sep=1mm] at (-19,0) {$C$};
+\foreach \x/\h/\lab in {-57/4/{\Delta V_r},-38/8/{2\Delta V_r},-19/8/{2\Delta V_r},0/4/{\Delta V_r}}{
+ \draw[courseaccent,line width=.9pt,->] (\x,0)--(\x,-\h);
+ \ifnum\x=0
+  \node[below right=1mm,inner sep=0pt,text=courseaccent] at (\x,-\h) {$\lab$};
+ \else
+  \node[below=1mm,inner sep=0pt,text=courseaccent] at (\x,-\h) {$\lab$};
+ \fi}
+\node[text=coursemuted,font=\fontsize{8}{10}\selectfont]
+ at (-29,15) {без импульса в $C$: возврат в $B$};
+\node[text=coursemuted,font=\fontsize{8}{10}\selectfont]
+ at (-28,-17) {Радиальные импульсы, $\Delta V_r<0$};
+\end{tikzpicture}

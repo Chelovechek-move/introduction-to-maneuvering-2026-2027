@@ -1,0 +1,34 @@
+% Baranov, Sec. 1.4.2, Fig. 1.14. Native size: 140 x 36 mm.
+% r0 = 6700 km, Delta V_t = 0.002 km/s, mu = 398600.4418 km^3/s^2.
+% eta = (Delta V_t/n0)(4 sin theta - 3 theta),
+% Delta r = 2(Delta V_t/n0)(1-cos theta); axes both in kilometres.
+\begin{tikzpicture}[course diagram,x=1mm,y=1mm]
+\path[use as bounding box] (-122,-8) rectangle (18,28);
+\pgfmathsetmacro{\impulselength}{1.7372939683809365}
+\draw[vector line] (-119,0)--(15,0) node[above] {$\eta$, км};
+\draw[vector line] (0,-5)--(0,25) node[above left] {$\Delta r$, км};
+\foreach \a in {-40,-30,-20,-10}{
+ \draw[courseink,line width=.5pt] ({2.6*\a},-.8)--({2.6*\a},.8);
+ \node[below=1.2mm,inner sep=0pt] at ({2.6*\a},0) {$\a$};}
+\foreach \a in {3.5,7}{
+ \draw[courseink,line width=.5pt] (-.8,{3*\a})--(.8,{3*\a});
+ \node[right=1.2mm,inner sep=0pt] at (0,{3*\a}) {$\a$};}
+\begin{scope}
+\clip (-119,-.3) rectangle (6,24);
+\draw[orbit line] plot[domain=0:360,samples=181,variable=\a]
+ ({2.6*\impulselength*(4*sin(\a)-3*\a*pi/180)},
+  {6*\impulselength*(1-cos(\a))});
+\draw[courseaccent,line width=.9pt,dashed] plot[domain=360:550,samples=101,variable=\a]
+ ({2.6*\impulselength*(4*sin(\a)-3*\a*pi/180)},
+  {6*\impulselength*(1-cos(\a))});
+\draw[courseaccent,line width=1pt,->] plot[domain=114:122,samples=9,variable=\a]
+ ({2.6*\impulselength*(4*sin(\a)-3*\a*pi/180)},
+  {6*\impulselength*(1-cos(\a))});
+\end{scope}
+\fill[courseaccent] (0,0) circle[radius=.65];
+\node[below right,inner sep=1mm] at (0,0) {$0$};
+\fill[courseaccent] ({-2.6*\impulselength*6*pi},0) circle[radius=.65];
+\node[below=1.2mm,inner sep=0pt] at ({-2.6*\impulselength*6*pi},0) {$T_0$};
+\node[text=coursemuted,font=\fontsize{8}{10}\selectfont] at (-103,25)
+ {следующий виток};
+\end{tikzpicture}
