@@ -1,0 +1,261 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{iftex}
+\RequirePDFTeX
+\usepackage{cmap}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{PTSerif}
+\usepackage{amsmath,amssymb,microtype}
+\usepackage[a4paper,left=23mm,right=23mm,top=20mm,bottom=21mm]{geometry}
+\usepackage{xcolor,enumitem,fancyhdr,hyperref}
+
+\definecolor{accent}{HTML}{187AA5}
+\definecolor{ink}{HTML}{302B28}
+\definecolor{muted}{HTML}{6D6560}
+\definecolor{tint}{HTML}{EDF4F6}
+\definecolor{rulecolor}{HTML}{A9CADA}
+\hypersetup{unicode=true,colorlinks=true,urlcolor=accent,linkcolor=accent,
+  pdftitle={Домашнее задание 4. Околокруговое приближение. Одноимпульсные манёвры. Базис-вектор.},
+  pdfauthor={Чиняев Владимир Николаевич}}
+\urlstyle{same}
+\color{ink}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\linespread{1.08}
+\setlist[enumerate]{leftmargin=*,label=\textcolor{accent}{\arabic*.},
+  itemsep=3pt,topsep=4pt,parsep=0pt}
+\setlist[itemize]{leftmargin=*,itemsep=3pt,topsep=3pt,parsep=0pt}
+\setlength{\emergencystretch}{1em}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\footrule}{\hbox to\headwidth{\color{rulecolor}\leaders\hrule height\footrulewidth\hfill}}
+\fancyfoot[L]{\footnotesize\color{muted}Введение в маневрирование КА\quad /\quad ДЗ 4}
+\fancyfoot[R]{\footnotesize\color{muted}\thepage}
+
+\newcommand{\taskheading}[2]{%
+  \par\vspace{5pt}{\large\bfseries\color{accent}Задание #1. #2}\par\smallskip}
+\newcommand{\hint}[1]{%
+  \par\nobreak\smallskip\noindent
+  \begingroup
+  \setlength{\fboxsep}{7pt}%
+  \setlength{\fboxrule}{0.4pt}%
+  \fcolorbox{rulecolor}{tint}{%
+    \begin{minipage}{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}
+    \small\textbf{\color{accent}Подсказка.} #1\par
+    \end{minipage}}%
+  \endgroup\par\smallskip}
+
+\begin{document}
+
+{\small\color{accent}ВВЕДЕНИЕ В МАНЕВРИРОВАНИЕ КА}\par
+\vspace{3pt}
+{\huge Домашнее задание 4}\par
+{\large Околокруговое приближение.\\Одноимпульсные манёвры. Базис-вектор.}\par
+{\small\color{muted}К лекции 5}
+\par{\small\bfseries\color{accent}Срок сдачи: 26 октября 2026 года, 23:59}
+\vspace{4pt}
+{\color{rulecolor}\hrule}
+\vspace{5pt}
+
+Решите задачу перехода между близкими компланарными орбитами
+в околокруговом приближении.
+Задания 1--3 обязательны, задание 4* --- по желанию.
+Решение оформите в предоставленном Jupyter Notebook.
+
+\taskheading{1}{Чтение методички}
+
+В методичке \texttt{near-circular-transfer.pdf} прочитайте разделы
+1.5 и 1.9, а также 2.2--2.4: импульсное изменение параметров,
+постановку задачи перехода, базис-вектор и условия оптимальности.
+Раздел 2.1 используйте для справки по обозначениям.
+
+Дайте краткие обоснованные ответы:
+\begin{enumerate}
+\item Почему выполнение граничных условий само по себе не доказывает
+оптимальность манёвра?
+\item Какие условия на манёвр и один общий базис-вектор достаточны
+для глобального минимума характеристической скорости? Почему проверки модуля только в точках импульсов
+недостаточно?
+\end{enumerate}
+
+\begingroup
+\setlength{\fboxsep}{9pt}
+\colorbox{tint}{\begin{minipage}{\dimexpr\linewidth-2\fboxsep\relax}
+\textbf{Общие исходные данные}
+\[
+ \mu=398600{,}44158\ \text{км}^3/\text{с}^2,\qquad
+ r_0=a_i=7000\ \text{км},\qquad V_0=\sqrt{\frac{\mu}{r_0}}.
+\]
+\[
+ e_{xi}=e_{yi}=0,\qquad a_f=7007\ \text{км},\qquad
+ e_{xf}=0{,}0012,\quad e_{yf}=0{,}0016.
+\]
+Ось отсчёта углов фиксирована в общей плоскости орбит;
+$e_x,e_y$ обеих орбит заданы относительно этой оси.
+\[
+ \Delta a=\frac{a_f-a_i}{r_0},\qquad
+ \Delta e_x=e_{xf}-e_{xi},\qquad \Delta e_y=e_{yf}-e_{yi},
+ \qquad \Delta e=\sqrt{(\Delta e_x)^2+(\Delta e_y)^2}.
+\]
+Компоненты импульса нормируются на $V_0$:
+$\Delta\widehat V_r=\Delta V_r/V_0$,
+$\Delta\widehat V_t=\Delta V_t/V_0$; нормальная компонента равна нулю.
+\end{minipage}}
+\endgroup
+
+\vspace{4pt}
+\textbf{Работа с ноутбуком и самопроверка}
+
+В \texttt{hw\_4.ipynb} готовы константы, вывод таблиц, график и чекеры
+\texttt{check\_task2}, \texttt{check\_task3}, \texttt{check\_star}.
+Заполните отмеченные переменные и текстовые ячейки своими решениями.
+Чекеры предназначены только для самопроверки. Использовать их не требуется.
+
+При использовании чекеров заданий 2 и 3 передавайте углы в радианах и массивы
+нормированных компонент: каждая строка содержит
+$(\Delta\widehat V_r,\Delta\widehat V_t)$.
+В задании 2 строки относятся к отдельным одноимпульсным решениям,
+в задании 3 --- к двум импульсам одного перехода.
+Множители передаются в порядке $(\lambda_1,\lambda_2,\lambda_3)$.
+Расчёты выполняйте без промежуточного округления.
+
+Чекеры проверяют только численные ответы; выводы формул и доказательства
+оформите самостоятельно.
+
+\newpage
+{\small\color{muted}Домашнее задание 4\hfill К лекции 5}\par
+\vspace{5pt}
+
+\taskheading{2}{Одноимпульсный переход}
+
+Используйте три граничных условия околокругового приближения:
+\[
+\begin{aligned}
+ 2\Delta\widehat V_t&=\Delta a,\\
+ \Delta\widehat V_r\sin\varphi+2\Delta\widehat V_t\cos\varphi&=\Delta e_x,\\
+ -\Delta\widehat V_r\cos\varphi+2\Delta\widehat V_t\sin\varphi&=\Delta e_y.
+\end{aligned}
+\]
+\begin{enumerate}
+\item Исключите компоненты импульса и получите уравнение для угла $\varphi$.
+Выведите условие существования решения; укажите, когда имеются две точки,
+одна точка или нет точек перехода. Вырожденный случай
+$\Delta a=\Delta e=0$ здесь не рассматривайте.
+\item Для общих исходных данных найдите все углы $0\leq\varphi<2\pi$,
+обе компоненты и модуль каждого импульса. Представьте таблицу:
+угол в градусах, компоненты и модуль в м/с.
+Объясните совпадение модулей и связь найденных углов с пересечением орбит.
+\item Сохранив $e_{xf},e_{yf}$, определите число решений при
+$a_f=7014$~км и $a_f=7021$~км. Полный расчёт импульсов повторять не нужно.
+Классифицируйте эти случаи в околокруговом приближении.
+\end{enumerate}
+\hint{Умножьте вторую строку на $\cos\varphi$, третью --- на
+$\sin\varphi$ и сложите: радиальная компонента исключится.
+Для восстановления этой компоненты используйте другую линейную комбинацию.
+Места импульсов находите аналитически из уравнений околокругового приближения.}
+
+\taskheading{3}{Два импульса и проверка оптимальности}
+
+Вернитесь к $a_f=7007$~км и остальным общим данным.
+Рассмотрите два чисто трансверсальных импульса, приложенных при углах
+\[
+ \cos\varphi_1=\frac{\Delta e_x}{\Delta e},\qquad
+ \sin\varphi_1=\frac{\Delta e_y}{\Delta e},\qquad
+ \varphi_2=\varphi_1+\pi\pmod{2\pi}.
+\]
+\begin{enumerate}
+\item Из граничных условий найдите $\Delta\widehat V_{t1}$ и
+$\Delta\widehat V_{t2}$, сохраняя знаки компонент.
+Проверьте все три условия на $\Delta a,\Delta e_x,\Delta e_y$.
+\item Найдите суммарную характеристическую скорость в м/с и сравните
+с одноимпульсным переходом.
+\item Постройте базис-вектор, положив
+$\lambda_1=\lambda_4=\lambda_5=\lambda_6=0$.
+Найдите $\lambda_2,\lambda_3$ из условия совпадения
+$\boldsymbol s(\varphi_1)$ с единичным вектором первого импульса.
+Проверьте это условие и для второго импульса, учитывая его знак.
+\item Постройте график $\|\boldsymbol s(\varphi)\|$ при
+$0\leq\varphi\leq2\pi$, добавьте линию единичного модуля и отметьте углы приложения импульсов.
+Аналитически докажите $\|\boldsymbol s(\varphi)\|\leq1$ на всём обороте.
+По достаточным условиям обоснуйте глобальную оптимальность среди манёвров
+с произвольным числом импульсов.
+\end{enumerate}
+
+Для выбранной постановки используйте
+\[
+\begin{aligned}
+ s_r&=\lambda_3\sin\varphi-\lambda_2\cos\varphi,\\
+ s_t&=2\lambda_1+2\lambda_3\cos\varphi+2\lambda_2\sin\varphi,
+ \qquad s_z=0.
+\end{aligned}
+\]
+\hint{Для найденных множителей удобно выразить компоненты через
+$\varphi-\varphi_1$ и вычислить квадрат модуля.
+График иллюстрирует результат; аналитическое неравенство обеспечивает проверку
+всех углов между узлами сетки.}
+
+\newpage
+{\small\color{muted}Домашнее задание 4\hfill К лекции 5}\par
+\vspace{5pt}
+
+\taskheading{4*}{Когда один импульс оптимален?}
+\textit{Необязательное задание.}
+
+Решите задачу перехода между компланарными орбитами в околокруговом
+приближении для произвольных малых разностей $\Delta a,\Delta e_x,\Delta e_y$.
+Найдите оптимальное значение суммарной характеристической скорости.
+\[
+ J_{\min}(\Delta a,\Delta e_x,\Delta e_y),\qquad
+ J=V_0\sum_j\sqrt{(\Delta\widehat V_{rj})^2+(\Delta\widehat V_{tj})^2}.
+\]
+\begin{enumerate}
+\item Обобщите двухимпульсную схему задания 3.
+При $\Delta e>0$ используйте направление
+$(\Delta e_x,\Delta e_y)$ и противоположную точку орбиты.
+Найдите компоненты и суммарную характеристическую скорость для произвольного $\Delta a$.
+Отдельно рассмотрите $\Delta e=0$ и полностью нулевые разности.
+\item Получите выражение для $J_{\min}$ и докажите его через базис-вектор.
+Разберите разные соотношения $|\Delta a|$ и $\Delta e$;
+при необходимости используйте разные наборы множителей.
+\item Установите, когда существует \emph{ненулевой одноимпульсный переход},
+достигающий этого минимума. Отличайте отсутствие одноимпульсного решения
+от его существования с большей характеристической скоростью.
+При полностью нулевых разностях минимум достигается без манёвров;
+этот случай не называйте ненулевым одноимпульсным переходом.
+\item Для самопроверки при желании реализуйте в ноутбуке две функции
+с аргументами \texttt{da, dex, dey}.
+Функция \texttt{j\_min\_star} возвращает $J_{\min}$ в м/с,
+а \texttt{one\_impulse\_optimal\_star} --- логическое значение
+по критерию предыдущего пункта. Их можно проверить с помощью \texttt{check\_star}.
+\end{enumerate}
+\hint{Получение допустимой схемы даёт верхнюю оценку характеристической скорости.
+Для доказательства минимума найдите базис-вектор, который даёт ту же
+нижнюю оценку. Не забывайте брать модули отдельных импульсов;
+направление вектора эксцентриситета при $\Delta e=0$ не определено.}
+
+\texttt{check\_star} проверяет обе функции на наборах с разными знаками
+$\Delta a$, ориентациями вектора эксцентриситета, граничными и нулевыми случаями.
+Совпадение численных ответов на этих примерах не заменяет общего доказательства.
+
+\vspace{5pt}
+{\color{rulecolor}\hrule}
+\vspace{5pt}
+\textbf{Что представить}
+
+Сдайте один ноутбук с ответами задания 1, полными решениями заданий 2 и 3
+и, по желанию, задания 4*: выводами формул, таблицами импульсов,
+графиком модуля базис-вектора и обоснованием оптимальности.
+Использование чекеров и сохранение результатов их вызова не требуются.
+
+Формулы и рассуждения оформите в текстовых ячейках, расчёты и рисунки ---
+в кодовых. Перед отправкой перезапустите ядро, выполните ячейки решения по порядку
+и сохраните ноутбук с результатами.
+
+Название файла: \texttt{hw\_4\_name\_surname.ipynb}.
+Вместо \texttt{name\_surname} укажите свои имя и фамилию латиницей.
+
+\end{document}
