@@ -1518,24 +1518,17 @@ $\varphi_j=\alpha+\psi_j$ в двух условиях на плоскость:
 четыре независимых уравнения.
 \end{explanation}
 
-Для двух уже полученных правых частей сохраним обозначения
-$\Sigma_{ss}$ и $\Sigma_{sc}$: индексы указывают на суммы
-с $\sin^2\psi_j$ и $\sin\psi_j\cos\psi_j$.
-Подстановка угла~\eqref{eq:sc-cost} в~\eqref{eq:sc-normal-solved} даёт
-\begin{equation}
- \Sigma_{ss}=\frac{\Delta i(|\Delta e_y|+\sqrt3\Delta i)}{\sqrt3J_s},
- \qquad
- \Sigma_{sc}=-\frac{\operatorname{sgn}(\Delta e_y)\Delta i\Delta e_x}
-                    {\sqrt3J_s}.
- \label{eq:sc-uv}
-\end{equation}
-Окончательно решаем систему
+Подставляя синус и косинус угла~\eqref{eq:sc-cost}
+в~\eqref{eq:sc-normal-solved}, выражаем правые части через исходные
+данные. Окончательно решаем систему
 \begin{equation}
 \begin{aligned}
- \sum_j\Delta\widehat V_j&=J_s,&
+ \sum_j\Delta\widehat V_j&=J_s,\\
  \sum_j\Delta\widehat V_j\cos\psi_j&=\frac{\Delta a}{2},\\
- \sum_j\Delta\widehat V_j\sin^2\psi_j&=\Sigma_{ss},&
- \sum_j\Delta\widehat V_j\sin\psi_j\cos\psi_j&=\Sigma_{sc}.
+ \sum_j\Delta\widehat V_j\sin^2\psi_j
+   &=\frac{\Delta i(|\Delta e_y|+\sqrt3\Delta i)}{\sqrt3J_s},\\
+ \sum_j\Delta\widehat V_j\sin\psi_j\cos\psi_j
+   &=-\frac{\operatorname{sgn}(\Delta e_y)\Delta i\Delta e_x}{\sqrt3J_s}.
 \end{aligned}
 \label{eq:sc-four-balances}
 \end{equation}
@@ -1549,15 +1542,19 @@ $\Sigma_{ss}$ и $\Sigma_{sc}$: индексы указывают на сумм�
 \cite[с.~56]{edelbaum}: выбираем одинаковое значение
 $\sin^2\psi_j$ для всех ненулевых импульсов.
 Это допустимый выбор внутри семейства решений, а не необходимое
-условие оптимальности. Третья строка~\eqref{eq:sc-four-balances}
-тогда сводится к $J_s\sin^2\beta=\Sigma_{ss}$, то есть
+условие оптимальности. В третьей строке~\eqref{eq:sc-four-balances}
+общий множитель $\sin^2\beta$ выносится за знак суммы,
+а сумма модулей равна $J_s$. Поэтому
 \begin{equation}
- \sin^2\beta=\frac{\Sigma_{ss}}{J_s},\qquad
- \beta=\arcsin\sqrt{\frac{\Sigma_{ss}}{J_s}},\qquad
+ \begin{aligned}
+ \sin^2\beta&=\frac{\Delta i(|\Delta e_y|+\sqrt3\Delta i)}{\sqrt3J_s^2},\\
+ \beta&=\arcsin\sqrt{\frac{\Delta i(|\Delta e_y|+\sqrt3\Delta i)}
+                              {\sqrt3J_s^2}},\qquad
                          0\leq\beta\leq\frac\pi2.
+ \end{aligned}
  \label{eq:sc-angle}
 \end{equation}
-Для действительного угла требуется $0\leq\Sigma_{ss}\leq J_s$.
+Для действительного угла дробь под корнем должна лежать в $[0,1]$.
 Ниже это требование будет включено в область применимости.
 При $0<\beta<\pi/2$ на одном обороте существуют четыре места:
 \begin{equation}
@@ -1611,7 +1608,8 @@ $\sin\beta\cos\beta$ остаются три линейных уравнения
  -\Delta\widehat V_1+\Delta\widehat V_2+\Delta\widehat V_3-\Delta\widehat V_4
        &=\frac{\Delta a}{2\cos\beta},\\
  -\Delta\widehat V_1-\Delta\widehat V_2+\Delta\widehat V_3+\Delta\widehat V_4
-       &=\frac{\Sigma_{sc}}{\sin\beta\cos\beta}.
+       &=-\frac{\operatorname{sgn}(\Delta e_y)\Delta i\Delta e_x}
+                    {\sqrt3J_s\sin\beta\cos\beta}.
 \end{aligned}
 \label{eq:sc-linear-system}
 \end{equation}
@@ -1624,22 +1622,32 @@ $\sin\beta\cos\beta$ остаются три линейных уравнения
 Вычитая вторую строку из первой, получаем
 $2\Delta\widehat V_1=J_s-\Delta a/(2\cos\beta)$.
 Складывая первую и третью, находим
-$2\Delta\widehat V_3=J_s+\Sigma_{sc}/(\sin\beta\cos\beta)$.
+\[
+ 2\Delta\widehat V_3=J_s-
+ \frac{\operatorname{sgn}(\Delta e_y)\Delta i\Delta e_x}
+      {\sqrt3J_s\sin\beta\cos\beta}.
+\]
 Второй модуль равен $J_s-\Delta\widehat V_1-\Delta\widehat V_3$.
 Итак,
 \begin{equation}
 \begin{aligned}
  \Delta\widehat V_1&=\frac{J_s}{2}-\frac{\Delta a}{4\cos\beta},\\
  \Delta\widehat V_2&=\frac{\Delta a}{4\cos\beta}
-                   -\frac{\Sigma_{sc}}{2\sin\beta\cos\beta},\\
+                   +\frac{\operatorname{sgn}(\Delta e_y)\Delta i\Delta e_x}
+                          {2\sqrt3J_s\sin\beta\cos\beta},\\
  \Delta\widehat V_3&=\frac{J_s}{2}
-                   +\frac{\Sigma_{sc}}{2\sin\beta\cos\beta},\qquad
+                   -\frac{\operatorname{sgn}(\Delta e_y)\Delta i\Delta e_x}
+                          {2\sqrt3J_s\sin\beta\cos\beta},\qquad
  \Delta\widehat V_4=0.
 \end{aligned}
 \label{eq:sc-first-three}
 \end{equation}
 Поскольку $\sin\beta,\cos\beta>0$, второй модуль неотрицателен
-при $2\Sigma_{sc}\leq\Delta a\sin\beta$.
+при
+\[
+ -\frac{2\operatorname{sgn}(\Delta e_y)\Delta i\Delta e_x}{\sqrt3J_s}
+       \leq\Delta a\sin\beta.
+\]
 
 Если это неравенство нарушено, положим
 $\Delta\widehat V_2=0$. Теперь разность первой и третьей строк
@@ -1648,16 +1656,21 @@ $\Delta\widehat V_2=0$. Теперь разность первой и треть
 \begin{equation}
 \begin{aligned}
  \Delta\widehat V_1&=\frac{J_s}{2}
-                   -\frac{\Sigma_{sc}}{2\sin\beta\cos\beta},\\
+                   +\frac{\operatorname{sgn}(\Delta e_y)\Delta i\Delta e_x}
+                          {2\sqrt3J_s\sin\beta\cos\beta},\\
  \Delta\widehat V_3&=\frac{J_s}{2}+\frac{\Delta a}{4\cos\beta},\\
- \Delta\widehat V_4&=\frac{\Sigma_{sc}}{2\sin\beta\cos\beta}
+ \Delta\widehat V_4&=-\frac{\operatorname{sgn}(\Delta e_y)\Delta i\Delta e_x}
+                          {2\sqrt3J_s\sin\beta\cos\beta}
                    -\frac{\Delta a}{4\cos\beta},\qquad
  \Delta\widehat V_2=0.
 \end{aligned}
 \label{eq:sc-last-three}
 \end{equation}
 Здесь четвёртый модуль неотрицателен при
-$2\Sigma_{sc}\geq\Delta a\sin\beta$.
+\[
+ -\frac{2\operatorname{sgn}(\Delta e_y)\Delta i\Delta e_x}{\sqrt3J_s}
+       \geq\Delta a\sin\beta.
+\]
 При равенстве оба построения совпадают и остаются не более двух
 ненулевых импульсов. Оставшиеся ограничения на модули будут
 получены ниже.
@@ -1680,15 +1693,19 @@ $2\Sigma_{sc}\geq\Delta a\sin\beta$.
 не может превышать их общую сумму. Поэтому необходимо
 \begin{equation}
  |\Delta a|\leq2J_s\cos\beta,\qquad
- |\Sigma_{sc}|\leq J_s\sin\beta\cos\beta.
+ \frac{\Delta i|\Delta e_x|}{\sqrt3J_s}\leq J_s\sin\beta\cos\beta.
  \label{eq:sc-feasibility-sums}
 \end{equation}
 \begin{explanation}{К условиям \eqref{eq:sc-feasibility-sums}}
 Эти ограничения необходимы не только для выбранных четырёх мест.
-Для любого решения~\eqref{eq:sc-four-balances}
+Для любого решения~\eqref{eq:sc-four-balances}, с учётом
+определения~\eqref{eq:sc-angle},
 \[
- \sum_j\Delta\widehat V_j\cos^2\psi_j=J_s-\Sigma_{ss}.
+ \sum_j\Delta\widehat V_j\sin^2\psi_j=J_s\sin^2\beta,\qquad
+ \sum_j\Delta\widehat V_j\cos^2\psi_j=J_s\cos^2\beta.
 \]
+Эти равенства следуют из сумм в граничной системе и не требуют,
+чтобы каждый угол $\psi_j$ имел один и тот же квадрат синуса.
 Применим неравенство Коши---Буняковского к конечным суммам:
 \[
 \begin{aligned}
@@ -1705,9 +1722,13 @@ $\sqrt{\Delta\widehat V_j}$ и
 $\sqrt{\Delta\widehat V_j}\cos\psi_j$; во втором ---
 $\sqrt{\Delta\widehat V_j}\sin\psi_j$ и
 $\sqrt{\Delta\widehat V_j}\cos\psi_j$.
-Получаем $(\Delta a)^2/4\leq J_s(J_s-\Sigma_{ss})$ и
-$\Sigma_{sc}^2\leq\Sigma_{ss}(J_s-\Sigma_{ss})$.
-С учётом~\eqref{eq:sc-angle} это именно
+Подстановка известных сумм даёт
+\[
+ \frac{(\Delta a)^2}{4}\leq J_s^2\cos^2\beta,\qquad
+ \frac{(\Delta i)^2(\Delta e_x)^2}{3J_s^2}
+       \leq J_s^2\sin^2\beta\cos^2\beta.
+\]
+После извлечения квадратного корня это именно
 \eqref{eq:sc-feasibility-sums}. Поэтому выход за найденную область
 нельзя устранить другим выбором мест или числа импульсов
 при сохранении стоимости $J_s$ и направлений особого решения.
@@ -1720,11 +1741,11 @@ $\Delta\widehat V_1,\Delta\widehat V_3\geq0$, а условие выбора
 Для~\eqref{eq:sc-last-three} рассуждение такое же.
 
 Переведём ограничения в исходные данные.
-Из $\sin^2\beta=\Sigma_{ss}/J_s$ получаем
+Из~\eqref{eq:sc-angle} получаем
 \[
  \begin{aligned}
  4J_s^2\cos^2\beta
- &=4J_s^2-4J_s\Sigma_{ss}\\
+ &=4J_s^2-\frac{4\Delta i(|\Delta e_y|+\sqrt3\Delta i)}{\sqrt3}\\
  &=(\Delta e_x)^2+(|\Delta e_y|+\sqrt3\Delta i)^2
        -\frac{4\Delta i(|\Delta e_y|+\sqrt3\Delta i)}{\sqrt3}\\
  &=\Delta e^2+\frac{2\Delta i|\Delta e_y|}{\sqrt3}-(\Delta i)^2.
@@ -1732,12 +1753,12 @@ $\Delta\widehat V_1,\Delta\widehat V_3\geq0$, а условие выбора
 \]
 Поэтому первое условие~\eqref{eq:sc-feasibility-sums} даёт
 ограничение на квадрат $\Delta a$.
-Второе условие после возведения в квадрат имеет вид
-$\Sigma_{sc}^2\leq\Sigma_{ss}(J_s-\Sigma_{ss})$.
-Разность правой и левой частей равна
+Во втором условии возведём обе части в квадрат.
+Разность квадрата правой части и квадрата левой части равна
 \[
 \begin{aligned}
- \Sigma_{ss}(J_s-\Sigma_{ss})-\Sigma_{sc}^2
+ J_s^2\sin^2\beta\cos^2\beta
+       -\frac{(\Delta i)^2(\Delta e_x)^2}{3J_s^2}
  &=\frac{\Delta i(|\Delta e_y|+\sqrt3\Delta i)}{\sqrt3}\\
  &\quad-\frac{(\Delta i)^2
        \bigl[(|\Delta e_y|+\sqrt3\Delta i)^2+(\Delta e_x)^2\bigr]}
@@ -1756,10 +1777,10 @@ $(|\Delta e_y|+\sqrt3\Delta i)^2+(\Delta e_x)^2=4J_s^2$.
  \end{gathered}}
  \label{eq:sc-region}
 \end{equation}
-Первое неравенство также обеспечивает
-$\Sigma_{ss}(J_s-\Sigma_{ss})\geq0$.
-Поскольку $\Sigma_{ss}>0$, имеем $\Sigma_{ss}\leq J_s$:
-угол~\eqref{eq:sc-angle} действителен.
+Второе неравенство также обеспечивает неотрицательность выражения
+$4J_s^2-4\Delta i(|\Delta e_y|+\sqrt3\Delta i)/\sqrt3$.
+Следовательно, положительная дробь в~\eqref{eq:sc-angle}
+не превосходит единицы: угол $\beta$ действителен.
 Кроме того, при $\Delta i>0$ обязательно $\Delta e_y\ne0$,
 как было отмечено при выборе знака нормальной компоненты.
 
@@ -1782,16 +1803,16 @@ $\Sigma_{ss}(J_s-\Sigma_{ss})\geq0$.
 в формулу минимальной стоимости.
 
 При $\cos\beta=0$ формулы с делением неприменимы.
-Тогда $\Sigma_{ss}=J_s$, а~\eqref{eq:sc-feasibility-sums}
-требует $\Delta a=0$ и $\Sigma_{sc}=0$.
-Из~\eqref{eq:sc-uv}, поскольку $\Delta i>0$, получаем
-$\Delta e_x=0$; равенство $\Sigma_{ss}=J_s$ после подстановки
-\eqref{eq:sc-cost} даёт $\Delta i=\sqrt3|\Delta e_y|$.
+Тогда~\eqref{eq:sc-feasibility-sums} требует $\Delta a=0$ и
+$\Delta e_x=0$, поскольку $\Delta i>0$.
+Подставляя~\eqref{eq:sc-cost} и $\Delta e_x=0$
+в~\eqref{eq:sc-angle}, при $\sin^2\beta=1$ получаем
+$\Delta i=\sqrt3|\Delta e_y|$.
 Это граница с узловым решением. Достаточен один импульс
 $(-\Delta e_y,0,\Delta i)$ в узле $\varphi=0$;
 его модуль равен $J_s$.
-При $\sin\beta=0$ имеем $\Sigma_{ss}=0$, что соответствует
-$\Delta i=0$; тогда используется компланарное решение.
+При $\sin\beta=0$ из~\eqref{eq:sc-angle} следует $\Delta i=0$;
+тогда используется компланарное решение.
 \input{images/case-sc-result.tex}
 
 \subsection{Порядок расчёта и проверка результата}
