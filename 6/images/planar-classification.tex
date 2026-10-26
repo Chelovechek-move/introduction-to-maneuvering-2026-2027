@@ -1,0 +1,26 @@
+% Классификация по manual/chapter-3-algorithms.tex, sec:planar.
+\begin{tikzpicture}[course diagram,x=1mm,y=1mm,
+  condition/.style={draw=courserule,fill=coursetint,line width=.6pt,
+    text width=43mm,minimum height=10mm,align=center,inner sep=1.5mm,
+    font=\normalsize},
+  result/.style={draw=courserule,fill=coursetint,line width=.6pt,
+    text width=76mm,minimum height=12mm,align=center,inner sep=1.5mm,
+    font=\normalsize},
+  branch/.style={draw=courseaccent,line width=.7pt,->}]
+  \path[use as bounding box] (0,0) rectangle (148,42);
+  \node[condition] (tangent-test) at (26,35) {$|\Delta a|=\Delta e>0$};
+  \node[condition] (disjoint-test) at (26,21) {$|\Delta a|>\Delta e$};
+  \node[condition] (crossing-test) at (26,7) {$|\Delta a|<\Delta e$};
+  \node[result] (tangent) at (108,35)
+    {Касающиеся орбиты\\
+     {\fontsize{9.5}{11.5}\selectfont Один трансверсальный импульс}};
+  \node[result] (disjoint) at (108,21)
+    {Непересекающиеся орбиты\\
+     {\fontsize{9.5}{11.5}\selectfont Два импульса одного знака}};
+  \node[result] (crossing) at (108,7)
+    {Пересекающиеся орбиты\\
+     {\fontsize{9.5}{11.5}\selectfont Два импульса противоположных знаков}};
+  \draw[branch] (tangent-test.east)--(tangent.west);
+  \draw[branch] (disjoint-test.east)--(disjoint.west);
+  \draw[branch] (crossing-test.east)--(crossing.west);
+\end{tikzpicture}

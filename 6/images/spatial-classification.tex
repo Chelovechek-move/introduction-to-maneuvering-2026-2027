@@ -1,0 +1,37 @@
+% Порядок проверок: manual/chapter-3-algorithms.tex, sec:transfer-check.
+% Последовательность отдаёт общие границы сначала NC, затем SC.
+\begin{tikzpicture}[course diagram,x=1mm,y=1mm,
+  condition/.style={draw=courserule,fill=coursetint,line width=.6pt,
+    text width=85mm,align=center,inner sep=1.5mm},
+  result/.style={draw=courserule,fill=coursetint,line width=.6pt,
+    text width=42mm,minimum height=11mm,align=center,inner sep=1.5mm},
+  branch/.style={draw=courseaccent,line width=.7pt,->}]
+  \path[use as bounding box] (0,-7) rectangle (148,46.5);
+  \node[condition,minimum height=11mm] (nc-test) at (44,40)
+    {$\begin{gathered}
+       |\Delta a|\leq|\Delta e_x|,\\
+       \Delta i\geq\sqrt3\,|\Delta e_y|
+     \end{gathered}$};
+  \node[result] (nc) at (124.5,40)
+    {Узловое решение\\
+     {\fontsize{9.5}{11.5}\selectfont $\Delta e_x=0$: один импульс}};
+  \node[condition,minimum height=10mm] (line-test) at (44,26)
+    {$\Delta e_y=0$};
+  \node[result] (line-case) at (124.5,26)
+    {Нулевые радиальные\\компоненты};
+  \node[condition,minimum height=16mm] (sc-test) at (44,10)
+    {$\displaystyle\begin{gathered}
+       \Delta i\leq\sqrt3\,|\Delta e_y|,\\
+       (\Delta a)^2\leq\Delta e^2+
+         \frac{2\Delta i|\Delta e_y|}{\sqrt3}-(\Delta i)^2
+     \end{gathered}$};
+  \node[result] (sc) at (124.5,14) {Особое решение};
+  \node[result] (ndc) at (124.5,-1) {Невырожденное\\решение};
+  \draw[branch] (nc-test.east)--node[above] {да}(nc.west);
+  \draw[branch] (nc-test.south)--node[right] {нет}(line-test.north);
+  \draw[branch] (line-test.east)--node[above] {да}(line-case.west);
+  \draw[branch] (line-test.south)--node[right] {нет}(sc-test.north);
+  \draw[branch] (sc-test.east)--node[above] {да}(sc.west);
+  \draw[branch] (sc-test.south)--(44,-1)--
+    node[below=1pt,inner sep=.5pt] {нет}(ndc.west);
+\end{tikzpicture}

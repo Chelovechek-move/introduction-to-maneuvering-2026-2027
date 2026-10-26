@@ -1,0 +1,52 @@
+% Схема с усиленной эллиптичностью: a_i=12, e_i=.65; a_f=20, e_f=.60.
+% Это геометрическая иллюстрация, не численный пример околокругового приближения.
+% Общий фокус O=(0,0); центры (-a_i e_i,0), (-a_f e_f,0).
+% r_pi=4.2, r_af=32; переходная дуга имеет a_tr=18.1,
+% c_tr=13.9, b_tr=sqrt(r_pi*r_af), касания в противоположных апсидах.
+\begin{tikzpicture}[course diagram,x=1mm,y=1mm,scale=.84]
+  \path[use as bounding box] (-37,-32) rectangle (16,19);
+  \pgfmathsetmacro{\htAi}{12}
+  \pgfmathsetmacro{\htEi}{.65}
+  \pgfmathsetmacro{\htAf}{20}
+  \pgfmathsetmacro{\htEf}{.60}
+  \pgfmathsetmacro{\htBi}{\htAi*sqrt(1-\htEi*\htEi)}
+  \pgfmathsetmacro{\htBf}{\htAf*sqrt(1-\htEf*\htEf)}
+  \pgfmathsetmacro{\htRp}{\htAi*(1-\htEi)}
+  \pgfmathsetmacro{\htRa}{\htAf*(1+\htEf)}
+  \pgfmathsetmacro{\htAt}{(\htRp+\htRa)/2}
+  \pgfmathsetmacro{\htCt}{(\htRa-\htRp)/2}
+  \pgfmathsetmacro{\htBt}{sqrt(\htRp*\htRa)}
+  \coordinate (htO) at (0,0);
+  \coordinate (htP) at (\htRp,0);
+  \coordinate (htA) at (-\htRa,0);
+
+  \draw[aux line,dashed] (-34,0)--(10,0);
+  \draw[draw=courseink,line width=.75pt]
+    ({-\htAi*\htEi},0) ellipse[x radius=\htAi,y radius=\htBi];
+  \draw[draw=courseink,line width=.75pt,densely dashed]
+    ({-\htAf*\htEf},0) ellipse[x radius=\htAf,y radius=\htBf];
+  \draw[orbit line]
+    plot[domain=0:180,samples=121,variable=\u]
+      ({-\htCt+\htAt*cos(\u)},{\htBt*sin(\u)});
+  \draw[angle line,line width=1pt]
+    plot[domain=75:96,samples=25,variable=\u]
+      ({-\htCt+\htAt*cos(\u)},{\htBt*sin(\u)});
+
+  % Длинные подписи вынесены в легенду; в поле схемы только O и номера.
+  \node[circle,fill=courseink,inner sep=1.5pt] at (htO) {};
+  \node[anchor=north east,inner sep=0pt] at (-.8,-1.2) {$O$};
+  \node[orbit point] at (htP) {};
+  \node[orbit point] at (htA) {};
+  \draw[vector line,line width=.85pt] (htP)--++(0,7);
+  \draw[vector line,line width=.85pt] (htA)--++(0,-7);
+  \node[inner sep=0pt] at (11,7.3) {$1$};
+  \node[inner sep=0pt] at (-34.5,-6.5) {$2$};
+
+  \draw[draw=courseink,line width=.75pt] (-29,-20.5)--(-22,-20.5);
+  \node[anchor=west,inner sep=0pt] at (-19.5,-20.5) {Начальная $i$};
+  \draw[draw=courseink,line width=.75pt,densely dashed]
+    (-29,-25)--(-22,-25);
+  \node[anchor=west,inner sep=0pt] at (-19.5,-25) {Конечная $f$};
+  \draw[orbit line] (-29,-29.5)--(-22,-29.5);
+  \node[anchor=west,inner sep=0pt] at (-19.5,-29.5) {Переходная};
+\end{tikzpicture}
