@@ -1,0 +1,1922 @@
+
+% ==================== front ====================
+% Самостоятельный конспект лекции 7.
+% Сборка из корня курса: latexmk 7/rendezvous.tex
+% Для оглавления и перекрёстных ссылок требуется повторный запуск pdflatex.
+\documentclass[a4paper,11pt]{article}
+\usepackage{iftex}
+\RequirePDFTeX
+\usepackage{cmap}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{PTSerif}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[a4paper,left=20mm,right=20mm,top=22mm,bottom=23mm,headheight=14pt]{geometry}
+\usepackage{microtype}
+\usepackage{graphicx,xcolor,tikz,booktabs,tabularx,array,longtable}
+\usetikzlibrary{arrows.meta,calc}
+\usepackage{enumitem,fancyhdr,needspace,float,placeins}
+\usepackage[most]{tcolorbox}
+\newtcolorbox{explanation}[1]{enhanced,
+ colback=accent!3!white,colframe=accent!80!black,
+ boxrule=.5pt,toprule=1.2pt,arc=1mm,
+ left=3mm,right=3mm,top=3mm,bottom=2mm,
+ before skip=9pt,after skip=9pt,
+ title={#1},fonttitle=\bfseries,coltitle=accent!70!black,
+ attach boxed title to top left={xshift=3mm,yshift=-2mm},
+ boxed title style={colback=white,frame hidden,boxrule=0pt,
+ left=1.5mm,right=1.5mm,top=.4mm,bottom=.4mm},
+ fontupper=\normalsize}
+\newtcolorbox{remarkbox}{enhanced,
+ colback=orange!4!white,colframe=orange!65!black,
+ boxrule=.5pt,toprule=1.2pt,arc=1mm,
+ left=3mm,right=3mm,top=2mm,bottom=2mm,
+ before skip=9pt,after skip=9pt,fontupper=\normalsize}
+\setcounter{topnumber}{2}
+\renewcommand{\topfraction}{.85}
+\renewcommand{\textfraction}{.12}
+\renewcommand{\floatpagefraction}{.85}
+\usepackage{hyperref}
+\usepackage{bookmark}
+\definecolor{accent}{HTML}{187AA5}
+\definecolor{muted}{HTML}{5A6166}
+\definecolor{figink}{HTML}{25323F}
+\definecolor{figgray}{HTML}{687582}
+\definecolor{figrad}{HTML}{176AA6}
+\definecolor{figtan}{HTML}{087F78}
+\definecolor{fignormal}{HTML}{B57714}
+\definecolor{figplane}{HTML}{EEF4F8}
+\definecolor{figorbit}{HTML}{79539C}
+\hypersetup{unicode=true,colorlinks=true,linkcolor=accent,citecolor=accent,urlcolor=accent,
+ pdftitle={Задача встречи и относительное движение},
+ pdfauthor={Материалы курса «Введение в маневрирование КА»},
+ pdfsubject={Общая и линейная встреча, задача Ламберта и модели относительного движения}}
+\newcommand{\dd}{\mathop{}\!\mathrm d}
+\newcommand{\R}{\mathbb R}
+\DeclareMathOperator{\sgn}{sgn}
+\numberwithin{equation}{section}
+\newtheorem{theorem}{Теорема}[section]
+\newtheorem{lemma}[theorem]{Лемма}
+\newtheorem{proposition}[theorem]{Утверждение}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Замечание}
+\renewcommand{\proofname}{Доказательство}
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
+\setlength{\parindent}{1.3em}
+\setlength{\parskip}{2pt}
+\linespread{1.055}
+\setlist{itemsep=2pt,topsep=4pt,parsep=0pt}
+\setlength{\emergencystretch}{1.5em}
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000
+\allowdisplaybreaks[1]
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{muted}Задача встречи и относительное движение}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{.3pt}
+\renewcommand{\footrulewidth}{0pt}
+\newcommand{\vect}[1]{\boldsymbol{#1}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\mat}[1]{\boldsymbol{#1}}
+\DeclareMathOperator{\atanTwo}{atan2}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\diag}{diag}
+\newcommand{\coursefigure}[3][.94]{%
+\begin{figure}[htbp]\centering
+\includegraphics[width=#1\textwidth]{images/#2.pdf}
+\caption{#3}\label{fig:#2}\end{figure}}
+\input{images/example-values.tex}
+\begin{document}
+\begin{titlepage}
+\centering
+{\large Московский физико-технический институт\par}
+\vspace{8mm}
+{\large Курс «Введение в маневрирование КА»\par}
+\vspace{32mm}
+{\color{accent}\rule{28mm}{.8pt}\par}
+\vspace{9mm}
+{\LARGE\bfseries Задача встречи\\[3mm]
+и относительное движение\par}
+\vspace{10mm}
+{\large Методические материалы\par}
+\vspace{8mm}
+{Общая и линейная постановки. Задача Ламберта.\\
+Модели относительного движения и уточнение решения.\par}
+\vfill
+{Рабочая редакция\par}
+\vspace{3mm}
+{3 ноября 2026 года\par}
+\end {titlepage}
+\setcounter{page}{2}
+\tableofcontents
+\clearpage
+
+\section*{Предмет рассмотрения и обозначения}
+\addcontentsline{toc}{section}{Предмет рассмотрения и обозначения}
+
+Задача встречи задаёт полное состояние аппарата в момент $t_f$,
+совпадающее с состоянием цели. Рассматриваются общая задача
+управления, её линейное импульсное приближение, задача Ламберта
+и модели относительного движения CW, TH и SS.
+
+Общие уравнения записываются в классических оскулирующих элементах
+\[
+ \vect y=(a,e,\omega,i,\Omega,M)^\top.
+\]
+В относительной системе используются декартовы координаты
+и их производные во вращающемся базисе.
+Импульс означает мгновенный скачок инерциальной скорости
+при непрерывном положении. Его влияние на элементы
+линеаризуется; проверочный прогноз выполняется
+с точным скачком скорости.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.13}
+\begin{tabularx}{\textwidth}{@{}>{$}l<{$}X@{}}
+\toprule
+\multicolumn{1}{@{}l}{Обозначение}&Смысл\\\midrule
+\mu & Гравитационный параметр центрального тела.\\
+\vect R,\vect V & Инерциальные радиус-вектор и скорость.\\
+p,h,n & Фокальный параметр $p=a(1-e^2)$, удельный момент
+$h=\sqrt{\mu p}$, среднее движение $n=\sqrt{\mu/a^3}$.\\
+\nu,u & Истинная аномалия и аргумент широты $u=\omega+\nu$.\\
+S,T,W & Радиальная, трансверсальная и нормальная компоненты
+управляющего ускорения в ОСК.\\
+B,\Phi,M_j & Мгновенная чувствительность элементов к ускорению;
+матрица изохронных производных; матрица манёвра.\\
+\Delta\vect V & Столбец всех трёхкомпонентных импульсов.\\
+\vect\rho=(x,y,z)^\top & Относительное положение в RTN цели:
+радиально наружу, поперёк радиуса, по нормали к плоскости.\\
+\varpi & Угол ориентации вектора эксцентриситета в плоскости
+перелёта в разделе о задаче Ламберта.\\
+\end{tabularx}
+\end{center}
+
+Углы в формулах измеряются в радианах. В таблицах исходных данных
+их значения могут приводиться в градусах. Для импульсов на границах
+интервала начальное состояние понимается до первого импульса,
+а конечное --- после последнего. Все граничные сравнения изохронны:
+состояния сопоставляются при одном физическом времени $t_f$.
+
+\begin{remarkbox}
+Классические элементы являются локальными координатами.
+При $e=0$ не определены по отдельности $\omega$ и $M$,
+а при $\sin i=0$ --- линия узлов. Поэтому общая матрица $B$
+ниже используется при $e>0$, $\sin i\ne0$.
+Малый ненулевой эксцентриситет не заменяется нулём в членах $1/e$.
+Круговая опорная орбита в декартовых уравнениях относительного движения
+такой координатной особенности не имеет.
+\end{remarkbox}
+
+\clearpage
+\section{Общая постановка встречи в классических элементах}
+\label{sec:general}
+
+\subsection{Инерциальная динамика и орбитальная система координат}
+
+Пусть $\vect a=(S,T,W)^\top$ --- компоненты управляющего
+ускорения в ОСК. Уравнения управляемого аппарата в инерциальных осях
+имеют вид
+\begin{equation}
+ \dot{\vect R}=\vect V,\qquad
+ \dot{\vect V}=-\frac{\mu}{R^3}\vect R+Q\vect a,
+ \qquad R=\norm{\vect R}.
+ \label{eq:inertial}
+\end{equation}
+Единичные векторы орбитальной системы координат задаются как
+\begin{equation}
+ \vect e_r=\frac{\vect R}{R},\qquad
+ \vect e_n=\frac{\vect R\times\vect V}{h},\qquad
+ \vect e_t=\vect e_n\times\vect e_r,
+ \quad h=\norm{\vect R\times\vect V}.
+ \label{eq:RTN}
+\end{equation}
+Положим $Q=[\vect e_r\ \vect e_t\ \vect e_n]$. Компоненты ускорения в ОСК:
+\begin{equation}
+ \vect a=(S,T,W)^\top,\qquad Q\vect a=S\vect e_r+T\vect e_t+W\vect e_n.
+ \label{eq:control-components}
+\end{equation}
+Вектор $\vect e_t$ поперечен радиусу в текущей плоскости орбиты.
+На эллипсе он не совпадает с направлением скорости:
+\[
+ \vect V=V_r\vect e_r+V_t\vect e_t,
+ \qquad
+ V_r=\frac{\mu}{h}e\sin\nu,\qquad V_t=\frac{h}{R}.
+\]
+
+Классические элементы вычисляются по текущим $\vect R,\vect V$
+и задают соответствующую им оскулирующую орбиту.
+При кеплеровом движении первые пять элементов постоянны,
+а $\dot M=n(a)$.
+
+\subsection{Большая полуось}
+
+Удельная механическая энергия равна
+\begin{equation}
+ \mathcal E=\frac{V^2}{2}-\frac{\mu}{R}=-\frac{\mu}{2a}.
+ \label{eq:energy}
+\end{equation}
+Дифференцирование с учётом \eqref{eq:inertial} даёт
+\[
+ \dot{\mathcal E}=\vect V\cdot Q\vect a=V_rS+V_tT,
+ \qquad
+ \frac{\mu}{2a^2}\dot a=\frac{\mu}{h}e\sin\nu\,S+\frac{h}{R}T.
+\]
+Используя $h^2=\mu p$, получаем первую строку уравнений Гаусса:
+\begin{equation}
+ \dot a=\frac{2a^2}{h}
+       \left(e\sin\nu\,S+\frac pR T\right).
+ \label{eq:gauss-a}
+\end{equation}
+Нормальное ускорение ортогонально скорости и не входит в
+\eqref{eq:gauss-a}.
+
+\subsection{Эксцентриситет и направление перицентра}
+
+Вектор удельного момента и вектор эксцентриситета определяются
+соотношениями
+\begin{equation}
+ \vect h=\vect R\times\vect V,\qquad
+ \vect e=\frac{\vect V\times\vect h}{\mu}-\vect e_r.
+ \label{eq:invariants}
+\end{equation}
+Управляющее ускорение даёт
+\begin{equation}
+ \dot{\vect h}=\vect R\times Q\vect a,
+ \qquad
+ \dot{\vect e}=\frac{1}{\mu}
+ \left((Q\vect a)\times\vect h+
+              \vect V\times(\vect R\times Q\vect a)\right).
+ \label{eq:edot-vector}
+\end{equation}
+Центральные гравитационные члены во второй формуле сокращаются.
+
+Для получения скалярного $\dot e$ можно также использовать
+$p=h^2/\mu=a(1-e^2)$. Из первой формулы
+\eqref{eq:edot-vector} имеем $\dot h=RT$, поэтому
+\[
+ \dot p=\frac{2hR}{\mu}T
+       =(1-e^2)\dot a-2ae\dot e.
+\]
+Подстановка \eqref{eq:gauss-a}, использование
+$R=p/(1+e\cos\nu)$ и приведение членов дают
+\begin{equation}
+ \dot e=\frac1h\left[
+       p\sin\nu\,S+
+       \bigl((p+R)\cos\nu+Re\bigr)T\right].
+ \label{eq:gauss-e}
+\end{equation}
+Проекция \eqref{eq:edot-vector} на направление, перпендикулярное
+$\vect e$ в плоскости орбиты, даёт
+\begin{equation}
+ \dot\omega+\cos i\,\dot\Omega
+ =\frac{1}{he}\left[-p\cos\nu\,S+(p+R)\sin\nu\,T\right].
+ \label{eq:gauss-peri-inplane}
+\end{equation}
+Слагаемое $\cos i\,\dot\Omega$ учитывает поворот линии узлов.
+
+\subsection{Поворот плоскости: наклонение и узел}
+
+Из $\dot{\vect h}=\vect R\times Q\vect a$
+следует поворот плоскости с угловой скоростью, пропорциональной
+$RW/h$. Для $u=\omega+\nu$ получаем
+\begin{equation}
+ \dot i=\frac{R\cos u}{h}W,
+ \qquad
+ \dot\Omega=\frac{R\sin u}{h\sin i}W,
+ \qquad u=\omega+\nu.
+ \label{eq:gauss-plane}
+\end{equation}
+Из \eqref{eq:gauss-peri-inplane} и \eqref{eq:gauss-plane}
+следует
+\begin{equation}
+ \dot\omega=\frac{-p\cos\nu\,S+(p+R)\sin\nu\,T}{he}
+                  -\frac{R\sin u\cot i}{h}W.
+ \label{eq:gauss-omega}
+\end{equation}
+Члены $1/e$ и $1/\sin i$ связаны с особенностями классических
+элементов при круговой и экваториальной орбитах.
+
+\subsection{Изменение средней аномалии}
+
+Используется текущая средняя аномалия $M$.
+Между истинной аномалией $\nu$,
+эксцентрической аномалией $E$ и $M$ имеются связи
+\begin{equation}
+ M=E-e\sin E,\qquad
+ \tan\frac E2=\sqrt{\frac{1-e}{1+e}}\tan\frac\nu2.
+ \label{eq:anomalies}
+\end{equation}
+Для сохранения квадранта $E$ вычисляют двухаргументным арктангенсом.
+Производные $M$ при независимых $e,\nu$ равны
+\begin{equation}
+ \left.\frac{\partial M}{\partial\nu}\right|_e
+ =\frac{(1-e^2)^{3/2}}{(1+e\cos\nu)^2},\qquad
+ \left.\frac{\partial M}{\partial e}\right|_\nu
+ =-\frac{\sqrt{1-e^2}\sin\nu(2+e\cos\nu)}
+              {(1+e\cos\nu)^2}.
+ \label{eq:M-derivatives}
+\end{equation}
+В оскулирующем описании
+$\dot\nu=h/R^2-\dot\omega-\cos i\dot\Omega$.
+Дифференцируем $M(e,\nu)$, подставляем
+\eqref{eq:gauss-e}, \eqref{eq:gauss-peri-inplane} и
+используем $h/R^2$ для кеплеровой части. Получаем
+\begin{equation}
+ \dot M=n-\frac{2R}{na^2}S
+       -\sqrt{1-e^2}(\dot\omega+\cos i\dot\Omega).
+ \label{eq:gauss-M-compact}
+\end{equation}
+В выражении для $\dot M$ коэффициент при нормальном ускорении
+$W$ равен нулю. В развёрнутом виде
+\begin{equation}
+ \dot M=n+\frac{\sqrt{1-e^2}}{he}
+ \left[(p\cos\nu-2Re)S-(p+R)\sin\nu\,T\right].
+ \label{eq:gauss-M}
+\end{equation}
+Зависимость $n$ от $a$ учитывается далее в матрице перехода.
+
+\subsection{Матрица чувствительности \texorpdfstring{$B$}{B}}
+
+Соберём полученные формулы в матричную запись
+\begin{equation}
+ \dot{\vect y}=\vect f_0(\vect y)+B(\vect y)\vect a,\qquad
+ \vect f_0=(0,0,0,0,0,n(a))^\top,\qquad
+ \vect a=(S,T,W)^\top.
+ \label{eq:gauss-matrix}
+\end{equation}
+Для порядка $(a,e,\omega,i,\Omega,M)$ имеем
+\begin{equation}
+ B(\vect y)=\begin{pmatrix}
+ \dfrac{2a^2e\sin\nu}{\sqrt{\mu p}}&
+ \dfrac{2a^2(1+e\cos\nu)}{\sqrt{\mu p}}&0\\[5pt]
+ \sqrt{\dfrac p\mu}\sin\nu&
+ \sqrt{\dfrac p\mu}
+ \dfrac{2\cos\nu+e(1+\cos^2\nu)}{1+e\cos\nu}&0\\[5pt]
+ -\sqrt{\dfrac p\mu}\dfrac{\cos\nu}{e}&
+ \sqrt{\dfrac p\mu}
+ \dfrac{(2+e\cos\nu)\sin\nu}{e(1+e\cos\nu)}&
+ -\sqrt{\dfrac p\mu}\dfrac{\sin u\cot i}{1+e\cos\nu}\\[5pt]
+ 0&0&\sqrt{\dfrac p\mu}\dfrac{\cos u}{1+e\cos\nu}\\[5pt]
+ 0&0&\sqrt{\dfrac p\mu}\dfrac{\sin u}{(1+e\cos\nu)\sin i}\\[5pt]
+ \dfrac{p}{e\sqrt{\mu a}}
+ \left(\cos\nu-\dfrac{2e}{1+e\cos\nu}\right)&
+ -\dfrac{p(2+e\cos\nu)\sin\nu}{e\sqrt{\mu a}(1+e\cos\nu)}&0
+ \end{pmatrix}.
+ \label{eq:B-classical}
+\end{equation}
+Здесь $p=a(1-e^2)$, $u=\omega+\nu$.
+Истинная аномалия $\nu$ восстанавливается из $M$ уравнением
+Кеплера. Матрица $B$ меняется вдоль орбиты;
+её столбцы соответствуют компонентам $S,T,W$.
+
+При учёте возмущений уравнения имеют вид
+\begin{equation}
+ \dot{\vect y}=\vect f_0(t,\vect y)+B(\vect y)\vect a.
+ \label{eq:general-element-dynamics}
+\end{equation}
+Возмущающие ускорения учитываются в $\vect f_0$;
+матрица $B$ сохраняется. Постоянные компоненты $(S,T,W)^\top$
+во вращающейся ОСК соответствуют переменному инерциальному
+вектору $Q\vect a$.
+
+\subsection{Краевая задача и критерий выбора управления}
+
+Пусть управляемый аппарат имеет начальное состояние $\vect y_i$
+в момент $t_i$, а цель --- известное движение
+$\vect y_{\rm tar}(t)$. Если цель движется без управления, её
+конечное состояние получается отдельным прогнозом из её
+начальных элементов. Если задана эфемерида, берётся значение
+из неё. В обоих случаях в конечном условии стоит
+$\vect y_t=\vect y_{\rm tar}(t_f)$, относящееся именно к $t_f$.
+
+Общая задача встречи формулируется следующим образом:
+\begin{equation}
+ \begin{aligned}
+  &\min_{\vect a\in\mathcal A}
+     J=\int_{t_i}^{t_f}\norm{\vect a(t)}\,\dd t,\\
+  &\dot{\vect y}=\vect f_0(t,\vect y)+B(\vect y)\vect a(t),\\
+  &\vect y(t_i)=\vect y_i,\qquad \vect y(t_f)=\vect y_t.
+ \end{aligned}
+ \label{eq:general-rendezvous}
+\end{equation}
+Множество $\mathcal A$ задаёт допустимое управление: ограничения
+модуля ускорения, интервалы разрешённой работы, ориентационные
+и другие ограничения конкретной задачи. В \eqref{eq:general-rendezvous}
+времена $t_i,t_f$ фиксированы. Если какое-либо время выбирается,
+оно должно быть явно включено в список переменных.
+
+Интеграл нормы ускорения называется характеристической скоростью.
+Полное конечное условие содержит фазу $M$;
+равенство только первых пяти элементов задаёт геометрическую орбиту.
+Общая постановка следует \cite{chiniaev} и здесь записана
+в классических элементах.
+
+\FloatBarrier
+\section{Линейная импульсная задача встречи}
+\label{sec:linear}
+
+\subsection{Импульс как локальное изменение элементов}
+
+В импульсной модели положение непрерывно, а инерциальная скорость
+испытывает скачок:
+\begin{equation}
+ \vect R_j^+=\vect R_j^-,\qquad
+ \vect V_j^+=\vect V_j^-+Q_j\Delta\vect V_j,
+ \qquad Q_j=[\vect e_{rj}\ \vect e_{tj}\ \vect e_{nj}].
+ \label{eq:exact-impulse}
+\end{equation}
+Здесь $\Delta\vect V_j$ --- компоненты импульса в предманёвренной
+ОСК. Формула \eqref{eq:exact-impulse} является точным определением
+идеального импульса. Орбитальные элементы после него находятся
+по новому положению и скорости.
+
+Однако зависимость элементов от скорости нелинейна. Например,
+из энергии непосредственно следует
+\[
+ \mathcal E^+-\mathcal E^-
+ =\vect V^-\cdot Q_j\Delta\vect V_j
+             +\frac12\norm{\Delta\vect V_j}^2.
+\]
+Последний член уже не описывается первой производной.
+При малом импульсе из уравнений Гаусса получается
+\begin{equation}
+ \vect y_j^+-\vect y_j^-
+ =B(\vect y_j^-)\Delta\vect V_j
+                  +O(\norm{\Delta\vect V_j}^2).
+ \label{eq:linear-impulse}
+\end{equation}
+
+\subsection{Движение без управления и конечное отклонение}
+
+Из заданного начального состояния вычислим траекторию без
+управления $\vect y_0(t)$:
+\begin{equation}
+ \dot{\vect y}_0=\vect f_0(t,\vect y_0),\qquad
+ \vect y_0(t_i)=\vect y_i.
+ \label{eq:reference}
+\end{equation}
+Потребное изменение конечного
+состояния равно
+\begin{equation}
+ \Delta\vect y_f=\vect y_t-\vect y_0(t_f).
+ \label{eq:terminal-deficit}
+\end{equation}
+В \eqref{eq:terminal-deficit} сравниваются состояния при одном $t_f$.
+Чтобы получить линейное приближение, положим
+$\vect y=\vect y_0+\delta\vect y$ и оставим первый порядок
+по отклонениям и управлению:
+\begin{equation}
+ \delta\dot{\vect y}=A(t)\delta\vect y+B_0(t)\vect a,
+ \quad
+ A(t)=\left.\frac{\partial\vect f_0}{\partial\vect y}\right|_{\vect y_0(t)},
+ \quad B_0(t)=B(\vect y_0(t)).
+ \label{eq:variation}
+\end{equation}
+Произведение изменения $B$ на управление имеет второй порядок.
+Все коэффициенты вычисляются на одной опорной траектории.
+
+\subsection{Матрица изохронных производных}
+
+Матрица перехода $\Phi(t,t_j)$ определяется уравнением
+\begin{equation}
+ \frac{\dd\Phi(t,t_j)}{\dd t}=A(t)\Phi(t,t_j),
+ \qquad \Phi(t_j,t_j)=I_6.
+ \label{eq:stm-definition}
+\end{equation}
+Матрица переносит отклонение между заданными моментами:
+$\delta\vect y(t)=\Phi(t,t_j)\delta\vect y(t_j)$.
+Она удовлетворяет $\Phi(t_3,t_1)=\Phi(t_3,t_2)\Phi(t_2,t_1)$.
+
+В кеплеровом случае закон движения известен точно:
+\[
+ \vect y(t)=
+ (a_j,e_j,\omega_j,i_j,\Omega_j,M_j+n(a_j)(t-t_j))^\top.
+\]
+Дифференцирование по состоянию в $t_j$ даёт
+\begin{equation}
+ \Phi(t,t_j)=
+ \begin{pmatrix}
+ 1&0&0&0&0&0\\0&1&0&0&0&0\\0&0&1&0&0&0\\
+ 0&0&0&1&0&0\\0&0&0&0&1&0\\
+ -\dfrac{3n}{2a}(t-t_j)&0&0&0&0&1
+ \end{pmatrix},\qquad
+ \frac{\dd n}{\dd a}=-\frac{3n}{2a}.
+ \label{eq:kepler-stm}
+\end{equation}
+Приращение большой полуоси меняет среднее движение,
+поэтому конечная фаза зависит от времени переноса:
+\begin{equation}
+ \delta M(t)=\delta M_j-\frac{3n}{2a}(t-t_j)\delta a_j.
+ \label{eq:phase-variation}
+\end{equation}
+\coursefigure{phi-phase}{Изменение фазы при $a=7000$~км,
+$\delta a=100$~км на интервале 24~ч. Сравниваются состояния
+в одинаковые моменты времени; наклон линейной зависимости
+задаётся $\partial n/\partial a=-3n/(2a)$.}
+
+Матрица \eqref{eq:kepler-stm} --- точный якобиан кеплерова
+отображения. Для конечного приращения остаётся член второго порядка:
+\[
+ n(a+\delta a)-n(a)
+ =-\frac{3n}{2a}\delta a+\frac{15n}{8a^2}(\delta a)^2
+ +O((\delta a)^3).
+\]
+
+\subsection{Матрица манёвра}
+
+Совместим мгновенное изменение \eqref{eq:linear-impulse}
+с переносом отклонения до $t_f$. Для одного импульса получаем
+\begin{equation}
+ \delta\vect y_{f,j}=M_j\Delta\vect V_j,
+ \qquad
+ M_j=\Phi(t_f,t_j)B(\vect y_0(t_j))\in\R^{6\times3}.
+ \label{eq:maneuver-matrix}
+\end{equation}
+Матрица $B_j$ задаёт мгновенное изменение элементов,
+$\Phi$ переносит его к $t_f$.
+
+В кеплеровой модели первые пять строк $M_j$ совпадают
+с первыми пятью строками $B_j=B(\vect y_0(t_j))$, а последняя
+строка имеет особенно простой вид:
+\begin{equation}
+ (M_j)_{6,:}=(B_j)_{6,:}
+       -\frac{3n}{2a}(t_f-t_j)(B_j)_{1,:}.
+ \label{eq:last-row}
+\end{equation}
+Первая часть фазовой строки задаёт мгновенное изменение $M$,
+вторая --- накопленное изменение среднего движения.
+
+\subsection{Произвольное число импульсов и суперпозиция}
+
+Пусть $N$ импульсов приложены в заранее заданные моменты
+$t_i\le t_1<\ldots<t_N\le t_f$. В первом порядке вклады складываются:
+\begin{equation}
+ \sum_{j=1}^N M_j\Delta\vect V_j=\Delta\vect y_f.
+ \label{eq:sum-boundary}
+\end{equation}
+Введём столбец управления и общую матрицу
+\begin{equation}
+ \Delta\vect V=
+ \begin{pmatrix}\Delta\vect V_1\\\vdots\\\Delta\vect V_N\end{pmatrix}
+ \in\R^{3N},\qquad
+ \mathcal M=[M_1\ \cdots\ M_N]\in\R^{6\times3N}.
+ \label{eq:stack-control}
+\end{equation}
+Тогда линейное конечное условие встречи записывается как
+\begin{equation}
+ \boxed{\mathcal M\Delta\vect V=\Delta\vect y_f.}
+ \label{eq:linear-boundary}
+\end{equation}
+Это обобщение двухимпульсной записи \cite{chiniaev}.
+Суммирование допустимо в первом порядке: изменения состояния
+и базисов последующих манёвров дают произведения малых величин.
+
+\subsection{Существование, единственность и обусловленность}
+
+Равенство \eqref{eq:linear-boundary} разрешимо тогда и только тогда,
+когда $\Delta\vect y_f$ принадлежит образу $\mathcal M$.
+Для одного трёхкомпонентного импульса ранг не превышает трёх,
+поэтому произвольный шестимерный вектор обычно недостижим.
+При двух импульсах матрица квадратная; единственное решение
+существует при её невырожденности. При $N>2$ возможно семейство
+решений, но из одного лишь числа столбцов полный ранг не следует.
+
+Близость столбцов к линейной зависимости повышает
+чувствительность управления к исходным данным.
+Для численного анализа строку $a$ и угловые строки необходимо
+масштабировать. Иначе формальное число обусловленности зависит
+от выбора километров или метров, радиан или градусов.
+Пусть $D_y$ --- диагональная матрица характерных масштабов
+состояния. Тогда анализируется
+\[
+ \widehat{\mathcal M}=D_y^{-1}\mathcal M D_V,
+ \qquad
+ \Delta\widehat{\vect y}_f=D_y^{-1}\Delta\vect y_f,
+\]
+где $D_V$ задаёт масштаб скорости.
+При полном ранге масштабирование не меняет физическое равенство,
+но делает численные оценки содержательными.
+
+\coursefigure{rendezvous-functional-slide}{Характеристическая скорость линейной
+двухимпульсной встречи в зависимости от развёрнутых истинных долгот
+$L_1,L_2$, где $L=\Omega+\omega+\nu$.
+Опорная орбита: $a=6800$~км, $e=0{,}01$, $i=45^\circ$,
+$\omega=\Omega=M_i=0$; $t_f-t_i=24$~ч.
+Конечное отклонение
+$\Delta\vect y_f=(1\ \text{км},\ 0{,}01,\ 1^\circ,\ 0{,}1^\circ,\ 0{,}1^\circ,\ 1^\circ)^\top$
+задано в порядке $(a,e,\omega,i,\Omega,M)$.
+Белые точки --- найденные локальные минимумы; зелёные --- 50 лучших из найденных.}
+
+\subsection{Допустимое решение и минимум характеристической скорости}
+
+Для выбора управления при фиксированных моментах импульсов введём критерий:
+\begin{equation}
+ \begin{aligned}
+  &\min_{\Delta\vect V}\ J=\sum_{j=1}^N\norm{\Delta\vect V_j},\\
+  &\mathcal M\Delta\vect V=\Delta\vect y_f,
+  \qquad \norm{\Delta\vect V_j}\le\Delta V_{\max,j}.
+ \end{aligned}
+ \label{eq:fixed-time-cost}
+\end{equation}
+Сумма евклидовых норм выпукла, а равенство линейно.
+При дополнительных выпуклых ограничениях задача остаётся
+выпуклой. Её можно записать как коническую задачу второго порядка,
+введя $s_j\ge0$ и ограничения $\norm{\Delta\vect V_j}\le s_j$
+с линейным функционалом $\sum_js_j$.
+
+Другая распространённая задача минимизирует
+$\sum_j\norm{\Delta\vect V_j}^2=\norm{\Delta\vect V}^2$.
+Если $\mathcal M$ имеет полный строчный ранг, её решение равно
+\begin{equation}
+ \Delta\vect V_{\rm minnorm}
+ =\mathcal M^\top(\mathcal M\mathcal M^\top)^{-1}
+                    \Delta\vect y_f.
+ \label{eq:minnorm}
+\end{equation}
+Для решения системы используют QR- или сингулярное разложение.
+Минимум суммы квадратов и минимум суммы норм импульсов
+в общем случае различаются. При двух фиксированных импульсах
+и невырожденной матрице допустимое решение единственно;
+выбор моментов импульсов остаётся отдельной задачей.
+
+\subsection{Выбор моментов импульсов и границы линейности}
+
+Если моменты манёвров становятся переменными, матрица сама
+зависит от искомых величин:
+\begin{equation}
+ \mathcal M=\mathcal M(t_1,\ldots,t_N),\qquad
+ M_j=\Phi(t_f,t_j)B(\vect y_0(t_j)).
+ \label{eq:free-epochs}
+\end{equation}
+Моменты входят в $B(\vect y_0(t_j))$ и в длительность переноса.
+Поэтому совместный выбор векторов импульсов и моментов
+их приложения является нелинейной задачей. При выборе $t_f$ также пересчитывается
+$\Delta\vect y_f(t_f)$. Если манёвры задаются событиями
+по аномалии или долготе, их времена меняются вместе
+с управлением и требуют соответствующих производных.
+Полученное управление проверяется по исходным нелинейным уравнениям.
+
+\FloatBarrier
+\section{Задача Ламберта через геометрию семейства коник}
+\label{sec:lambert}
+
+\subsection{Постановка задачи}
+
+В задаче Ламберта рассматривается один пассивный участок
+в центральном поле. Заданы два положения $\vect R_1,\vect R_2$,
+гравитационный параметр $\mu$ и положительная длительность
+$\tau=t_2-t_1$. Требуется найти скорости $\vect V_1,\vect V_2$
+на кеплеровой дуге, проходящей через эти положения за время $\tau$:
+\begin{equation}
+ \ddot{\vect R}=-\frac{\mu}{R^3}\vect R,
+ \qquad \vect R(t_1)=\vect R_1,\qquad
+ \vect R(t_2)=\vect R_2.
+ \label{eq:lambert-boundary}
+\end{equation}
+Заданы также направление обхода и число полных оборотов $m$.
+Для неколлинеарных радиус-векторов плоскость определяется
+концами, но имеет два ориентированных нормальных направления.
+Они задают обход с углом меньше или больше $\pi$.
+Две многовитковые ветви при фиксированном $m$ рассматриваются отдельно.
+
+В этом разделе параметр $p$ всегда означает фокальный параметр
+коники. Линия изложения соответствует общей геометрической
+структуре краевой задачи из \cite[\S~5.2]{bmw}; параметризация
+через компоненты вектора эксцентриситета позволяет непосредственно
+построить её однопараметрическое семейство.
+
+\subsection{Семейство коник}
+
+Выберем ортонормированный базис в плоскости перелёта:
+\begin{equation}
+ \vect e_1=\frac{\vect R_1}{R_1},\qquad
+ \vect e_3=\pm\frac{\vect R_1\times\vect R_2}
+                         {\norm{\vect R_1\times\vect R_2}},
+ \qquad \vect e_2=\vect e_3\times\vect e_1.
+ \label{eq:lambert-plane}
+\end{equation}
+Знак нормали выбирается в соответствии с направлением движения.
+Тогда
+\[
+ \vect R_2=R_2(\cos\theta\,\vect e_1+\sin\theta\,\vect e_2),
+ \qquad 0<\theta<2\pi.
+\]
+Здесь отдельно исключён случай $\sin\theta=0$:
+для сонаправленных или противоположных радиусов стандартная
+параметризация ниже вырождается.
+
+Запишем вектор эксцентриситета в выбранном базисе:
+\begin{equation}
+ \vect e=e_c\vect e_1+e_s\vect e_2,\qquad
+ e=\sqrt{e_c^2+e_s^2},\qquad
+ \varpi=\atanTwo(e_s,e_c).
+ \label{eq:lambert-evector}
+\end{equation}
+Полярное уравнение коники с фокусом в начале координат имеет вид
+\begin{equation}
+ R(\eta)=\frac{p}{D(\eta;p)},\qquad
+ D(\eta;p)=1+e_c\cos\eta+e_s\sin\eta.
+ \label{eq:conic-family}
+\end{equation}
+Угол $\eta$ отсчитывается от первого радиуса, поэтому
+истинная аномалия данной коники равна $\nu=\eta-\varpi$.
+Требования прохождения через два заданных положения дают
+два скалярных равенства:
+\begin{equation}
+ 1+e_c=\frac p{R_1},\qquad
+ 1+e_c\cos\theta+e_s\sin\theta=\frac p{R_2}.
+ \label{eq:evector-constraints}
+\end{equation}
+Если выбрать $p$, остальные два неизвестных определяются явно:
+\begin{equation}
+ \boxed{e_c(p)=\frac p{R_1}-1,\qquad
+ e_s(p)=\frac{p/R_2-1-e_c(p)\cos\theta}{\sin\theta}.}
+ \label{eq:e-of-p}
+\end{equation}
+Следовательно, два положения оставляют один непрерывный
+параметр семейства. Он определяет и форму, и ориентацию
+соответствующей коники. \coursefigure{lambert-family}{Кеплеровы коники с общим фокусом
+при $R_1=7000$~км, $R_2=10000$~км, $\theta=100^\circ$.
+Выделено решение для времени перелёта 30~мин. Изменение
+фокального параметра $p$ меняет вектор эксцентриситета,
+ориентацию и время; точки на концах остаются прежними.}
+
+По найденным $p,e$ определяется вид коники:
+$e<1$ соответствует эллипсу, $e=1$ --- параболе,
+$e>1$ --- гиперболе. При $e\ne1$ большая полуось равна
+\begin{equation}
+ a=\frac{p}{1-e^2}.
+ \label{eq:a-from-p}
+\end{equation}
+Для эллипса $a>0$, для гиперболы $a<0$.
+Вблизи параболы деление на $1-e^2$ плохо обусловлено;
+само семейство \eqref{eq:conic-family} при этом не исчезает.
+
+\subsection{Область допустимых значений}
+
+Не всякое формальное значение $p$ задаёт нужный перелёт.
+Необходимо $p>0$ и
+\begin{equation}
+ D(\eta;p)>0\quad
+ \text{на всей дуге }0\le\eta\le\theta+2\pi m.
+ \label{eq:admissible-arc}
+\end{equation}
+Условие проверяется на всей дуге. Нулевой знаменатель
+соответствует асимптоте, отрицательный радиус не принадлежит
+нужной физической ветви. При $e<1$ знаменатель всегда положителен;
+при $e\ge1$ дуга ограничена асимптотами.
+Полные обороты возможны только для эллипса.
+Ограничение $R(\eta)>R_{\min}$ проверяется отдельно
+по концам и принадлежащим дуге перицентрам.
+
+\begin{explanation}{Ветви при заданной большой полуоси}
+Можно описывать семейство через $a$, но при одном $a$
+через заданные концы в общем случае проходят разные
+эллиптические дуги. Их времена различны.
+Поэтому выражение $T(a)$ без указания ветви неоднозначно.
+Параметризация \eqref{eq:e-of-p} сохраняет конкретную
+ориентированную конику, а число оборотов задаётся отдельно.
+\end{explanation}
+
+\subsection{Уравнение времени перелёта}
+
+Сохранение удельного момента даёт
+\[
+ R^2\dot\eta=h=\sqrt{\mu p},\qquad
+ \dd t=\frac{R^2}{\sqrt{\mu p}}\,\dd\eta.
+\]
+Поэтому время движения вдоль допустимой коники равно
+\begin{equation}
+ T_m(p)=\frac1{\sqrt{\mu p}}
+  \int_0^{\theta+2\pi m}R(\eta;p)^2\,\dd\eta
+ =\frac{p^{3/2}}{\sqrt\mu}
+  \int_0^{\theta+2\pi m}\frac{\dd\eta}{D(\eta;p)^2}.
+ \label{eq:lambert-time-integral}
+\end{equation}
+Каждая допустимая коника задаёт время движения по закону площадей.
+Условие заданной длительности превращается в одно скалярное
+уравнение
+\begin{equation}
+ F_m(p)=T_m(p)-\tau=0.
+ \label{eq:lambert-scalar}
+\end{equation}
+Геометрические условия сокращают непрерывный поиск до одной
+переменной $p$; направление и число оборотов остаются заданными.
+
+\coursefigure{lambert-branches}{Время движения как функция
+фокального параметра при $R_1=7000$~км, $R_2=10000$~км,
+$\theta=100^\circ$. Горизонтальная линия задаёт 200~мин.
+Минимум одновитковой ветви составляет около 156.8~мин:
+выше него существуют два решения с одним полным оборотом.
+Отсев дуг, пересекающих Землю, при построении не выполнен.}
+
+\subsection{Вычисление времени перелёта}
+
+Время можно вычислять квадратурой \eqref{eq:lambert-time-integral}
+или аналитически через аномалии.
+Положим $\nu_1=-\varpi$, $\nu_2=\theta-\varpi+2\pi m$.
+На эллипсе
+\begin{equation}
+ \cos E=\frac{e+\cos\nu}{1+e\cos\nu},\qquad
+ \sin E=\frac{\sqrt{1-e^2}\sin\nu}{1+e\cos\nu}.
+ \label{eq:lambert-E}
+\end{equation}
+Значения $E$ непрерывно продолжаются вдоль дуги
+с сохранением числа оборотов. Тогда
+\begin{equation}
+ T_m=\sqrt{\frac{a^3}{\mu}}
+ \bigl[E_2-E_1-e(\sin E_2-\sin E_1)\bigr].
+ \label{eq:lambert-time-ellipse}
+\end{equation}
+Сведение обеих аномалий по модулю $2\pi$ перед вычитанием
+удаляет целые периоды и решает другую задачу.
+
+Для гиперболы удобно ввести гиперболическую аномалию $H$:
+\begin{equation}
+ \sinh H=\frac{\sqrt{e^2-1}\sin\nu}{1+e\cos\nu},\qquad
+ T=\sqrt{\frac{(-a)^3}{\mu}}
+    \left[e(\sinh H_2-\sinh H_1)-(H_2-H_1)\right].
+ \label{eq:lambert-time-hyperbola}
+\end{equation}
+Знаменатель должен быть положительным на всей дуге.
+Для параболического случая используется формула Баркера.
+При $D_B=\tan(\nu/2)$ она имеет вид
+\begin{equation}
+ T=\frac12\sqrt{\frac{p^3}{\mu}}
+ \left[D_{B2}+\frac{D_{B2}^3}{3}
+             -D_{B1}-\frac{D_{B1}^3}{3}\right].
+ \label{eq:barker}
+\end{equation}
+Вблизи $e=1$ угловой интеграл позволяет избежать
+вычитания больших близких величин в формулах через $a$.
+
+\subsection{Поиск корня и учёт ветвей}
+
+Для заданных $\theta,m$ выбирают допустимый интервал $p$,
+вычисляют $e_c,e_s,e$ и время $T_m(p)$.
+На каждой ветви находят интервал, на концах которого
+$T_m(p)-\tau$ имеет разные знаки. Затем уточняют корень
+методом бисекции или методом Ньютона с сохранением
+приближений внутри интервала.
+
+При необходимости производная времени получается
+дифференцированием \eqref{eq:lambert-time-integral}:
+\begin{equation}
+ \frac{\dd T_m}{\dd p}
+ =\frac{3T_m}{2p}
+  -\frac{2p^{3/2}}{\sqrt\mu}
+   \int_0^{\theta+2\pi m}
+           \frac{D_p(\eta;p)}{D(\eta;p)^3}\,\dd\eta,
+ \label{eq:time-derivative}
+\end{equation}
+где
+\[
+ D_p=\frac{\cos\eta}{R_1}
+  +\frac{1/R_2-\cos\theta/R_1}{\sin\theta}\sin\eta.
+\]
+Производная определена внутри допустимого интервала.
+Для невырожденной задачи без дополнительных оборотов
+при фиксированном направлении обхода имеется одна
+кеплерова дуга с заданным положительным временем.
+С ограничениями на минимальный радиус или энергию она может
+оказаться неприемлемой. Для заданного $m\ge1$ время имеет
+минимум: при $\tau<T_{m,\min}$ решений нет, при равенстве
+ветви сливаются, при большем времени имеются две ветви.
+Обе ветви ищут в отдельных интервалах \cite{izzo}.
+
+\subsection{Восстановление скоростей через \texorpdfstring{$f,g$}{f,g}}
+
+Пусть найдено допустимое $p$, удовлетворяющее
+\eqref{eq:lambert-scalar}. Связь положений и скоростей
+на кеплеровой дуге имеет вид
+\begin{equation}
+ \vect R_2=f\vect R_1+g\vect V_1,\qquad
+ \vect V_2=\dot f\vect R_1+\dot g\vect V_1.
+ \label{eq:fg-relation}
+\end{equation}
+Для известных $p,R_1,R_2,\theta$ достаточно вычислить
+\begin{equation}
+ f=1-\frac{R_2}{p}(1-\cos\theta),\qquad
+ g=\frac{R_1R_2\sin\theta}{\sqrt{\mu p}},\qquad
+ \dot g=1-\frac{R_1}{p}(1-\cos\theta).
+ \label{eq:fg-coefficients}
+\end{equation}
+Из первого равенства \eqref{eq:fg-relation} и тождества
+$f\dot g-\dot f g=1$ получаем
+\begin{equation}
+ \boxed{\vect V_1=\frac{\vect R_2-f\vect R_1}{g},\qquad
+ \vect V_2=\frac{\dot g\vect R_2-\vect R_1}{g}.}
+ \label{eq:lambert-velocities}
+\end{equation}
+Скорости восстанавливаются алгебраически.
+Есть и прямая геометрическая проверка этих скоростей.
+В точке с углом $\eta$ радиальная и трансверсальная
+компоненты равны
+\begin{equation}
+ V_r=\sqrt{\frac\mu p}
+          (e_c\sin\eta-e_s\cos\eta),\qquad
+ V_t=\frac{\sqrt{\mu p}}{R(\eta)}.
+ \label{eq:conic-velocities}
+\end{equation}
+При $\theta\to0$ или $\pi$ коэффициент $g$ мал.
+Строго коллинеарные концы требуют дополнительного выбора
+плоскости и предельных формул.
+
+\subsection{Включение дуги Ламберта в задачу встречи}
+
+При граничных импульсах в $t_i,t_f$ первая точка дуги равна
+начальному положению управляемого аппарата, вторая ---
+положению цели в $t_f$. После вычисления скоростей дуги
+в инерциальных осях определяются импульсы
+\begin{equation}
+ \Delta\vect V_{1,I}=\vect V_1-\vect V_C(t_i^-),\qquad
+ \Delta\vect V_{2,I}=\vect V_{\rm tar}(t_f)-\vect V_2.
+ \label{eq:lambert-rendezvous-control}
+\end{equation}
+Для получения компонент в ОСК импульсы проецируют
+в предманёвренные базисы. Это решение для выбранных
+времени и ветви. В центральном поле оно удовлетворяет
+нелинейному конечному условию; при возмущениях
+используется как начальное приближение.
+
+\FloatBarrier
+\section{Относительное движение и модель CW}
+\label{sec:cw}
+
+\subsection{Относительная система координат}
+
+Относительные координаты позволяют рассматривать движение
+между аппаратами в масштабе их расстояния.
+Обозначим положение цели через $\vect R_0(t)$,
+положение управляемого аппарата --- через $\vect R_C(t)$.
+Базис RTN цели определён формулами \eqref{eq:RTN}; матрица
+$Q_0$ содержит его векторы в столбцах. Относительное положение
+в локальных компонентах равно
+\begin{equation}
+ \vect\rho=Q_0^\top(\vect R_C-\vect R_0)
+           =(x,y,z)^\top.
+ \label{eq:relative-position}
+\end{equation}
+Для кеплеровой цели базис поворачивается в неподвижной
+плоскости с угловой скоростью
+$\vect\Omega_r=(0,0,\omega_r)^\top$,
+где $\omega_r=\dot\nu=h/R_0^2$.
+Индекс отличает эту скорость от аргумента перицентра $\omega$.
+
+Производная координат во вращающемся базисе связана
+с разностью инерциальных скоростей соотношением
+\begin{equation}
+ Q_0^\top(\vect V_C-\vect V_0)
+ =\dot{\vect\rho}+\vect\Omega_r\times\vect\rho.
+ \label{eq:relative-velocity}
+\end{equation}
+Следовательно,
+\begin{equation}
+ \delta V_r=\dot x-\omega_r y,\qquad
+ \delta V_t=\dot y+\omega_r x,\qquad
+ \delta V_n=\dot z.
+ \label{eq:velocity-components-relative}
+\end{equation}
+При $\dot{\vect\rho}=0$ положение в RTN постоянно,
+но разность инерциальных скоростей равна
+$\vect\Omega_r\times\vect\rho$.
+
+\begin{explanation}{Согласованное начальное состояние}
+Если задано $\vect\rho_i,\dot{\vect\rho}_i$, инерциальное
+состояние второго аппарата строится по формулам
+\[
+ \vect R_{Ci}=\vect R_{0i}+Q_{0i}\vect\rho_i,\qquad
+ \vect V_{Ci}=\vect V_{0i}
+ +Q_{0i}(\dot{\vect\rho}_i+
+                \vect\Omega_{ri}\times\vect\rho_i).
+\]
+\end{explanation}
+
+\subsection{Точные нелинейные уравнения относительно кеплеровой цели}
+
+Для обоих аппаратов сначала примем одну и ту же центральную
+гравитационную модель. Вычтем их инерциальные уравнения.
+Дважды используя транспортную формулу вращающегося базиса,
+получим
+\begin{equation}
+ \begin{aligned}
+ \ddot{\vect\rho}={}&-\mu\left[
+ \frac{R_0\vect e_x+\vect\rho}
+      {\norm{R_0\vect e_x+\vect\rho}^3}
+       -\frac{\vect e_x}{R_0^2}\right]
+ -2\vect\Omega_r\times\dot{\vect\rho}
+ -\dot{\vect\Omega}_r\times\vect\rho\\
+ &-\vect\Omega_r\times(\vect\Omega_r\times\vect\rho)
+ +\vect u.
+ \end{aligned}
+ \label{eq:exact-relative}
+\end{equation}
+Здесь $\vect e_x=(1,0,0)^\top$ --- компоненты радиального
+направления в локальном базисе, $\vect u$ --- разность
+добавочных ускорений в том же базисе. Для пассивной цели
+и управляемого аппарата это управляющее ускорение аппарата.
+Уравнение сохраняет нелинейность по относительному расстоянию.
+
+Положим $d=\sqrt{(R_0+x)^2+y^2+z^2}$. В компонентах
+\begin{equation}
+ \begin{aligned}
+ \ddot x-2\omega_r\dot y-\dot\omega_r y-\omega_r^2x
+   &=-\frac{\mu(R_0+x)}{d^3}+\frac{\mu}{R_0^2}+u_x,\\
+ \ddot y+2\omega_r\dot x+\dot\omega_r x-\omega_r^2y
+   &=-\frac{\mu y}{d^3}+u_y,\\
+ \ddot z&=-\frac{\mu z}{d^3}+u_z.
+ \end{aligned}
+ \label{eq:exact-relative-components}
+\end{equation}
+Здесь учтены кориолисовы, эйлеровы и центробежные члены.
+
+\subsection{Линеаризация вокруг круговой орбиты}
+
+Пусть цель движется по кругу радиуса $R_0=a_0$.
+Тогда $\omega_r=n_0=\sqrt{\mu/a_0^3}$ постоянно,
+$\dot\omega_r=0$. При $\norm{\vect\rho}/a_0\ll1$
+разность гравитационных ускорений в первом порядке равна
+\begin{equation}
+ -\mu\left[
+ \frac{a_0\vect e_x+\vect\rho}{\norm{a_0\vect e_x+\vect\rho}^3}
+ -\frac{\vect e_x}{a_0^2}\right]
+ =n_0^2(2x,-y,-z)^\top
+    +O\left(\frac{\mu\norm{\vect\rho}^2}{a_0^4}\right).
+ \label{eq:gravity-gradient-circular}
+\end{equation}
+Подставив эту разность в \eqref{eq:exact-relative-components},
+получим уравнения Клохесси--Уилтшира (CW):
+\begin{equation}
+ \boxed{\begin{aligned}
+  \ddot x-2n_0\dot y-3n_0^2x&=u_x,\\
+  \ddot y+2n_0\dot x&=u_y,\\
+  \ddot z+n_0^2z&=u_z.
+ \end{aligned}}
+ \label{eq:CW}
+\end{equation}
+Уравнения CW \cite{cw} применимы для круговой кеплеровой
+опорной орбиты и малых относительных расстояний.
+Декартовы координаты определены при $e=0$,
+хотя классические элементы в этом случае вырождены.
+
+\subsection{Свободное движение и дрейф}
+
+При $\vect u=0$ интегрирование второго уравнения даёт
+\begin{equation}
+ \dot y+2n_0x=C,\qquad C=\dot y_i+2n_0x_i.
+ \label{eq:CW-invariant}
+\end{equation}
+Подставив $\dot y=C-2n_0x$ в первое уравнение, получаем
+\[
+ \ddot x+n_0^2x=2n_0C.
+\]
+Его общее решение и последующее интегрирование $\dot y$ дают
+\begin{equation}
+ \begin{aligned}
+ x(t)&=A\cos(n_0t)+B\sin(n_0t)+\frac{2C}{n_0},\\
+ y(t)&=-2A\sin(n_0t)+2B\cos(n_0t)-3Ct+D,\\
+ z(t)&=E\cos(n_0t)+F\sin(n_0t).
+ \end{aligned}
+ \label{eq:CW-modes}
+\end{equation}
+Начало времени совмещено с $t_i$.
+Постоянная $C$ одновременно задаёт смещение центра радиальных
+колебаний $x_c=2C/n_0$ и продольный дрейф $-3Ct$.
+Отсюда
+\begin{equation}
+ \dot y_{\rm secular}=-\frac32n_0x_c.
+ \label{eq:CW-drift}
+\end{equation}
+При положительном радиальном смещении центра движение
+в среднем отстаёт от цели. Дрейф соответствует зависимости среднего движения
+от большой полуоси в \eqref{eq:phase-variation}.
+
+Для отсутствия секулярного дрейфа необходимо
+\begin{equation}
+ C=0\quad\Longleftrightarrow\quad
+ \dot y_i=-2n_0x_i.
+ \label{eq:CW-no-drift}
+\end{equation}
+При этом плоская траектория является эллипсом с отношением
+полуосей $2:1$, а $D$ смещает его центр вдоль орбиты.
+\coursefigure{cw-modes}{Два свободных движения CW при радиусе
+опорной круговой орбиты 7000~км. Слева $x_i=100$~м,
+$\dot x_i=0$, $\dot y_i=-2n_0x_i$; справа изменена
+начальная продольная производная, поэтому появляется дрейф.
+Горизонтальная ось рисунка --- $y$, вертикальная --- $x$.}
+
+\subsection{Решение через начальное состояние}
+
+Положим $c=\cos(n_0t)$, $s=\sin(n_0t)$.
+После определения постоянных в \eqref{eq:CW-modes} получаем
+\begin{equation}
+ \begin{aligned}
+ x&=(4-3c)x_i+\frac{s}{n_0}\dot x_i
+                        +\frac{2(1-c)}{n_0}\dot y_i,\\
+ y&=6(s-n_0t)x_i+y_i-\frac{2(1-c)}{n_0}\dot x_i
+                        +\frac{4s-3n_0t}{n_0}\dot y_i,\\
+ z&=cz_i+\frac{s}{n_0}\dot z_i,\\
+ \dot x&=3n_0s x_i+c\dot x_i+2s\dot y_i,\\
+ \dot y&=6n_0(c-1)x_i-2s\dot x_i+(4c-3)\dot y_i,\\
+ \dot z&=-n_0s z_i+c\dot z_i.
+ \end{aligned}
+ \label{eq:CW-initial-solution}
+\end{equation}
+При отсутствии дрейфа все три координаты являются
+линейными комбинациями $\sin n_0t$, $\cos n_0t$ и постоянного
+сдвига. Пространственная траектория представляет эллипс.
+
+\coursefigure{cw-spatial}{Пространственное свободное движение CW
+без дрейфа: $x=100\cos(n_0t)$~м,
+$y=-200\sin(n_0t)$~м,
+$z=120\sin(n_0t+0.6)$~м. Справа показаны те же
+компоненты во времени; общая частота обеспечивает замкнутость.}
+
+\subsection{Управление и линейное конечное условие в RTN}
+
+Пусть
+$\vect X=(x,y,z,\dot x,\dot y,\dot z)^\top$.
+Уравнения \eqref{eq:CW} записываются как
+\[
+ \dot{\vect X}=A_{\rm CW}\vect X+G\vect u,
+ \qquad G=\begin{pmatrix}0_{3\times3}\\I_3\end{pmatrix}.
+\]
+Мгновенный импульс, выраженный в RTN цели, даёт
+$\vect X^+=\vect X^-+G\Delta\vect V$.
+Решение с $N$ импульсами имеет вид
+\begin{equation}
+ \vect X_f=\Phi_{\rm CW}(t_f,t_i)\vect X_i
+       +\sum_{j=1}^N\Phi_{\rm CW}(t_f,t_j)G\Delta\vect V_j.
+ \label{eq:CW-guidance}
+\end{equation}
+Условие встречи $\vect X_f=0$ обеспечивает совпадение
+положения и инерциальной скорости.
+Структура конечного условия аналогична \eqref{eq:linear-boundary},
+но матрицы состояния относятся к декартовым координатам RTN.
+
+\FloatBarrier
+\section{Эллиптическая орбита: TH и решение Яманаки--Анкерсена}
+\label{sec:th}
+
+\subsection{Уравнения движения}
+
+На эллиптической опорной орбите расстояние до центрального тела
+и скорость вращения RTN меняются в течение витка:
+\begin{equation}
+ R_0=\frac{p_0}{1+e_0\cos\nu_0},\qquad
+ \omega_r=\frac{h_0}{R_0^2},\qquad
+ \dot\omega_r=-2\frac{\dot R_0}{R_0}\omega_r.
+ \label{eq:ellipse-reference-rates}
+\end{equation}
+В TH коэффициенты не заменяются постоянным средним движением.
+Линеаризуем гравитационную разность
+\eqref{eq:exact-relative} по $\vect\rho$, не разлагая
+коэффициенты по $e_0$. Получим временную форму
+уравнений Чаунера--Хемпеля (TH):
+\begin{equation}
+ \boxed{\begin{aligned}
+ \ddot x&=\left(\omega_r^2+2\frac{\mu}{R_0^3}\right)x
+               +2\omega_r\dot y+\dot\omega_r y+u_x,\\
+ \ddot y&=\left(\omega_r^2-\frac{\mu}{R_0^3}\right)y
+               -2\omega_r\dot x-\dot\omega_r x+u_y,\\
+ \ddot z&=-\frac{\mu}{R_0^3}z+u_z.
+ \end{aligned}}
+ \label{eq:TH-time}
+\end{equation}
+При $e_0\to0$ имеем
+$\omega_r^2=\mu/R_0^3=n_0^2$, $\dot\omega_r=0$,
+и система переходит в CW с теми же знаками и осями.
+Модель сохраняет первый порядок по относительному расстоянию
+при любом $0\le e_0<1$. Пассивные возмущения здесь не учитываются.
+
+\subsection{Переход к истинной аномалии и масштабирование}
+
+Для пассивной системы выберем независимой переменной
+$\nu_0$, а штрихом обозначим производную по ней.
+Положим
+\begin{equation}
+ \sigma=1+e_0\cos\nu_0,\qquad
+ \widetilde{\vect\rho}=\sigma\vect\rho.
+ \label{eq:TH-scaling}
+\end{equation}
+Используются соотношения
+\[
+ \frac{\dd}{\dd t}=\omega_r\frac{\dd}{\dd\nu_0},\qquad
+ \ddot a=\omega_r^2a''+\dot\omega_r a'
+\]
+для любой скалярной функции $a$.
+Дифференцирование произведения в \eqref{eq:TH-scaling}
+позволяет убрать первые производные, возникающие
+из переменной угловой скорости.
+После подстановки в \eqref{eq:TH-time} получаем
+\begin{equation}
+ \begin{aligned}
+  \widetilde x''-2\widetilde y'
+                    -\frac{3}{\sigma}\widetilde x&=0,\\
+  \widetilde y''+2\widetilde x'&=0,\\
+  \widetilde z''+\widetilde z&=0.
+ \end{aligned}
+ \label{eq:TH-anomaly}
+\end{equation}
+Производные в \eqref{eq:TH-anomaly} берутся по аномалии,
+а координаты масштабированы множителем $\sigma$.
+
+Из второй строки следует
+$\widetilde y'+2\widetilde x=K$, где $K$ постоянно.
+Первая строка тогда принимает вид
+\begin{equation}
+ \widetilde x''+
+     \left(4-\frac3\sigma\right)\widetilde x=2K.
+ \label{eq:TH-scalar-radial}
+\end{equation}
+Одна однородная функция решения равна
+$\sigma\sin\nu_0$. Остальные функции находятся понижением порядка и квадратурами.
+
+\subsection{Матрица перехода Яманаки--Анкерсена}
+
+Яманака и Анкерсен \cite{ya} получили удобную аналитическую
+матрицу перехода той же линейной эллиптической системы.
+YA является аналитическим решением TH, регулярным при $e_0=0$.
+Важная для него интегральная величина
+\begin{equation}
+ \mathcal J(\nu_0,\nu_i)
+ =\int_{\nu_i}^{\nu_0}\frac{\dd\eta}{(1+e_0\cos\eta)^2}
+ =\sqrt{\frac{\mu}{p_0^3}}(t-t_i)
+ \label{eq:YA-J}
+\end{equation}
+сохраняет информацию о прошедшем времени и числе оборотов.
+Обозначим фундаментальную матрицу системы
+\eqref{eq:TH-anomaly} через $Y(\nu_0)$.
+Она состоит из шести независимых аналитических решений.
+Для связи с физическим состоянием
+$\vect X=(\vect\rho,\dot{\vect\rho})^\top$ используется
+преобразование
+\begin{equation}
+ \widetilde{\vect X}=
+ \begin{pmatrix}\widetilde{\vect\rho}\\
+                 \widetilde{\vect\rho}'\end{pmatrix}
+ =\mathcal T(\nu_0)\vect X,
+ \qquad
+ \mathcal T=
+ \begin{pmatrix}
+ \sigma I_3&0\\
+ \sigma'I_3&(\sigma/\omega_r)I_3
+ \end{pmatrix}.
+ \label{eq:YA-transform}
+\end{equation}
+Тогда матрица перехода в координатах и производных
+по физическому времени имеет вид
+\begin{equation}
+ \Phi_{\rm TH}(t,t_i)=
+ \mathcal T(\nu_0)^{-1}Y(\nu_0)Y(\nu_i)^{-1}
+                              \mathcal T(\nu_i).
+ \label{eq:YA-STM-concept}
+\end{equation}
+Преобразование \eqref{eq:YA-transform} учитывает и масштаб
+координат, и замену времени аномалией.
+
+В первоисточнике YA оси выбраны иначе: $X$ трансверсален,
+$Y$ противоположен нормали, $Z$ направлен в надир.
+Наши координаты связаны с ними как
+$x=-Z$, $y=X$, $z=-Y$. После этой замены временная система совпадает с
+\eqref{eq:TH-time}.
+
+\subsection{Сравнение CW и TH}
+
+Возьмём цель на эллипсе $a_0=10000$~км, $e_0=0.2$,
+старт в перицентре. В её RTN зададим
+\[
+ \vect\rho_i=(0,-100,10)^\top\ \text{м},\qquad
+ \dot{\vect\rho}_i=(0,0,0)^\top\ \text{м/с}.
+\]
+Точное состояние второго аппарата строится по
+\eqref{eq:relative-velocity}. Затем независимо прогнозируются
+два нелинейных двухтельных движения. Их разность проецируется
+на текущую RTN реальной эллиптической цели.
+Коэффициенты TH берутся по той же цели;
+в приближении CW явно используется $n_0=\sqrt{\mu/a_0^3}$.
+
+На интервале одного периода, около $9952$~с,
+максимальная ошибка CW составляет примерно $50.27$~м,
+а TH --- около $0.050$~м. В конце периода ошибки обеих
+моделей близки к $0.050$~м. Максимальная и конечная ошибки характеризуют
+разные участки движения.
+
+\coursefigure{relative-elliptic}{Сравнение относительно одной
+эллиптической цели: точное двухтельное движение, TH и CW.
+В этом специальном примере линейная эллиптическая проекция
+имеет $x=0$, а $y$ меняется пропорционально радиусу цели;
+CW даёт неподвижную точку в проекции. Справа видна
+ошибка на всём интервале, а не только в конце витка.}
+
+По TH в этом примере $\widetilde y$ постоянна,
+поэтому $y$ пропорциональна $R_0$.
+Радиальная составляющая точного решения имеет второй порядок.
+
+\FloatBarrier
+\section{Околокруговая орбита с учётом \texorpdfstring{$J_2$}{J2}: модель Швайгарта--Седвика}
+\label{sec:ss}
+
+\subsection{Влияние второй зональной гармоники}
+
+Вторая зональная гармоника вызывает прецессию плоскости
+орбиты и изменение фазовых частот. Для длительного относительного
+движения эти эффекты могут быть существенны.
+
+Обозначим экваториальный радиус Земли через $R_E$,
+вторую зональную гармонику --- через $J_2$.
+В инерциальных экваториальных осях добавочное ускорение равно
+\begin{equation}
+ \vect a_{J_2}=\frac{3J_2\mu R_E^2}{2R^5}
+ \begin{pmatrix}
+ X(5Z^2/R^2-1)\\
+ Y(5Z^2/R^2-1)\\
+ Z(5Z^2/R^2-3)
+ \end{pmatrix}.
+ \label{eq:J2-acceleration}
+\end{equation}
+Здесь $X,Y,Z$ --- инерциальные координаты аппарата,
+$R=\sqrt{X^2+Y^2+Z^2}$. Модель SS \cite{ss} описывает относительное движение близких
+околокруговых аппаратов с основными эффектами $J_2$.
+Полный прогноз каждого аппарата использует
+\eqref{eq:J2-acceleration} без усреднения.
+
+В первом порядке усреднённые скорости классических элементов
+дают знакомую картину прецессии:
+\begin{equation}
+ \begin{aligned}
+ \dot{\overline\Omega}
+ &=-\frac32J_2n\left(\frac{R_E}{p}\right)^2\cos i,\\
+ \dot{\overline\omega}
+ &=\frac34J_2n\left(\frac{R_E}{p}\right)^2(5\cos^2i-1),\\
+ \dot{\overline M}
+ &=n+\frac34J_2n\left(\frac{R_E}{p}\right)^2
+                   \sqrt{1-e^2}(3\cos^2i-1).
+ \end{aligned}
+ \label{eq:J2-secular}
+\end{equation}
+Черта обозначает усреднённое описание.
+Оскулирующие элементы дополнительно имеют короткопериодические
+изменения. Поэтому усреднённые элементы нельзя без преобразования
+отождествлять с мгновенными элементами, найденными из одного
+инерциального состояния.
+
+\subsection{Опорная орбита и усреднение}
+
+В SS вводится опорная орбита постоянного радиуса $r_{\rm ref}$,
+скорректированная по среднему движению и ориентации
+с учётом $J_2$. Градиент возмущающего ускорения усредняется.
+Для выбранного наклонения $i_{\rm ref}$
+вводятся безразмерные коэффициенты
+\begin{equation}
+ s=\frac{3J_2R_E^2}{8r_{\rm ref}^2}
+                   (1+3\cos2i_{\rm ref}),\qquad
+ c=\sqrt{1+s},\qquad n=\sqrt{\frac{\mu}{r_{\rm ref}^3}}.
+ \label{eq:SS-constants}
+\end{equation}
+В локальных радиальном, трансверсальном и нормальном
+направлениях усреднённый градиент $J_2$ имеет вид
+\begin{equation}
+ \left\langle\frac{\partial\vect a_{J_2}}
+                         {\partial\vect R}\right\rangle
+ =n^2\diag(4s,-s,-3s).
+ \label{eq:SS-averaged-gradient}
+\end{equation}
+Частота вращения орбитального базиса равна $nc$.
+Короткопериодические изменения градиента при усреднении
+отбрасываются. Для наклонённой орбиты SS также корректирует
+ориентацию опорной плоскости и нормальное движение.
+При сравнении с точным прогнозом состояния переводятся
+в одну систему координат.
+
+\subsection{Плоская часть и её частота}
+
+Для разности координат двух близких аппаратов плоская
+часть уравнения (45) работы \cite{ss} имеет вид
+\begin{equation}
+ \begin{aligned}
+ \ddot x-2nc\dot y-(5c^2-2)n^2x&=0,\\
+ \ddot y+2nc\dot x&=0.
+ \end{aligned}
+ \label{eq:SS-planar}
+\end{equation}
+Здесь $x$ радиален, $y$ трансверсален в скорректированном базисе.
+Коэффициент первой строки можно проверить непосредственно.
+Радиальный гравитационный градиент центрального поля равен
+$2n^2$, усреднённая добавка --- $4sn^2$, центробежный
+член --- $c^2n^2$. Их сумма
+$2+4s+c^2=5c^2-2$ даёт именно указанный коэффициент.
+В трансверсальном направлении
+$-n^2-sn^2+c^2n^2=0$.
+
+Интегрируя вторую строку, положим
+\begin{equation}
+ \dot y+2ncx=C_s.
+ \label{eq:SS-invariant}
+\end{equation}
+Тогда
+\begin{equation}
+ \ddot x+\beta^2x=2ncC_s,\qquad
+ \beta=n\sqrt{1-s}.
+ \label{eq:SS-planar-frequency}
+\end{equation}
+Таким образом, частота плоских колебаний $\beta$
+отличается от скорости вращения базиса $nc$.
+При $J_2\to0$ имеем $s\to0$, $c\to1$, $\beta\to n$,
+и плоская система переходит в CW.
+
+Для $C_s=0$ решение можно записать
+\begin{equation}
+ \begin{aligned}
+ x&=A\cos\beta t+B\sin\beta t,\\
+ y&=-\frac{2nc}{\beta}A\sin\beta t
+          +\frac{2nc}{\beta}B\cos\beta t+D.
+ \end{aligned}
+ \label{eq:SS-bounded-planar}
+\end{equation}
+Отношение полуосей равно $2c/\sqrt{1-s}$, а не строго двум.
+Чтобы убрать дрейф, требуется $\dot y_i=-2ncx_i$.
+Чтобы дополнительно убрать постоянный продольный сдвиг,
+нужно $\dot x_i=\beta^2y_i/(2nc)$.
+Оба условия следуют из общего решения.
+
+При $C_s\ne0$ центр радиальных колебаний равен
+$x_c=2ncC_s/\beta^2$, а скорость секулярного изменения $y$
+\begin{equation}
+ \dot y_{\rm secular}=-\frac{n(5c^2-2)}{2c}\,x_c.
+ \label{eq:SS-drift}
+\end{equation}
+При $s=0$ формулы переходят в CW.
+
+\subsection{Нормальная компонента и геометрия прецессии}
+
+Если ограничиться одним усреднённым градиентом
+\eqref{eq:SS-averaged-gradient}, получится простое уравнение
+$\ddot z+n^2(1+3s)z=0$. Это промежуточное приближение:
+в нём не полностью восстановлена геометрия движения
+пересечения двух прецессирующих плоскостей.
+Полная нормальная часть уравнения (45) SS имеет вид
+\begin{equation}
+ \ddot z+q^2z=2lq\cos(qt+\varphi).
+ \label{eq:SS-cross}
+\end{equation}
+Параметры $q,l,\varphi$ определяются взаимной геометрией
+орбитальных плоскостей и скоростями их прецессии.
+Пусть $\Psi(t)$ --- малый угол между нормалями двух
+плоскостей. Его величина определяется равенством
+\begin{equation}
+ \cos\Psi=\cos i_1\cos i_2+
+                    \sin i_1\sin i_2\cos(\Omega_1-\Omega_2).
+ \label{eq:mutual-plane-angle}
+\end{equation}
+При $\dot\Omega_1\ne\dot\Omega_2$ меняется линия пересечения плоскостей.
+Относительное нормальное положение можно представить
+как
+\begin{equation}
+ z=A(t)\sin\chi(t),\qquad
+ A(t)\simeq r_{\rm ref}\sin\Psi(t).
+ \label{eq:SS-amplitude-geometry}
+\end{equation}
+Угол $\chi$ отсчитывается от ориентированной линии
+пересечения в плоскости соответствующей орбиты.
+Положительный знак нормали и ориентация линии должны
+быть выбраны согласованно.
+
+Локальная аппроксимация
+$A(t)=m+lt$, $\chi(t)=qt+\varphi$ даёт
+\begin{equation}
+ z=(m+lt)\sin(qt+\varphi),\qquad
+ l=\dot A(0),\quad q=\dot\chi(0).
+ \label{eq:SS-cross-solution}
+\end{equation}
+Двойное дифференцирование немедленно приводит
+к \eqref{eq:SS-cross}. Начальные условия удовлетворяют
+\[
+ m\sin\varphi=z_i,\qquad
+ l\sin\varphi+qm\cos\varphi=\dot z_i.
+\]
+Для вычисления угла $\chi$ можно построить единичные
+нормали $\vect n_1,\vect n_2$, ориентированное пересечение
+$\vect k=(\vect n_2\times\vect n_1)/\sin\Psi$
+и вектор $\vect l_1=\vect n_1\times\vect k$.
+Тогда $\chi=\atanTwo(\widehat{\vect R}_1\cdot\vect l_1,
+\widehat{\vect R}_1\cdot\vect k)$, а его производная
+включает движение аппарата и движение пересечения.
+При совпадающих плоскостях такое построение имеет
+координатную особенность; необходимо переходить к пределу
+или работать непосредственно с векторами, не деля
+на почти нулевой $\sin\Psi$.
+
+Различие частот $\beta,q$ и изменение амплитуды
+поворачивают пространственную относительную фигуру.
+
+\coursefigure{j2-frequencies}{Геометрический пример
+дифференциальной прецессии: изменение нормального размаха
+вычислено по усреднённым классическим скоростям узлов
+и углу между плоскостями. Рисунок иллюстрирует механизм;
+он не является проверкой всех коэффициентов полной модели SS.}
+
+\subsection{Пример на экваториальной орбите}
+
+На экваторе $i_{\rm ref}=0$ и
+$s=\tfrac32J_2(R_E/r_{\rm ref})^2$.
+В полном поле центрального притяжения и $J_2$
+существует точная экваториальная круговая орбита
+с частотой $\omega_{\rm ref}=n\sqrt{1+s}$.
+Плоское сравнение выполняется в RTN этой орбиты.
+
+На рисунке~\ref{fig:j2-relative} взято
+$r_{\rm ref}=7000$~км, $x_i=100$~м, $y_i=0$,
+$\dot x_i=0$, $\dot y_i=-2\omega_{\rm ref}x_i$.
+Все модели используют одни и те же начальные положения
+и скорости обоих аппаратов. В модели CW положено
+$n=\omega_{\rm ref}$, поэтому обе линейные модели используют
+одинаковую частоту вращения системы координат.
+Остающееся различие связано с коэффициентами относительной
+динамики и частотой радиальных колебаний.
+
+\coursefigure{j2-relative}{Плоский экваториальный пример
+с $J_2$ на 30 витках. Сравниваются два полных нелинейных
+движения, CW с согласованной частотой вращения цели
+и плоская часть SS. Это проверка одного частного случая;
+нормальная динамика и произвольные наклонения здесь
+не проверяются.}
+
+В этом расчёте максимальная ошибка положения CW составляет
+около $50.8$~м, а плоской SS --- около $0.41$~м.
+Уточнение допусков полного прогноза меняет сравнение
+примерно на $10^{-5}$~м. Здесь проверена только
+экваториальная плоская задача.
+
+\subsection{Области применения}
+
+CW используется около круговой кеплеровой орбиты,
+TH/YA --- около эллиптической кеплеровой орбиты,
+SS --- при существенных эффектах $J_2$ в окрестности круговой орбиты.
+Для более общей модели сил матрицу перехода получают
+численным интегрированием вариационных уравнений.
+Относительные орбитальные элементы являются другим
+представлением состояния и сами по себе не добавляют возмущений.
+Во всех линейных моделях требуется малое удаление от опорной траектории.
+
+\FloatBarrier
+\section{Сквозной расчёт встречи на близких орбитах}
+\label{sec:example}
+
+\subsection{Исходные данные}
+
+Рассмотрим двухтельную задачу вокруг Земли
+с $\mu=398600.4418$~км$^3$/с$^2$.
+Начальные элементы цели и отклонения элементов
+управляемого аппарата заданы следующими значениями:
+\begin{equation}
+ \begin{aligned}
+ \ExampleInitialData
+ \end{aligned}
+ \label{eq:example-data}
+\end{equation}
+Индекс 0 относится к цели, $\delta$ означает «аппарат минус цель».
+Начальное расстояние равно $\ExampleInitialDistance$.
+Два импульса прикладываются при $t_1=0$ и $t_2=t_f=1200$~с.
+Конечное состояние задаётся после всех манёвров.
+Классические элементы регулярны: $e>0$, $\sin i\ne0$.
+
+\subsection{Решение в линейной элементной модели}
+
+Независимо рассчитываем движение цели и движение аппарата
+без управления. По этим траекториям вычисляются
+$\Delta\vect y_f=\vect y_{\rm tar}(t_f)-\vect y_0(t_f)$,
+$B_1,B_2$ и
+\[
+ \mathcal M=
+ [\Phi(t_f,0)B_1\quad \Phi(t_f,t_f)B_2]
+ =[\Phi(t_f,0)B_1\quad B_2].
+\]
+Квадратная система невырождена. Её решение приведено
+в таблице в м/с.
+
+\begin{table}[htbp]
+\centering
+\caption{Линейное управление в предманёвренных ОСК}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Импульс&$\Delta V_r$&$\Delta V_t$&$\Delta V_n$\\\midrule
+\ExampleLinearComponents
+\bottomrule
+\end{tabular}
+\end{table}
+
+Характеристическая скорость равна $\ExampleLinearCost$.
+
+\subsection{Решение через задачу Ламберта}
+
+Начальное положение аппарата и положение цели
+через 1200~с подставляются в задачу
+\eqref{eq:lambert-boundary}. Рассматривается
+одна дуга без полных оборотов в направлении движения,
+близком к начальному. Угол перелёта равен
+$\ExampleTransferAngle$.
+Скалярное уравнение времени решается по $p$;
+полученный фокальный параметр равен $\ExampleLambertP$.
+По \eqref{eq:lambert-velocities} восстанавливаются
+скорости, затем по
+\eqref{eq:lambert-rendezvous-control} --- импульсы.
+
+\begin{table}[htbp]
+\centering
+\caption{Управление по задаче Ламберта в тех же единицах}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Импульс&$\Delta V_r$&$\Delta V_t$&$\Delta V_n$\\\midrule
+\ExampleLambertComponents
+\bottomrule
+\end{tabular}
+\end{table}
+
+Характеристическая скорость равна $\ExampleLambertCost$.
+
+\coursefigure{rendezvous-orbits}{Сквозной пример в инерциальном
+пространстве: траектория цели и два управляемых перелёта,
+рассчитанных линейной моделью и методом Ламберта.
+Справа показано начальное разнесение аппаратов.
+На орбитальном масштабе близкие траектории почти накладываются.}
+
+\subsection{Относительная траектория}
+
+Относительное положение вычисляется в RTN цели:
+$\vect\rho(t)=Q_0(t)^\top(\vect R_C(t)-\vect R_0(t))$.
+
+\coursefigure{rendezvous-relative}{Тот же расчёт в системе цели.
+Начальная точка и конечное время общие для сравниваемых
+управлений. Относительные проекции и временные компоненты
+показывают геометрию движения, скрытую на инерциальном
+масштабе.}
+
+\subsection{Нелинейная проверка управления}
+
+Каждое управление применяется к одному исходному
+состоянию. Положение и скорость преобразуются
+в инерциальные координаты, выполняется точный
+скачок \eqref{eq:exact-impulse}, между манёврами
+прогнозируется двухтельное движение. После
+заключительного манёвра определяются
+\begin{equation}
+ \varepsilon_R=\norm{\vect R_C(t_f)-\vect R_0(t_f)},\qquad
+ \varepsilon_V=\norm{\vect V_C(t_f)-\vect V_0(t_f)}.
+ \label{eq:physical-terminal-errors}
+\end{equation}
+Эти две величины имеют непосредственный физический
+смысл и не зависят от выбора орбитальных элементов.
+
+\begin{table}[htbp]
+\centering
+\caption{Проверка управлений исходной двухтельной динамикой}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Решение&$\sum\|\Delta\vect V_j\|$, м/с&
+$\varepsilon_R$, м&$\varepsilon_V$, м/с\\\midrule
+\ExampleComparisonRows
+\bottomrule
+\end{tabular}
+\end{table}
+
+Линейное управление даёт $\varepsilon_R=0.492$~м
+и $\varepsilon_V\simeq7.4\cdot10^{-4}$~м/с.
+Для Ламберта и уточнённого решения невязки ниже
+$10^{-6}$~м и $10^{-9}$~м/с показаны верхними границами.
+Независимое интегрирование инерциальных уравнений
+согласуется с аналитическим прогнозом примерно до
+$2\cdot10^{-7}$~м и $5\cdot10^{-10}$~м/с.
+Это вычислительная проверка двухтельной модели;
+ошибки навигации и исполнения импульсов здесь не учитываются.
+
+\FloatBarrier
+\section{Нелинейное уточнение линейного решения}
+\label{sec:correction}
+
+\subsection{Конечная невязка и матрица чувствительности}
+
+Число импульсов, моменты их приложения и $t_f$ фиксируются.
+Уточняются компоненты импульсов в предманёвренных ОСК.
+Обозначим через $\vect y_f(\Delta\vect V)$ конечное состояние,
+полученное с точными скачками скорости и нелинейным движением
+между манёврами. Состояние записывается в классических элементах
+$(a,e,\omega,i,\Omega,M)$.
+
+По аналогии с \cite[\S~4.2]{chiniaev} на итерации $k$ вводим
+\begin{equation}
+ \delta\vect y_f^{(k)}=\vect y_t-\vect y_f(\Delta\vect V^{(k)}),
+ \qquad
+ \mathcal M^{(k)}=
+ \left.\frac{\partial\vect y_f}{\partial\Delta\vect V}
+                         \right|_{\Delta\vect V^{(k)}}.
+ \label{eq:active-Jacobian}
+\end{equation}
+Линеаризация конечного состояния даёт уравнение поправки
+\begin{equation}
+ \mathcal M^{(k)}\delta\vect V^{(k)}
+                  =\delta\vect y_f^{(k)}.
+ \label{eq:Newton-step}
+\end{equation}
+В статье фиксируются истинные долготы манёвров;
+здесь фиксируются моменты времени. При задании манёвров
+по долготам требуется дополнительно учитывать изменение
+времени достижения каждой долготы.
+
+В точке $\Delta\vect V=0$ матрица чувствительности сводится
+к блокам $\Phi B$ на траектории без управления.
+При ненулевых импульсах производная вычисляется заново:
+изменяются орбиты между манёврами и предманёвренные базисы.
+Использование одной неизменной матрицы $\mathcal M$
+соответствует модифицированной итерации с замороженными
+производными, а не точному методу Ньютона.
+
+\subsection{Вычисление поправки}
+
+Для небольшого числа манёвров столбцы матрицы удобно
+вычислять центральными разностями:
+\begin{equation}
+ (\mathcal M^{(k)})_{:,\ell}\approx
+ \frac{\vect y_f(\Delta\vect V^{(k)}+h_\ell\vect e_\ell)
+       -\vect y_f(\Delta\vect V^{(k)}-h_\ell\vect e_\ell)}{2h_\ell}.
+ \label{eq:finite-difference-J}
+\end{equation}
+Здесь $h_\ell$ --- приращение компоненты импульса,
+$\vect e_\ell$ --- единичный столбец пространства управления.
+В каждом прогнозе заново строятся ОСК всех манёвров.
+Шаг проверяют повторным вычислением при $h_\ell/2$.
+Слишком малый шаг усиливает округление, слишком большой ---
+ошибку разностной производной. В примере взято
+$h_\ell=10^{-3}$~м/с.
+
+Углы $\omega,\Omega,M$ в конечной невязке и разностях
+продолжаются около одной локальной ветви.
+Разрыв записи на $2\pi$ не должен попадать в производную.
+Малые $e$ и $\sin i$ требуют отдельной проверки
+регулярности классических координат.
+
+Для двух импульсов система \eqref{eq:Newton-step} квадратная.
+При невырожденной матрице поправка единственна.
+Для $N>2$ при полном строчном ранге минимальная поправка
+по евклидовой норме определяется задачей
+\begin{equation}
+ \min_{\delta\vect V^{(k)}}\sum_{j=1}^N
+                \norm{\delta\vect V_j^{(k)}}^2,
+ \qquad
+ \mathcal M^{(k)}\delta\vect V^{(k)}=\delta\vect y_f^{(k)}.
+ \label{eq:correction-minnorm-problem}
+\end{equation}
+Её решение
+\begin{equation}
+ \delta\vect V^{(k)}=(\mathcal M^{(k)})^\top
+ \left[\mathcal M^{(k)}(\mathcal M^{(k)})^\top\right]^{-1}
+                                      \delta\vect y_f^{(k)}
+ \label{eq:correction-minnorm}
+\end{equation}
+минимизирует норму поправки к управлению. Сумма норм
+полных импульсов в этой подзадаче не минимизируется.
+При активных ограничениях
+$\norm{\Delta\vect V_j^{(k)}+\delta\vect V_j^{(k)}}
+\le\Delta V_{\max,j}$ их включают в подзадачу.
+При недостаточном ранге полная компенсация невязки
+может быть невозможна.
+
+\subsection{Обновление управления и остановка}
+
+После вычисления поправки выполняется
+\begin{equation}
+ \Delta\vect V^{(k+1)}=\Delta\vect V^{(k)}
+                   +\alpha_k\delta\vect V^{(k)},
+ \qquad 0<\alpha_k\le1.
+ \label{eq:damped-update}
+\end{equation}
+Если полный шаг увеличивает масштабированную конечную
+невязку, $\alpha_k$ уменьшают.
+Для численного решения строки классического состояния
+масштабируют; для остановки проверяют отдельно
+ошибки положения и скорости:
+\begin{equation}
+ \varepsilon_R\le\varepsilon_{R,\rm req},\qquad
+ \varepsilon_V\le\varepsilon_{V,\rm req}.
+ \label{eq:physical-stopping}
+\end{equation}
+Точность прогноза должна позволять различать эти допуски.
+Малый шаг при большой невязке не является выполнением
+конечного условия.
+
+\subsection{Уточнение расчётного примера}
+
+Начальные импульсы получены линейной элементной моделью;
+их моменты 0 и 1200~с фиксированы.
+На каждой итерации заново вычисляются шесть столбцов
+\eqref{eq:finite-difference-J} и решается
+\eqref{eq:Newton-step}. В этом случае принимается полный шаг.
+
+\begin{table}[htbp]\centering
+\caption{Уточнение по классической конечной невязке}
+\begin{tabular}{@{}rrrr@{}}
+\toprule
+Итерация&$\varepsilon_R$, м&$\varepsilon_V$, м/с&
+$\sum\|\Delta\vect V_j\|$, м/с\\\midrule
+\ExampleCorrectionRows
+\bottomrule
+\end{tabular}
+\end{table}
+
+Одна поправка уменьшает ошибку положения с $0.492$~м
+до $1.1\cdot10^{-6}$~м. Характеристическая скорость меняется
+с $4.40864$ до $4.40860$~м/с.
+
+\coursefigure{rendezvous-convergence}{Конечные ошибки положения
+и скорости при обновлении матрицы чувствительности.
+Поправка вычисляется по классическим элементам.
+Значения ниже уровня независимой проверки показаны границами.}
+
+Уточнённое решение совпадает с выбранной дугой Ламберта
+в пределах численного сравнения. Это результат для заданных
+начальных данных и времён. Уточнение конечного условия
+не устанавливает минимальность характеристической скорости.
+
+При добавлении возмущений меняются прогноз
+$\vect y_f(\Delta\vect V)$ и его производные.
+Манёвры конечной продолжительности требуют другой
+параметризации управления и рассматриваются далее в курсе.
+
+\clearpage
+\begin{thebibliography}{9}
+\addcontentsline{toc}{section}{Литература}
+\bibitem{chiniaev}
+Чиняев В.~Н., Кузнецов А.~А., Чугунов В.~В.
+\textit{Ускоренный алгоритм решения задачи встречи
+космических аппаратов на возмущённых эллиптических орбитах}.
+Предоставленная автором редакция статьи.
+Общая постановка: \S~2; линейная двухимпульсная задача:
+\S~3; нелинейное уточнение: \S~4.2.
+В этом конспекте общая схема записана в классических элементах
+и при фиксированных временах манёвров.
+
+\bibitem{bmw}
+Bate R.~R., Mueller D.~D., White J.~E.
+\textit{Fundamentals of Astrodynamics}.
+New York: Dover, 1971.
+Краевая задача по двум положениям и времени:
+\S~5.2, с.~228--231; вариант итерации по фокальному
+параметру: \S~5.4. Изменение орбитальных элементов:
+\S~9.4.1, с.~401--407.
+Фаза в настоящем тексте --- текущая средняя аномалия,
+а не её значение на фиксированную эпоху.
+
+\bibitem{izzo}
+Izzo D. Revisiting Lambert's Problem //
+\textit{Celestial Mechanics and Dynamical Astronomy}.
+2015. Vol.~121. P.~1--15.
+\href{https://doi.org/10.1007/s10569-014-9587-y}
+{DOI: 10.1007/s10569-014-9587-y}.
+Геометрия, классификация и многовитковые ветви
+краевой задачи; вычислительная параметризация
+этой работы здесь не используется.
+
+\bibitem{cw}
+Clohessy W.~H., Wiltshire R.~S.
+Terminal Guidance System for Satellite Rendezvous //
+\textit{Journal of the Aerospace Sciences}.
+1960. Vol.~27, No.~9. P.~653--658.
+\href{https://doi.org/10.2514/8.8704}{DOI: 10.2514/8.8704}.
+
+\bibitem{ya}
+Yamanaka K., Ankersen F.
+New State Transition Matrix for Relative Motion
+on an Arbitrary Elliptical Orbit //
+\textit{Journal of Guidance, Control, and Dynamics}.
+2002. Vol.~25, No.~1. P.~60--66.
+\href{https://doi.org/10.2514/2.4875}{DOI: 10.2514/2.4875}.
+Временные относительные уравнения: с.~61--62;
+масштабирование и аналитическая матрица перехода:
+с.~62--65. Конвенция осей первоисточника
+отличается от принятой здесь RTN.
+
+\bibitem{ss}
+Schweighart S.~A., Sedwick R.~J.
+High-Fidelity Linearized $J_2$ Model for Satellite Formation Flight //
+\textit{Journal of Guidance, Control, and Dynamics}.
+2002. Vol.~25, No.~6. P.~1073--1080.
+\href{https://doi.org/10.2514/2.4986}{DOI: 10.2514/2.4986}.
+Усреднённый градиент и опорная орбита: уравнения (13), (19);
+относительная система: уравнение (45).
+
+\bibitem{lange}
+Lange B.~O., Smith R.~G.
+\textit{The Application of Floquet Theory to the Computation
+of Small Orbital Perturbations over Long Time Intervals
+Using the Tschauner--Hempel Equations}.
+Stanford University, SUDAER No.~241, 1965.
+Нормированные уравнения TH: с.~3; вывод: приложение~A.
+\href{https://ntrs.nasa.gov/citations/19660000761}{NASA NTRS}.
+\end{thebibliography}
+
+\end{document}
