@@ -1,0 +1,27 @@
+\begin{tikzpicture}[course diagram,scale=.74]
+\path[use as bounding box] (-5.5,-3.6) rectangle (2.8,3.8);
+\def\pgeom{2.7115}
+\def\egeom{.45}
+\coordinate (O) at (0,0);
+\coordinate (A) at ({\pgeom*cos(20)/(1+\egeom*cos(20))},
+                    {\pgeom*sin(20)/(1+\egeom*cos(20))});
+\coordinate (B) at ({\pgeom*cos(120)/(1+\egeom*cos(120))},
+                    {\pgeom*sin(120)/(1+\egeom*cos(120))});
+\draw[aux line] plot[domain=0:360,samples=100]
+  ({\pgeom*cos(\x)/(1+\egeom*cos(\x))},
+   {\pgeom*sin(\x)/(1+\egeom*cos(\x))});
+\draw[orbit line,line width=1.4pt] plot[domain=20:120,samples=60]
+  ({\pgeom*cos(\x)/(1+\egeom*cos(\x))},
+   {\pgeom*sin(\x)/(1+\egeom*cos(\x))});
+\draw[vector line] (O)--(A) node[pos=.54,below right] {$\vect R_1$};
+\draw[vector line] (O)--(B) node[pos=.57,left] {$\vect R_2$};
+\draw[courseaccent,dashed,line width=.8pt] (A)--(B);
+\draw[angle line] (20:.85) arc[start angle=20,end angle=120,radius=.85]
+  node[pos=.52,above right] {$\theta$};
+\fill[courseink] (O) circle[radius=2.4pt];
+\node[below left] at (O) {фокус};
+\node[orbit point] at (A) {};
+\node[right] at (A) {$1$};
+\node[orbit point] at (B) {};
+\node[above left] at (B) {$2$};
+\end{tikzpicture}
