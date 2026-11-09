@@ -1,0 +1,57 @@
+{
+  "model": "sequential vector correction; no orbital propagation",
+  "pointing_error_deg": 3.0,
+  "relative_magnitude_error": 0.0,
+  "initial_required_vector_magnitude": 1.0,
+  "objective": "sum of executed magnitudes plus exact final correction",
+  "solver": "SLSQP, sum(weights)=1, weights in [1e-8,1], ftol=1e-13",
+  "groups": [
+    {
+      "count": 3,
+      "weights": [
+        0.7052316847919298,
+        0.2473012718731414,
+        0.04746704333492888
+      ],
+      "book_rounded_weights": [
+        0.7052,
+        0.2473,
+        0.0475
+      ],
+      "cost": 1.0079651646709658,
+      "equal_weight_cost": 1.0191152564069574,
+      "executed_magnitudes": [
+        0.7052316847919298,
+        0.2500369757132936,
+        0.05007488862369266
+      ],
+      "final_exact_correction": 0.0026216155420498164,
+      "iterations": 17
+    },
+    {
+      "count": 4,
+      "weights": [
+        0.584796635190169,
+        0.2928147394717742,
+        0.10268017325055044,
+        0.01970845208750643
+      ],
+      "book_rounded_weights": [
+        0.5848,
+        0.2928,
+        0.1027,
+        0.0197
+      ],
+      "cost": 1.0052482794615372,
+      "equal_weight_cost": 1.0148018546213762,
+      "executed_magnitudes": [
+        0.584796635190169,
+        0.29417285933354886,
+        0.1042975637050655,
+        0.020887670301258036
+      ],
+      "final_exact_correction": 0.0010935509314958577,
+      "iterations": 20
+    }
+  ]
+}

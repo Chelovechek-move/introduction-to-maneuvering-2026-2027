@@ -1,0 +1,270 @@
+{
+  "version": 1,
+  "reproduction": "python3 8/images/circular_burn.py",
+  "mu_km3_s2": 398600.4418,
+  "r0_km": 7000.0,
+  "v0_km_s": 7.546053290107541,
+  "n0_rad_s": 0.001078007612872506,
+  "period_s": 5828.516637686015,
+  "characteristic_velocity_m_s": 1.0,
+  "delta_v_over_v0": 0.00013251960482586902,
+  "model": "exact two-body ODE with constant acceleration magnitude; no mass variation, no J2",
+  "axes": "reference circle XY, counterclockwise; reference centre phi=0 at +X, tangent +Y",
+  "reference": "same circular state before burn; impulse at reference centre t=0",
+  "theta_definition": "reference angular length theta=n0*tau; the exact trajectory angle differs slightly",
+  "rtol": 3e-13,
+  "atol": 3e-14,
+  "max_step": "tau/80",
+  "method": "DOP853",
+  "matrix_output": "[delta_a/r0,e_x,e_y,i_x,i_y]; columns integrals of S,T,W in km/s",
+  "sinc_definition": "sin(x)/x, with sinc(0)=1",
+  "formula_rtn": {
+    "a_ratio": "1",
+    "eccentricity_ratio": "sinc(theta/2)"
+  },
+  "formula_inertial": {
+    "a_ratio": "sinc(theta/2)",
+    "eccentricity_ratio": "3/4+sinc(theta)/4"
+  },
+  "exact_impulse": {
+    "delta_a_m": 1855.889313710577,
+    "e_x": 0.0002650567710974012
+  },
+  "first_order_impulse": {
+    "delta_a_m": 1855.274467562166,
+    "e_x": 0.00026503920965173804
+  },
+  "selected": [
+    {
+      "theta_deg": 30,
+      "duration_s": 485.7097198071679,
+      "duration_min": 8.095161996786132,
+      "rtn": {
+        "linear_delta_a_m": 1855.274467562166,
+        "exact_delta_a_m": 1855.8837443160883,
+        "linear_e_x": 0.00026202198459461984,
+        "exact_e_x": 0.0002620393678235411,
+        "exact_e_y": 1.399236670973636e-09,
+        "semimajor_linear_error_m": 0.6092767539223054,
+        "eccentricity_vector_linear_error_m": 0.12207616900324385,
+        "tolerance_check_a_m": 1.7280399333685637e-08,
+        "tolerance_check_e_m": 1.636185885667175e-08
+      },
+      "inertial": {
+        "linear_delta_a_m": 1834.1538921623387,
+        "exact_delta_a_m": 1834.754929144765,
+        "linear_e_x": 0.00026205285773266845,
+        "exact_e_x": 0.00026207003137512785,
+        "exact_e_y": -2.888078665108651e-11,
+        "semimajor_linear_error_m": 0.6010369824260842,
+        "eccentricity_vector_linear_error_m": 0.12021566720581472,
+        "tolerance_check_a_m": 1.000444171950221e-08,
+        "tolerance_check_e_m": 6.3255925038362385e-09
+      }
+    },
+    {
+      "theta_deg": 60,
+      "duration_s": 971.4194396143358,
+      "duration_min": 16.190323993572264,
+      "rtn": {
+        "linear_delta_a_m": 1855.274467562166,
+        "exact_delta_a_m": 1855.8676382235717,
+        "linear_e_x": 0.0002530938019754597,
+        "exact_e_x": 0.00025311090394486424,
+        "exact_e_y": 2.0687782598116655e-09,
+        "semimajor_linear_error_m": 0.5931706614057397,
+        "eccentricity_vector_linear_error_m": 0.12058649530153075,
+        "tolerance_check_a_m": 1.8189894035458565e-09,
+        "tolerance_check_e_m": 4.915166856007382e-09
+      },
+      "inertial": {
+        "linear_delta_a_m": 1771.6566138282178,
+        "exact_delta_a_m": 1772.2189215946855,
+        "linear_e_x": 0.0002535758227515876,
+        "exact_e_x": 0.0002535919689764521,
+        "exact_e_y": -1.7597856505346954e-10,
+        "semimajor_linear_error_m": 0.5623077664678178,
+        "eccentricity_vector_linear_error_m": 0.11303028685130238,
+        "tolerance_check_a_m": 4.547473508864641e-09,
+        "tolerance_check_e_m": 1.737773907273091e-09
+      }
+    },
+    {
+      "theta_deg": 90,
+      "duration_s": 1457.1291594215038,
+      "duration_min": 24.285485990358396,
+      "rtn": {
+        "linear_delta_a_m": 1855.274467562166,
+        "exact_delta_a_m": 1855.842714569917,
+        "linear_e_x": 0.0002386191248708437,
+        "exact_e_x": 0.00023863649712574375,
+        "exact_e_y": 1.6058349094905111e-09,
+        "semimajor_linear_error_m": 0.5682470077510438,
+        "eccentricity_vector_linear_error_m": 0.12212421282193177,
+        "tolerance_check_a_m": 2.7284841053187847e-09,
+        "tolerance_check_e_m": 3.9627342069025725e-09
+      },
+      "inertial": {
+        "linear_delta_a_m": 1670.3338740959057,
+        "exact_delta_a_m": 1670.8394025899906,
+        "linear_e_x": 0.0002409617075680468,
+        "exact_e_x": 0.00024097644400200569,
+        "exact_e_y": -3.61894292311149e-10,
+        "semimajor_linear_error_m": 0.505528494084917,
+        "eccentricity_vector_linear_error_m": 0.1031861386614128,
+        "tolerance_check_a_m": 1.1823431123048067e-08,
+        "tolerance_check_e_m": 8.00131194488396e-09
+      }
+    },
+    {
+      "theta_deg": 120,
+      "duration_s": 1942.8388792286717,
+      "duration_min": 32.38064798714453,
+      "rtn": {
+        "linear_delta_a_m": 1855.274467562166,
+        "exact_delta_a_m": 1855.811562721101,
+        "linear_e_x": 0.00021918566205113627,
+        "exact_e_x": 0.00021920463621327713,
+        "exact_e_y": 1.364566237782583e-10,
+        "semimajor_linear_error_m": 0.5370951589349637,
+        "eccentricity_vector_linear_error_m": 0.13282256968803055,
+        "tolerance_check_a_m": 2.7284841053187847e-09,
+        "tolerance_check_e_m": 1.1127182224838713e-08
+      },
+      "inertial": {
+        "linear_delta_a_m": 1534.2996343579537,
+        "exact_delta_a_m": 1534.7384614451585,
+        "linear_e_x": 0.00022617761499519557,
+        "exact_e_x": 0.00022619066365270335,
+        "exact_e_y": -3.781144286563176e-10,
+        "semimajor_linear_error_m": 0.43882708720488495,
+        "eccentricity_vector_linear_error_m": 0.09137894303693894,
+        "tolerance_check_a_m": 1.3642420526593924e-08,
+        "tolerance_check_e_m": 8.732205812861915e-09
+      }
+    },
+    {
+      "theta_deg": 180,
+      "duration_s": 2914.2583188430076,
+      "duration_min": 48.57097198071679,
+      "rtn": {
+        "linear_delta_a_m": 1855.274467562166,
+        "exact_delta_a_m": 1855.7430358514466,
+        "linear_e_x": 0.00016872920131697316,
+        "exact_e_x": 0.00016875715042242886,
+        "exact_e_y": -2.8639192128920854e-09,
+        "semimajor_linear_error_m": 0.4685682892806575,
+        "eccentricity_vector_linear_error_m": 0.19666817719847576,
+        "tolerance_check_a_m": 9.094947017729282e-09,
+        "tolerance_check_e_m": 1.2472235841700385e-08
+      },
+      "inertial": {
+        "linear_delta_a_m": 1181.104409218812,
+        "exact_delta_a_m": 1181.4034085655294,
+        "linear_e_x": 0.00019877940723880353,
+        "exact_e_x": 0.00019878779211779493,
+        "exact_e_y": 2.220446049250313e-16,
+        "semimajor_linear_error_m": 0.29899934671751005,
+        "eccentricity_vector_linear_error_m": 0.05869415293984568,
+        "tolerance_check_a_m": 2.091837814077735e-08,
+        "tolerance_check_e_m": 1.4755918541132741e-08
+      }
+    }
+  ],
+  "scaling": [
+    {
+      "delta_v_m_s": 0.1,
+      "law": "rtn",
+      "theta_deg": 180,
+      "a_error_m": 0.004684459733728108,
+      "e_error_m": 0.001966716420102973
+    },
+    {
+      "delta_v_m_s": 0.1,
+      "law": "inertial",
+      "theta_deg": 180,
+      "a_error_m": 0.0029893941621700337,
+      "e_error_m": 0.0005869575456552679
+    },
+    {
+      "delta_v_m_s": 0.5,
+      "law": "rtn",
+      "theta_deg": 180,
+      "a_error_m": 0.11712525405127572,
+      "e_error_m": 0.04916763063237829
+    },
+    {
+      "delta_v_m_s": 0.5,
+      "law": "inertial",
+      "theta_deg": 180,
+      "a_error_m": 0.07474119066197549,
+      "e_error_m": 0.014673619458165345
+    },
+    {
+      "delta_v_m_s": 1,
+      "law": "rtn",
+      "theta_deg": 180,
+      "a_error_m": 0.4685682892806575,
+      "e_error_m": 0.19666817719847576
+    },
+    {
+      "delta_v_m_s": 1,
+      "law": "inertial",
+      "theta_deg": 180,
+      "a_error_m": 0.29899934671751005,
+      "e_error_m": 0.05869415293984568
+    },
+    {
+      "delta_v_m_s": 2,
+      "law": "rtn",
+      "theta_deg": 180,
+      "a_error_m": 1.8748114952744643,
+      "e_error_m": 0.786654026396225
+    },
+    {
+      "delta_v_m_s": 2,
+      "law": "inertial",
+      "theta_deg": 180,
+      "a_error_m": 1.1962741589983672,
+      "e_error_m": 0.23477401153276226
+    },
+    {
+      "delta_v_m_s": 5,
+      "law": "rtn",
+      "theta_deg": 180,
+      "a_error_m": 11.727676686273725,
+      "e_error_m": 4.916237872926408
+    },
+    {
+      "delta_v_m_s": 5,
+      "law": "inertial",
+      "theta_deg": 180,
+      "a_error_m": 7.48190711425778,
+      "e_error_m": 1.4672886508534413
+    },
+    {
+      "delta_v_m_s": 10,
+      "law": "rtn",
+      "theta_deg": 180,
+      "a_error_m": 46.97821192322493,
+      "e_error_m": 19.662626393882725
+    },
+    {
+      "delta_v_m_s": 10,
+      "law": "inertial",
+      "theta_deg": 180,
+      "a_error_m": 29.962316830399516,
+      "e_error_m": 5.8688284085995495
+    }
+  ],
+  "max_scan_linear_error_a_m": {
+    "rtn": 0.6148398983634173,
+    "inertial": 0.6148305361892703
+  },
+  "max_scan_linear_error_e_m": {
+    "rtn": 0.19666817719847576,
+    "inertial": 0.1229269979400761
+  },
+  "source": "Baranov, Spacecraft Manoeuvring in the Vicinity of a Near-Circular Orbit, chapter 6, 6.1.1 and 6.1.3; independently calculated example",
+  "limitations": "first-order formulas apply to small changes near the reference circle; no conclusion on arbitrary finite burns or trajectory optimality"
+}
