@@ -10,10 +10,8 @@ __pycache__/
 # Student submissions (local only)
 /student_submissions/
 
-# Generated lecture and homework PDFs (keep PDF illustrations)
-/[0-9]*/*.pdf
+# Generated homework PDFs (lecture and manual PDFs are tracked)
 /homeworks/**/*.pdf
-/manual/*.pdf
 !**/images/**/*.pdf
 
 # LaTeX auxiliary files, including accidental builds outside build/
