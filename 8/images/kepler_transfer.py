@@ -41,6 +41,8 @@ ATR=(RP0+RAF)/2
 ETR=(RAF-RP0)/(RAF+RP0)
 TF=10*86400.
 EPSILON=1e-8
+# Output sampling only; these do not change integration tolerances or steps.
+RECORD_STEP_PASSIVE_S,RECORD_STEP_ACTIVE_S=600.,20.
 WEIGHTS=[np.ones(3)/3,np.array([.5848,.2928,.1027,.0197])]
 CONSTRAINTS={'min_duration_s':60.,'max_duration_s':3600.,
              'minimum_pause_s':12*3600.,'dry_mass_kg':MDRY,
@@ -126,7 +128,7 @@ def propagate(z,t0,t1,use_j2=False,direction=None,tight=False,record=False):
         **integrator_options(tight),max_step=60. if direction is not None else 1800.,dense_output=record)
     if not sol.success:raise RuntimeError(sol.message)
     if record:
-        spacing=20. if direction is not None else 600.
+        spacing=RECORD_STEP_ACTIVE_S if direction is not None else RECORD_STEP_PASSIVE_S
         tt=np.linspace(t0,t1,max(2,int(np.ceil((t1-t0)/spacing))+1))
         rec=(tt,sol.sol(tt),np.full(len(tt),direction is not None))
     else:rec=None
@@ -204,7 +206,7 @@ def coast_to_center(z,t,group,previous_group,tau,use_j2,offset,tight,record):
     if start<tmin:raise ValueError('Predicted centre has insufficient preceding coast')
     zs=sol.sol(start)
     if record:
-        tt=np.linspace(tmin,start,max(2,int(np.ceil((start-tmin)/600.))+1))
+        tt=np.linspace(tmin,start,max(2,int(np.ceil((start-tmin)/RECORD_STEP_PASSIVE_S))+1))
         rec2=(tt,sol.sol(tt),np.zeros(len(tt),dtype=bool))
         rec=(np.r_[rec1[0],rec2[0]],np.c_[rec1[1],rec2[1]],np.r_[rec1[2],rec2[2]])
     else:rec=None
