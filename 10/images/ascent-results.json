@@ -1,0 +1,473 @@
+{
+  "model": "planar Cartesian non-rotating spherical Earth; exponential stationary atmosphere; no lift; two burns of restartable upper-stage engine",
+  "constants": {
+    "mu_km3_s2": 398600.4418,
+    "earth_radius_km": 6378.137,
+    "g0_m_s2": 9.80665,
+    "target_height_km": 650.0,
+    "target_speed_km_s": 7.5309329078601,
+    "initial_mass_kg": 230000.0,
+    "payload_kg": 5000.0,
+    "stage1_propellant_kg": 160000.0,
+    "stage1_dry_kg": 16000.0,
+    "stage2_propellant_kg": 45000.0,
+    "stage2_dry_kg": 4000.0,
+    "stage1_thrust_N": 3500000.0,
+    "stage2_thrust_N": 800000.0,
+    "stage1_isp_s": 300.0,
+    "stage2_isp_s": 450.0,
+    "Cd": 0.3,
+    "area_m2": 10.0,
+    "density_sea_level_kg_m3": 1.225,
+    "density_scale_height_km": 7.2,
+    "vertical_duration_s": 10.0,
+    "pitch_duration_s": 25.0,
+    "pitch_change_deg": 20.0,
+    "raise_thrust_angle_deg": 45.0
+  },
+  "parameter_order": [
+    "upper_raise_duration_s",
+    "coast_duration_s",
+    "upper_circularization_duration_s"
+  ],
+  "initial_parameters_s": [
+    150.0,
+    300.0,
+    80.0
+  ],
+  "solved_parameters_s": [
+    147.28592643213287,
+    301.2292446276289,
+    83.04357922477159
+  ],
+  "residual_tolerance": 1e-11,
+  "history": [
+    {
+      "iteration": 0,
+      "parameters_s": [
+        150.0,
+        300.0,
+        80.0
+      ],
+      "residual_dimensionless": [
+        0.003860028884949249,
+        0.011334291640467455,
+        -0.00861111312834883
+      ],
+      "norm": 0.014748466336980078,
+      "derivative_per_s": [
+        [
+          0.0014306976196033143,
+          -1.2515927661459203e-05,
+          1.2145152989155496e-05
+        ],
+        [
+          0.0038500340464835484,
+          -0.0007577354694787534,
+          -1.4199742930359055e-05
+        ],
+        [
+          0.00649214175856205,
+          1.954519181003936e-05,
+          0.008621007381447252
+        ]
+      ],
+      "condition_number": 45.44050133402505,
+      "step_fraction": 1.0
+    },
+    {
+      "iteration": 1,
+      "parameters_s": [
+        147.285905288292,
+        301.1108947691638,
+        83.04021176782436
+      ],
+      "residual_dimensionless": [
+        3.0744708670230125e-06,
+        9.105575875125292e-05,
+        -3.2651172575041276e-05
+      ],
+      "norm": 9.678172680523775e-05,
+      "derivative_per_s": [
+        [
+          0.0014093896696475707,
+          -2.6180862258161803e-05,
+          9.757125645611797e-08
+        ],
+        [
+          0.00379417274103553,
+          -0.0007700551162812313,
+          -6.664924999534138e-08
+        ],
+        [
+          0.006579354544680163,
+          2.785509088164983e-05,
+          0.00867458184557496
+        ]
+      ],
+      "condition_number": 47.10568858411824,
+      "step_fraction": 1.0
+    },
+    {
+      "iteration": 2,
+      "parameters_s": [
+        147.2859216650542,
+        301.2292209361785,
+        83.04358339292806
+      ],
+      "residual_dimensionless": [
+        -6.0982097805149675e-09,
+        1.537633816006336e-10,
+        4.132797521197199e-09
+      ],
+      "norm": 7.368298382659553e-09,
+      "derivative_per_s": [
+        [
+          0.001409846672127362,
+          -2.628121992987003e-05,
+          1.4914231805593754e-12
+        ],
+        [
+          0.0037947653038465324,
+          -0.0007700545008604479,
+          3.1422937980478805e-11
+        ],
+        [
+          0.006579546225843135,
+          2.7909755859762326e-05,
+          0.00867511451065825
+        ]
+      ],
+      "condition_number": 47.11536454946368,
+      "step_fraction": 1.0
+    },
+    {
+      "iteration": 3,
+      "parameters_s": [
+        147.28592643213287,
+        301.2292446276289,
+        83.04357922477159
+      ],
+      "residual_dimensionless": [
+        0.0,
+        -5.896868492701121e-17,
+        -1.4152484382482692e-15
+      ],
+      "norm": 1.4164764197706173e-15
+    }
+  ],
+  "phases": [
+    {
+      "phase": "vertical",
+      "time_begin_s": 0.0,
+      "time_end_s": 10.0,
+      "state_end": {
+        "height_km": 0.2842146236262124,
+        "radial_speed_km_s": 0.05818222565115948,
+        "transverse_speed_km_s": 9.552618568486781e-18,
+        "speed_km_s": 0.05818222565115948,
+        "gamma_deg": 90.0,
+        "mass_kg": 218103.31084859066,
+        "upper_remaining_propellant_kg": 45000.0,
+        "semimajor_axis_km": 3189.296988872768,
+        "eccentricity": 1.0,
+        "perigee_height_km": -6378.137,
+        "apogee_height_km": 0.45697774553627823,
+        "characteristic_speed_km_s": 0.15625069428003455,
+        "gravity_loss_km_s": 0.09797997827023602,
+        "drag_loss_km_s": 8.849035863905164e-05,
+        "steering_loss_km_s": 0.0,
+        "speed_balance_error_m_s": 0.0,
+        "residual_dimensionless": [
+          -0.09244495168155854,
+          0.007725766032311108,
+          -1.0
+        ]
+      }
+    },
+    {
+      "phase": "pitch",
+      "time_begin_s": 10.0,
+      "time_end_s": 35.0,
+      "state_end": {
+        "height_km": 3.8491564297837613,
+        "radial_speed_km_s": 0.23171685262884503,
+        "transverse_speed_km_s": 0.07553831078005974,
+        "speed_km_s": 0.24371855938299564,
+        "gamma_deg": 71.94434072152167,
+        "mass_kg": 188361.58797006716,
+        "upper_remaining_propellant_kg": 45000.0,
+        "semimajor_axis_km": 3192.5111689032938,
+        "eccentricity": 0.999908680003391,
+        "perigee_height_km": -6377.845459890881,
+        "apogee_height_km": 6.593797697469199,
+        "characteristic_speed_km_s": 0.5875630411750419,
+        "gravity_loss_km_s": 0.3393984103841506,
+        "drag_loss_km_s": 0.004106035545020538,
+        "steering_loss_km_s": 0.00034003586287495457,
+        "speed_balance_error_m_s": 1.6653345369377348e-13,
+        "residual_dimensionless": [
+          -0.09193771316213903,
+          0.03076867839135841,
+          -0.9899695945104996
+        ]
+      }
+    },
+    {
+      "phase": "turn",
+      "time_begin_s": 35.0,
+      "time_end_s": 134.4912,
+      "state_end": {
+        "height_km": 67.34257688341404,
+        "radial_speed_km_s": 1.125285249767788,
+        "transverse_speed_km_s": 2.1906883275884317,
+        "speed_km_s": 2.4627996755678594,
+        "gamma_deg": 27.188089334444932,
+        "mass_kg": 69999.99999999822,
+        "upper_remaining_propellant_kg": 45000.0,
+        "semimajor_axis_km": 3388.931126061759,
+        "eccentricity": 0.9232579112043074,
+        "perigee_height_km": -6118.063346601282,
+        "apogee_height_km": 139.65159872480126,
+        "characteristic_speed_km_s": 3.499750376822538,
+        "gravity_loss_km_s": 1.0002928531496937,
+        "drag_loss_km_s": 0.03631781224210761,
+        "steering_loss_km_s": 0.0003400358628749657,
+        "speed_balance_error_m_s": 2.6645352591003757e-12,
+        "residual_dimensionless": [
+          -0.08290353803811536,
+          0.14942176003099406,
+          -0.7091079744845434
+        ]
+      }
+    },
+    {
+      "phase": "raise",
+      "time_begin_s": 134.4912,
+      "time_end_s": 281.77712643213283,
+      "state_end": {
+        "height_km": 282.99843424241953,
+        "radial_speed_km_s": 2.103695095655244,
+        "transverse_speed_km_s": 4.2138870947101985,
+        "speed_km_s": 4.709817141084044,
+        "gamma_deg": 26.52970519757508,
+        "mass_kg": 27299.58273309719,
+        "upper_remaining_propellant_kg": 18299.58273309719,
+        "semimajor_axis_km": 4088.333305443167,
+        "eccentricity": 0.7186934647712016,
+        "perigee_height_km": -5228.062122985281,
+        "apogee_height_km": 648.4547338716156,
+        "characteristic_speed_km_s": 6.509908292719867,
+        "gravity_loss_km_s": 1.5876313488700784,
+        "drag_loss_km_s": 0.036439785282279105,
+        "steering_loss_km_s": 0.1760200174834636,
+        "speed_balance_error_m_s": 1.7763568394002505e-12,
+        "residual_dimensionless": [
+          -0.052218897519724,
+          0.2793405706030921,
+          -0.4404561630987141
+        ]
+      }
+    },
+    {
+      "phase": "coast",
+      "time_begin_s": 281.77712643213283,
+      "time_end_s": 583.0063710597617,
+      "state_end": {
+        "height_km": 640.844660148834,
+        "radial_speed_km_s": 0.29729983665890813,
+        "transverse_speed_km_s": 3.9990519994998532,
+        "speed_km_s": 4.010087790507982,
+        "gamma_deg": 4.251694706934998,
+        "mass_kg": 27299.58273309719,
+        "upper_remaining_propellant_kg": 18299.58273309719,
+        "semimajor_axis_km": 4088.3333054431714,
+        "eccentricity": 0.7186934647712008,
+        "perigee_height_km": -5228.062122985277,
+        "apogee_height_km": 648.4547338716202,
+        "characteristic_speed_km_s": 6.509908292719867,
+        "gravity_loss_km_s": 2.287360699446149,
+        "drag_loss_km_s": 0.036439785282279126,
+        "steering_loss_km_s": 0.1760200174834636,
+        "speed_balance_error_m_s": -6.217248937900877e-12,
+        "residual_dimensionless": [
+          -0.0013026695198408897,
+          0.039477159111139304,
+          -0.4689831859574784
+        ]
+      }
+    },
+    {
+      "phase": "circularize",
+      "time_begin_s": 583.0063710597617,
+      "time_end_s": 666.0499502845333,
+      "state_end": {
+        "height_km": 650.00000000012,
+        "radial_speed_km_s": 2.3669954885008337e-13,
+        "transverse_speed_km_s": 7.530932907860325,
+        "speed_km_s": 7.530932907860325,
+        "gamma_deg": 1.8008240582790711e-12,
+        "mass_kg": 12245.203334125274,
+        "upper_remaining_propellant_kg": 3245.2033341252736,
+        "semimajor_axis_km": 7028.137000000658,
+        "eccentricity": 8.280247523918687e-14,
+        "perigee_height_km": 650.0000000000764,
+        "apogee_height_km": 650.0000000012406,
+        "characteristic_speed_km_s": 10.047968198301007,
+        "gravity_loss_km_s": 2.3031884010752126,
+        "drag_loss_km_s": 0.036439785282279126,
+        "steering_loss_km_s": 0.17740710408319627,
+        "speed_balance_error_m_s": -6.217248937900877e-12,
+        "residual_dimensionless": [
+          1.70818099638676e-14,
+          3.1430309066096976e-14,
+          2.9838154573067676e-14
+        ]
+      }
+    }
+  ],
+  "cases": {
+    "steep": {
+      "height_km": 792.9167619533946,
+      "radial_speed_km_s": 0.2011305231857694,
+      "transverse_speed_km_s": 7.2046596920154675,
+      "speed_km_s": 7.20746659826526,
+      "gamma_deg": 1.5990953494906024,
+      "mass_kg": 12245.203334125277,
+      "upper_remaining_propellant_kg": 3245.2033341252773,
+      "semimajor_axis_km": 6730.647828854053,
+      "eccentricity": 0.07111166934181919,
+      "perigee_height_km": -126.11677400764984,
+      "apogee_height_km": 831.1384317157563,
+      "characteristic_speed_km_s": 10.047968198301005,
+      "gravity_loss_km_s": 2.7214864488888373,
+      "drag_loss_km_s": 0.031529907481834166,
+      "steering_loss_km_s": 0.08748524366505554,
+      "speed_balance_error_m_s": 1.7763568394002505e-11,
+      "residual_dimensionless": [
+        0.020334942525080914,
+        0.026707252029273522,
+        -0.04332440878660574
+      ]
+    },
+    "shallow": {
+      "height_km": 500.8046738012381,
+      "radial_speed_km_s": -0.22626773973596848,
+      "transverse_speed_km_s": 7.8085352067003155,
+      "speed_km_s": 7.811812796292776,
+      "gamma_deg": -1.6597939927876422,
+      "mass_kg": 12245.20333412529,
+      "upper_remaining_propellant_kg": 3245.20333412529,
+      "semimajor_axis_km": 7265.029988096583,
+      "eccentricity": 0.060504636917460344,
+      "perigee_height_km": 447.3249864723384,
+      "apogee_height_km": 1326.4609897208293,
+      "characteristic_speed_km_s": 10.047968198301001,
+      "gravity_loss_km_s": 1.8976624631440568,
+      "drag_loss_km_s": 0.04509362314713049,
+      "steering_loss_km_s": 0.29339931571703093,
+      "speed_balance_error_m_s": 7.105427357601002e-12,
+      "residual_dimensionless": [
+        -0.021228289402833483,
+        -0.030045114264636574,
+        0.03686160828102447
+      ]
+    },
+    "nominal": {
+      "height_km": 650.00000000012,
+      "radial_speed_km_s": 2.3669954885008337e-13,
+      "transverse_speed_km_s": 7.530932907860325,
+      "speed_km_s": 7.530932907860325,
+      "gamma_deg": 1.8008240582790711e-12,
+      "mass_kg": 12245.203334125274,
+      "upper_remaining_propellant_kg": 3245.2033341252736,
+      "semimajor_axis_km": 7028.137000000658,
+      "eccentricity": 8.280247523918687e-14,
+      "perigee_height_km": 650.0000000000764,
+      "apogee_height_km": 650.0000000012406,
+      "characteristic_speed_km_s": 10.047968198301007,
+      "gravity_loss_km_s": 2.3031884010752126,
+      "drag_loss_km_s": 0.036439785282279126,
+      "steering_loss_km_s": 0.17740710408319627,
+      "speed_balance_error_m_s": -6.217248937900877e-12,
+      "residual_dimensionless": [
+        1.70818099638676e-14,
+        3.1430309066096976e-14,
+        2.9838154573067676e-14
+      ]
+    }
+  },
+  "constraints": {
+    "max_dynamic_pressure_Pa": 50000.0,
+    "max_thrust_load_g0": 8.0,
+    "minimum_altitude_m": 0.0,
+    "minimum_final_mass_kg": 9000.0,
+    "maximum_upper_total_burn_s": 248.23082812499996,
+    "note": "Illustrative acceptance limits; not optimization constraints."
+  },
+  "checks": {
+    "fuel_mass": true,
+    "upper_burn": true,
+    "dynamic_pressure": true,
+    "thrust_load": true,
+    "altitude": true
+  },
+  "extrema_note": "Maxima over the recorded grid with spacing no larger than one second, not formal continuous-time guarantees.",
+  "max_dynamic_pressure_Pa": 31507.655558661594,
+  "max_qalpha_Pa_rad": 723.3641976224468,
+  "max_thrust_load_g0": 6.661979781984704,
+  "verification": {
+    "nominal_final": {
+      "height_km": 650.0,
+      "radial_speed_km_s": -4.440892098500626e-16,
+      "transverse_speed_km_s": 7.530932907860089,
+      "speed_km_s": 7.530932907860089,
+      "gamma_deg": -3.3786567697544605e-15,
+      "mass_kg": 12245.203334126392,
+      "upper_remaining_propellant_kg": 3245.2033341263923,
+      "semimajor_axis_km": 7028.13699999998,
+      "eccentricity": 2.7761839066155116e-15,
+      "perigee_height_km": 649.9999999999609,
+      "apogee_height_km": 650.0,
+      "characteristic_speed_km_s": 10.047968198300667,
+      "gravity_loss_km_s": 2.3031884010750194,
+      "drag_loss_km_s": 0.03643978528230407,
+      "steering_loss_km_s": 0.1774071040832884,
+      "speed_balance_error_m_s": -3.375077994860476e-11,
+      "residual_dimensionless": [
+        0.0,
+        -5.896868492701121e-17,
+        -1.4152484382482692e-15
+      ]
+    },
+    "tight_final": {
+      "height_km": 650.00000000012,
+      "radial_speed_km_s": 2.3669954885008337e-13,
+      "transverse_speed_km_s": 7.530932907860325,
+      "speed_km_s": 7.530932907860325,
+      "gamma_deg": 1.8008240582790711e-12,
+      "mass_kg": 12245.203334125274,
+      "upper_remaining_propellant_kg": 3245.2033341252736,
+      "semimajor_axis_km": 7028.137000000658,
+      "eccentricity": 8.280247523918687e-14,
+      "perigee_height_km": 650.0000000000764,
+      "apogee_height_km": 650.0000000012406,
+      "characteristic_speed_km_s": 10.047968198301007,
+      "gravity_loss_km_s": 2.3031884010752126,
+      "drag_loss_km_s": 0.036439785282279126,
+      "steering_loss_km_s": 0.17740710408319627,
+      "speed_balance_error_m_s": -6.217248937900877e-12,
+      "residual_dimensionless": [
+        1.70818099638676e-14,
+        3.1430309066096976e-14,
+        2.9838154573067676e-14
+      ]
+    },
+    "position_difference_m": 1.1981967078332126e-07,
+    "velocity_difference_m_s": 3.3186896886822344e-10,
+    "nominal_rtol": 2e-11,
+    "tight_rtol": 2e-13,
+    "nominal_max_step_s": 2.0,
+    "tight_max_step_s": 0.4
+  }
+}

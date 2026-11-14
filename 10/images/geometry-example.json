@@ -1,0 +1,54 @@
+{
+  "mu_km3_s2": 398600.4418,
+  "earth_radius_km": 6378.137,
+  "altitude_km": 650.0,
+  "model": "two-body; same point and circular speed magnitude; outward radial velocity for gamma>0",
+  "cases": [
+    {
+      "gamma_deg": 0,
+      "speed_km_s": 7.5309329078601,
+      "a_km": 7028.137,
+      "e": 0.0,
+      "perigee_altitude_km": 650.0,
+      "apogee_altitude_km": 650.0
+    },
+    {
+      "gamma_deg": 3,
+      "speed_km_s": 7.5309329078601,
+      "a_km": 7028.137,
+      "e": 0.052335956242943835,
+      "perigee_altitude_km": 282.1757294985855,
+      "apogee_altitude_km": 1017.8242705014136
+    },
+    {
+      "gamma_deg": 5,
+      "speed_km_s": 7.5309329078601,
+      "a_km": 7028.137,
+      "e": 0.08715574274765817,
+      "perigee_altitude_km": 37.45749963270191,
+      "apogee_altitude_km": 1262.542500367298
+    }
+  ],
+  "launch_geometry_example": {
+    "mu_km3_s2": 398600.4418,
+    "earth_radius_km": 6378.137,
+    "omega_rad_s": 7.2921159e-05,
+    "latitude_deg": 28.5,
+    "inclination_deg": 51.6,
+    "altitude_km": 200.0,
+    "circular_inertial_speed_km_s": 7.784261748565626,
+    "inertial_azimuth_deg": 44.9751330989884,
+    "inertial_north_speed_km_s": 5.506692669688787,
+    "inertial_east_speed_km_s": 5.5019148313816855,
+    "atmosphere_east_speed_at_altitude_km_s": 0.4215557154534248,
+    "air_speed_km_s": 7.492243516143852,
+    "air_azimuth_deg": 42.6939829147781,
+    "initial_pad_speed_km_s": 0.40873884297255597,
+    "launch_longitude_offset_deg": 25.489227222353726,
+    "successive_plane_crossing_intervals_h": [
+      8.577950666294685,
+      15.356518778908859
+    ],
+    "model": "spherical Earth, co-rotating atmosphere without wind; local horizontal circular state; no claim about constant heading during ascent"
+  }
+}

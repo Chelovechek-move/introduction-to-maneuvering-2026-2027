@@ -1,0 +1,617 @@
+% Конспект-методичка лекции 10. Сборка из корня:
+% latexmk 10/ascent-to-orbit.tex
+\documentclass[a4paper,11pt]{article}
+\usepackage{iftex}
+\RequirePDFTeX
+\usepackage{cmap}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{PTSerif}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[a4paper,left=20mm,right=20mm,top=22mm,bottom=23mm,headheight=14pt]{geometry}
+\usepackage{microtype,anyfontsize}
+\usepackage{graphicx,xcolor,tikz,booktabs,tabularx,array,longtable}
+\usetikzlibrary{arrows.meta,calc,positioning}
+\usepackage{enumitem,fancyhdr,needspace,float,placeins}
+\usepackage[most]{tcolorbox}
+\definecolor{accent}{HTML}{187AA5}
+\definecolor{muted}{HTML}{5A6166}
+\definecolor{figink}{HTML}{25323F}
+\definecolor{figtan}{HTML}{087F78}
+\definecolor{figorange}{HTML}{B57714}
+\definecolor{figpurple}{HTML}{79539C}
+\newtcolorbox{explanation}[1]{enhanced,
+ colback=accent!3!white,colframe=accent!80!black,
+ boxrule=.5pt,toprule=1.2pt,arc=1mm,
+ left=3mm,right=3mm,top=3mm,bottom=2mm,
+ before skip=9pt,after skip=9pt,
+ title={#1},fonttitle=\bfseries,coltitle=accent!70!black,
+ attach boxed title to top left={xshift=3mm,yshift=-2mm},
+ boxed title style={colback=white,frame hidden,boxrule=0pt,
+ left=1.5mm,right=1.5mm,top=.4mm,bottom=.4mm}}
+\newtcolorbox{remarkbox}{enhanced,
+ colback=orange!4!white,colframe=orange!65!black,
+ boxrule=.5pt,toprule=1.2pt,arc=1mm,
+ left=3mm,right=3mm,top=2mm,bottom=2mm,
+ before skip=9pt,after skip=9pt}
+\usepackage{hyperref}
+\usepackage{bookmark}
+\hypersetup{unicode=true,colorlinks=true,linkcolor=accent,citecolor=accent,urlcolor=accent,
+ pdftitle={Задача выведения КА на орбиту},
+ pdfauthor={Материалы курса «Введение в маневрирование КА»},
+ pdfsubject={Динамика ракеты, гравитационный разворот, потери, довыведение и пристрелка}}
+\newcommand{\dd}{\mathop{}\!\mathrm d}
+\newcommand{\vect}[1]{\boldsymbol{#1}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\DeclareMathOperator{\atanTwo}{atan2}
+\numberwithin{equation}{section}
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{2}
+\setlength{\parindent}{1.3em}
+\setlength{\parskip}{2pt}
+\linespread{1.055}
+\setlist{itemsep=2pt,topsep=4pt,parsep=0pt}
+\setlength{\emergencystretch}{1.5em}
+\clubpenalty=10000
+\widowpenalty=10000
+\brokenpenalty=10000
+\displaywidowpenalty=10000
+\allowdisplaybreaks[1]
+\setcounter{topnumber}{2}
+\renewcommand{\topfraction}{.88}
+\renewcommand{\textfraction}{.10}
+\renewcommand{\floatpagefraction}{.82}
+\makeatletter
+\setlength{\@fptop}{0pt}
+\makeatother
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{muted}Задача выведения КА на орбиту}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{.3pt}
+\newcommand{\coursefigure}[3][.98]{%
+\begin{figure}[!htbp]\centering
+\includegraphics[width=#1\textwidth]{images/#2.pdf}
+\caption{#3}\label{fig:#2}\end{figure}}
+\newcommand{\courseplot}[3][.98]{%
+\begin{figure}[H]\centering
+\includegraphics[width=#1\textwidth]{images/#2.pdf}
+\caption{#3}\label{fig:#2}\end{figure}}
+\begin{document}
+\begin{titlepage}
+\centering
+{\large Московский физико-технический институт\par}
+\vspace{8mm}
+{\large Курс «Введение в маневрирование КА»\par}
+\vspace{30mm}
+{\color{accent}\rule{28mm}{.8pt}\par}
+\vspace{9mm}
+{\LARGE\bfseries Задача выведения КА\\[3mm]на орбиту\par}
+\vspace{11mm}
+{\large Методические материалы к лекции 10\par}
+\vspace{8mm}
+{Конечное орбитальное состояние. Динамика ракеты.\\
+Программа выведения, ограничения и довыведение.\\
+Расчёт траектории и уточнение управления.\par}
+\vfill
+{Рабочая редакция\par}
+\vspace{3mm}
+{14 ноября 2026 года\par}
+\end{titlepage}
+\setcounter{page}{2}
+\begingroup\small
+\setlength{\parskip}{0pt}
+\tableofcontents
+\endgroup
+\clearpage
+
+\section*{Предмет рассмотрения и обозначения}
+\addcontentsline{toc}{section}{Предмет рассмотрения и обозначения}
+
+Задача выведения --- сформировать положение и инерциальную скорость
+КА, соответствующие заданной орбите. Рассмотрим, как эту цель
+связывают с тягой, расходом топлива и программой движения ракеты.
+Основу изложения составляют разделы Teofilatto об атмосферном
+и внеатмосферном выведении~\cite{teofilatto}.
+
+Общая модель записывается в инерциальных координатах.
+Для объяснения гравитационного разворота и расчётного примера
+используется плоская модель невращающейся сферической Земли;
+влияние вращения и плоскость орбиты рассмотрены отдельно.
+В таблице собраны основные обозначения; остальные вводятся по месту.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\textwidth}{@{}>{$}l<{$}X@{}}
+\toprule
+\vect R,\vect V,m & Инерциальные положение, скорость и текущая масса ракеты.\\
+r,H,R_E & Радиус $r=\norm{\vect R}$, высота $H=r-R_E$ и радиус Земли.\\
+F,c,\vect u & Тяга, скорость истечения $c=g_0I_{\mathrm{sp}}$
+и единичное направление тяги.\\
+V_r,V_t,\gamma & Радиальная и трансверсальная компоненты скорости;
+угол скорости над местным горизонтом.\\
+\theta,\beta & Угол тяги над горизонтом и угол
+$\beta=\theta-\gamma$ в плоской модели.\\
+q_{\mathrm{dyn}},\alpha & Скоростной напор и угол атаки.\\
+\vect p,\vect{\mathcal R} & Параметры программы и безразмерная конечная невязка.\\
+\bottomrule
+\end{tabularx}
+\end{center}
+$g_0$ --- стандартное ускорение, $I_{\mathrm{sp}}$ --- удельный импульс.
+Углы в формулах измеряются в радианах.
+Орбита определяется по инерциальным $\vect R,\vect V$.
+Тяга и масса рассчитываются на всём активном участке;
+$t_f$ обозначает конец всей задачи.
+
+\section{Конечное состояние и целевая орбита}
+\label{sec:terminal}
+
+\subsection{Какие условия нужно выполнить}
+
+Высота сама по себе не определяет орбиту.
+В центральном поле Земли с гравитационным параметром $\mu$
+состояние задаёт удельные энергию
+и орбитальный момент:
+\begin{equation}
+\mathcal E=\frac{V^2}{2}-\frac{\mu}{r},\qquad
+\vect h=\vect R\times\vect V,\qquad h=\norm{\vect h}.
+\label{eq:invariants}
+\end{equation}
+Для эллиптической орбиты из них находятся
+\begin{equation}
+a=-\frac{\mu}{2\mathcal E},\qquad
+e=\sqrt{1+\frac{2\mathcal E h^2}{\mu^2}},\qquad
+r_p=a(1-e),\quad r_a=a(1+e).
+\label{eq:orbital-size}
+\end{equation}
+Модуль скорости вместе с радиусом определяет энергию,
+но момент зависит ещё и от направления скорости.
+В плоскости движения
+\[
+V_r=V\sin\gamma,\qquad V_t=V\cos\gamma,\qquad h=rV_t.
+\]
+Для круговой орбиты радиуса $r_*$ требуется одновременно
+\begin{equation}
+\boxed{
+r(t_f)=r_*,\qquad V_r(t_f)=0,\qquad
+V_t(t_f)=V_*=\sqrt{\frac{\mu}{r_*}}.}
+\label{eq:circular-terminal}
+\end{equation}
+Положение вдоль орбиты здесь свободно.
+В пространственной задаче дополнительно задаётся
+нужная плоскость; к этому вернёмся в главе о геометрии запуска.
+
+\subsection{Правильная скорость при неправильном направлении}
+
+Возьмём высоту $H_0=650$~км,
+$R_E=6378.137$~км и $\mu=398600.4418$~км$^3$/с$^2$.
+На радиусе $r_0=7028.137$~км круговая скорость
+$V_0=\sqrt{\mu/r_0}=7.530933$~км/с.
+Сохраним её модуль, но изменим угол $\gamma_0$.
+
+Энергия остаётся равной $-\mu/(2r_0)$, поэтому $a=r_0$.
+Момент равен $\sqrt{\mu r_0}\cos\gamma_0$, откуда
+\[
+e^2=1-\frac{h^2}{\mu a}
+=1-\cos^2\gamma_0=\sin^2\gamma_0.
+\]
+Следовательно,
+\begin{equation}
+e=|\sin\gamma_0|,\qquad
+H_p=H_0-r_0|\sin\gamma_0|,\qquad
+H_a=H_0+r_0|\sin\gamma_0|.
+\label{eq:wrong-angle}
+\end{equation}
+При $\gamma_0=5^\circ$ перигей оказывается на высоте
+всего $37.46$~км. Это оскулирующая двухтельная орбита:
+в плотной атмосфере реальное движение изменится сопротивлением.
+Пример показывает, почему конечное направление скорости
+так же существенно, как её модуль.
+
+\coursefigure{geometry-orbits}{Орбиты из одного положения на высоте
+650~км при одинаковом модуле скорости и разных углах $\gamma_0$.
+Справа --- изменение высоты перигея. Атмосферное движение
+здесь не интегрируется.}
+
+\FloatBarrier
+\section{Тяга, масса и атмосфера}
+\label{sec:dynamics}
+
+Чтобы связать конечную орбиту с возможностями ракеты,
+используем знакомую модель конечной тяги и добавим
+сопротивление и разделение ступеней.
+
+\subsection{Уравнения движения}
+
+Ракета рассматривается как материальная точка с переменной массой:
+\begin{equation}
+\begin{aligned}
+\dot{\vect R}&=\vect V,\\
+\dot{\vect V}&=-\frac{\mu}{r^3}\vect R
++\frac{F}{m}\vect u+\frac{\vect D}{m},\\
+\dot m&=-\frac{F}{c},\qquad c=g_0I_{\mathrm{sp}}.
+\end{aligned}
+\label{eq:motion}
+\end{equation}
+В нашей расчётной модели $F$ и $c$ постоянны
+на каждом активном участке. Масса убывает линейно,
+а тяговое ускорение $F/m$ возрастает.
+На пассивном участке $F=0$ и расход топлива отсутствует.
+
+Аэродинамические силы зависят от движения относительно воздуха:
+\begin{equation}
+\vect V_{\mathrm{air}}
+=\vect V-\vect\omega_E\times\vect R-\vect w,
+\qquad
+q_{\mathrm{dyn}}=\frac12\rho(H)V_{\mathrm{air}}^2,
+\label{eq:airspeed}
+\end{equation}
+где $\vect w$ --- ветер относительно вращающейся Земли.
+Сопротивление направлено против воздушной скорости:
+\begin{equation}
+D=q_{\mathrm{dyn}}C_DS,\qquad
+\vect D=-\frac12\rho(H)C_DS\,V_{\mathrm{air}}\vect V_{\mathrm{air}}.
+\label{eq:drag}
+\end{equation}
+$C_D$ относится к опорной площади $S$.
+Векторная запись определена и при нулевой воздушной скорости:
+тогда сопротивление равно нулю.
+Подъёмная сила в рассматриваемой модели отсутствует.
+
+Угол атаки $\alpha$ --- угол продольной оси ракеты
+к воздушной скорости. Он совпадает с $\beta=\theta-\gamma$
+лишь при тяге по оси корпуса и совпадении воздушной
+и инерциальной скоростей. Для определения орбиты
+всегда используется инерциальная скорость.
+
+\subsection{Топливо и ступени}
+
+Характеристическая скорость определяется интегралом
+тягового ускорения на участке от $t_b$ до $t_e$. При постоянном $c$ из
+$F\dd t=-c\dd m$ получаем
+\begin{equation}
+\Delta V_{\mathrm{th}}
+=\int_{t_b}^{t_e}\frac{F}{m}\dd t
+=c\ln\frac{m_b}{m_e},\qquad
+t_e-t_b=\frac{c(m_b-m_e)}{F}.
+\label{eq:rocket}
+\end{equation}
+Первая формула связывает ресурс с массовым отношением,
+вторая --- с длительностью при постоянной тяге.
+На выведении $\Delta V_{\mathrm{th}}$ не равна
+приращению орбитальной скорости: на движение влияют
+тяжесть, сопротивление и направление тяги.
+
+В текущую массу входят работающая ступень, верхние ступени
+с их топливом и полезная нагрузка. После выгорания первой
+ступени её сухая масса ещё остаётся частью ракеты до отделения.
+В идеализированной модели разделения
+\begin{equation}
+\vect R^+=\vect R^-,\qquad
+\vect V^+=\vect V^-,\qquad
+m^+=m^- -m_{s,1},
+\label{eq:separation}
+\end{equation}
+где $m_{s,1}$ --- сбрасываемая сухая масса.
+Положение и скорость непрерывны; меняются масса
+и параметры работающего двигателя.
+
+\coursefigure[.68]{geometry-staging}{Массовый состав двухступенчатой ракеты.
+Сухая масса первой ступени сбрасывается при разделении;
+на активных участках топливо расходуется непрерывно.}
+
+\FloatBarrier
+\section{Поворот траектории и программа выведения}
+\label{sec:turn}
+
+Ракета начинает движение почти вертикально, а заканчивает
+круговое выведение с горизонтальной скоростью.
+Чтобы понять этот поворот, запишем уравнения
+через модуль скорости и её угол к горизонту.
+
+\subsection{Естественные переменные и уравнения}
+
+Для плоской невращающейся модели положим
+\[
+\vect V=V(\sin\gamma\,\vect e_r+\cos\gamma\,\vect e_t),
+\qquad
+\vect u=\sin\theta\,\vect e_r+\cos\theta\,\vect e_t,
+\]
+где $\vect e_r$ направлен по радиусу наружу,
+$\vect e_t$ --- по местному горизонту.
+Угол между тягой и скоростью равен $\beta=\theta-\gamma$.
+
+\coursefigure[.60]{geometry-local-frame}{Местный базис, компоненты
+скорости и углы $\gamma,\theta,\beta$.
+Направление тяги и направление движения могут различаться.}
+
+Кинематика даёт $\dot r=V\sin\gamma$.
+Проекция ускорения на скорость содержит
+тяговую составляющую $(F/m)\cos\beta$,
+сопротивление $-D/m$ и тяжесть $-g\sin\gamma$,
+где $g=\mu/r^2$.
+Проекция на нормаль в сторону увеличения $\gamma$
+описывает поворот скорости в инерциальных осях:
+\[
+V\frac{\dd(\gamma-\varphi)}{\dd t}
+=\frac{F}{m}\sin\beta-g\cos\gamma.
+\]
+Здесь $\varphi$ --- полярный угол положения,
+$\dot\varphi=V\cos\gamma/r$.
+Добавляя поворот местного горизонта, получаем
+\begin{equation}
+\boxed{
+\begin{aligned}
+\dot r&=V\sin\gamma,\\
+\dot\varphi&=\frac{V\cos\gamma}{r},\\
+\dot V&=\frac{F}{m}\cos\beta-\frac{D}{m}
+                    -\frac{\mu}{r^2}\sin\gamma,\\
+\dot\gamma&=\frac{F}{mV}\sin\beta+
+ \left(\frac{V}{r}-\frac{\mu}{Vr^2}\right)\cos\gamma,\\
+\dot m&=-\frac{F}{c}.
+\end{aligned}}
+\label{eq:natural}
+\end{equation}
+Сопротивление не входит в нормальную проекцию,
+поскольку направлено вдоль скорости.
+При $V=0$ угол не определён, поэтому старт численно
+рассчитывается по декартовой системе \eqref{eq:motion}.
+
+\subsection{Начальный и гравитационный разворот}
+
+При строго вертикальном движении
+$\gamma=\pi/2$, $\beta=0$ и $\dot\gamma=0$.
+В симметричной модели поперечная скорость сама не появится:
+нужен начальный разворот тяги.
+После набора скорости на вертикальном участке
+тяга отклоняется ближе к горизонту,
+$\theta<\gamma$, и её нормальная проекция уменьшает $\gamma$.
+
+Затем можно перейти к тяге вдоль скорости.
+В нашей невращающейся модели это $\beta=0$;
+такой участок называется гравитационным разворотом:
+\begin{equation}
+\dot\gamma=
+\left(\frac{V}{r}-\frac{g}{V}\right)\cos\gamma,
+\qquad g=\frac{\mu}{r^2}.
+\label{eq:gravity-turn}
+\end{equation}
+При $V^2<\mu/r$ и $0<\gamma<\pi/2$
+угол уменьшается: тяжесть поворачивает траекторию
+к местному горизонту.
+
+\coursefigure[.94]{geometry-gravity-turn}{Поворот скорости под действием
+тяжести и вращение местного горизонта.
+Оба эффекта входят в уравнение для $\gamma$.}
+
+Слагаемое $-g\cos\gamma/V$ описывает поворот скорости
+тяжестью, а $V\cos\gamma/r$ --- поворот горизонта.
+У поверхности при небольшой скорости вторым можно пренебречь.
+Вблизи орбитального режима оно существенно:
+при $V^2=\mu/r$ два члена компенсируются,
+и горизонтальное движение сохраняется.
+
+\begin{explanation}{Роль начального разворота}
+Его момент и величина задают исходные условия последующего
+гравитационного разворота. После перехода к тяге вдоль скорости
+её направление уже не является независимым управлением.
+Выбор начального разворота влияет на высоту, скорость
+и возможность дальнейшего довыведения.
+\end{explanation}
+
+\subsection{Участки программы}
+
+Типичная рассматриваемая схема включает вертикальный подъём,
+начальный разворот, гравитационный разворот,
+возможную пассивную дугу и активное довыведение.
+В плотной атмосфере малый угол атаки ограничивает боковые нагрузки.
+В разреженной атмосфере направление тяги можно выбирать
+с большим отклонением от скорости.
+
+\courseplot{geometry-sequence}{Назначение участков выведения.
+Схема качественная; высоты и длительности определяются расчётом.}
+
+Пассивная пауза нужна не во всех схемах,
+а гравитационный разворот сам по себе не доказывает
+оптимальность по топливу или полезной нагрузке.
+
+\FloatBarrier
+\section{Потери скорости и ограничения}
+\label{sec:losses}
+
+Одна ракета при разных программах получает разные конечные орбиты.
+Это удобно объяснять балансом модуля скорости.
+Все формулы этой главы относятся к плоской невращающейся
+модели без подъёмной силы.
+
+\subsection{Баланс скорости}
+
+В уравнении \eqref{eq:natural} заменим
+$(F/m)\cos\beta$ на $F/m-(F/m)(1-\cos\beta)$
+и проинтегрируем на всём полёте, включая пассивные участки:
+\begin{equation}
+V_f-V_0=\Delta V_{\mathrm{th}}
+-\Delta V_g-\Delta V_D-\Delta V_{\mathrm{steer}},
+\label{eq:loss-balance}
+\end{equation}
+где
+\begin{equation}
+\begin{aligned}
+\Delta V_{\mathrm{th}}&=\int_{t_0}^{t_f}\frac{F}{m}\dd t,\\
+\Delta V_g&=\int_{t_0}^{t_f}\frac{\mu}{r^2}\sin\gamma\,\dd t,\\
+\Delta V_D&=\int_{t_0}^{t_f}\frac{D}{m}\dd t,\\
+\Delta V_{\mathrm{steer}}&=
+ \int_{t_0}^{t_f}\frac{F}{m}(1-\cos\beta)\dd t.
+\end{aligned}
+\label{eq:loss-integrals}
+\end{equation}
+Гравитационный интеграл уменьшает скорость на подъёме;
+аэродинамический описывает сопротивление;
+рулевой --- уменьшение проекции тяги на скорость.
+На пассивном подъёме первый из интегралов постоянен,
+а гравитационный продолжает расти.
+Переход кинетической энергии в потенциальную уже учтён:
+добавлять отдельные «затраты на высоту» к этому балансу не нужно.
+
+Крутая траектория быстрее уводит ракету из плотной атмосферы,
+но увеличивает гравитационные потери из-за большого $\sin\gamma$.
+Ранний поворот уменьшает эту проекцию, но продлевает движение
+в плотных слоях. Минимизировать одну потерю недостаточно:
+сравниваемые программы должны выполнять конечные условия.
+
+\subsection{Напор и нагрузки}
+
+Скоростной напор $q_{\mathrm{dyn}}=\rho V_{\mathrm{air}}^2/2$
+сначала растёт из-за разгона, затем уменьшается
+из-за падения плотности.
+Кроме предела $q_{\mathrm{dyn}}\le q_{\max}$,
+для боковых нагрузок важно произведение
+$q_{\mathrm{dyn}}|\alpha|$:
+при малом угле нормальная аэродинамическая сила
+приближённо пропорциональна ему.
+Угол в таком произведении должен быть выражен
+в единицах, согласованных с заданным пределом.
+
+Тяговая перегрузка
+\begin{equation}
+n_T=\frac{F}{mg_0}
+\label{eq:thrust-load}
+\end{equation}
+растёт при постоянной тяге и уменьшающейся массе.
+Она характеризует тяговое ускорение;
+в атмосфере фактическая продольная нагрузка
+включает и сопротивление.
+Полная проверка конструкции не сводится
+к модели материальной точки.
+
+Таким образом, вместе с орбитой и расходом топлива
+нужно проверять максимумы напора и нагрузок,
+допустимость управления и остаток топлива.
+В расчётном примере этот набор ограничений указан явно.
+
+\FloatBarrier
+\section{Пассивный участок и довыведение}
+\label{sec:coast}
+
+После работы нижних ступеней ракета может иметь
+большую скорость, находясь ещё ниже целевой орбиты.
+Пассивная дуга позволяет использовать запас кинетической
+энергии для подъёма и выбрать место последнего активного манёвра.
+
+\subsection{Свободный подъём и орбитальная геометрия}
+
+В вакууме без тяги энергия и момент постоянны.
+Поэтому сохраняются $a,e,r_p,r_a$,
+а текущие высота, скорость и угол траектории меняются.
+Из постоянства энергии
+\begin{equation}
+V_2^2=V_1^2+2\mu\left(\frac1{r_2}-\frac1{r_1}\right).
+\label{eq:coast-speed}
+\end{equation}
+При подъёме скорость уменьшается.
+В апогее $V_r=0$, но $V_t$ ещё может быть ниже круговой.
+Если апогей ниже цели, одним ожиданием нужной высоты
+достичь нельзя.
+
+Для промежуточной эллиптической орбиты с
+$r_a=r_*$ и $a_{\mathrm{tr}}=(r_p+r_*)/2$
+импульсная оценка довыведения в апогее равна
+\begin{equation}
+V_a^-=\sqrt{\mu\left(\frac2{r_*}
+-\frac1{a_{\mathrm{tr}}}\right)},\qquad
+\Delta V_{\mathrm{circ}}=\sqrt{\frac{\mu}{r_*}}-V_a^-.
+\label{eq:coast-circularize}
+\end{equation}
+Трансверсальный импульс поднимает перигей до $r_*$.
+
+\coursefigure{geometry-coast-insertion}{Пассивная эллиптическая дуга
+и идеальное импульсное довыведение в апогее.}
+
+\subsection{Выбор начала активного довыведения}
+
+При конечной тяге положение и скорость меняются во время
+самого довыведения. Поэтому начало манёвра в точке
+идеального импульса в общем случае не создаёт круговую орбиту.
+Начало выбирается так, чтобы одновременно выполнить
+три условия \eqref{eq:circular-terminal}.
+
+Например, перед последним манёвром $V_r$ может быть положительной.
+За время набора $V_t$ тяжесть и радиальная проекция тяги
+должны довести $V_r$ до нуля.
+Длительность предшествующей паузы определяет,
+с какими $r,V_r,V_t$ начнётся этот процесс.
+Именно поэтому её подбирают вместе с длительностью
+и направлением последнего активного участка.
+
+\FloatBarrier
+\section{Подбор программы выведения}
+\label{sec:targeting}
+
+После задания программы выполняется прогноз
+и получается некоторая конечная орбита.
+Параметры программы $\vect p$ уточняются
+методом пристрелки из предыдущей лекции.
+Для круговой цели используем одну безразмерную невязку:
+\begin{equation}
+\vect{\mathcal R}(\vect p)=
+\begin{pmatrix}
+(r_f-r_*)/r_*\\
+V_{r,f}/V_*\\
+(V_{t,f}-V_*)/V_*
+\end{pmatrix},
+\qquad
+\norm{\vect{\mathcal R}}_2\le\varepsilon.
+\label{eq:residual}
+\end{equation}
+Масштабы $r_*$ и $V_*=\sqrt{\mu/r_*}$ приводят
+компоненты к согласованной форме.
+Если конечное время свободно, длительность манёвра
+может входить в $\vect p$.
+
+Для текущей программы матрица
+$\partial\vect{\mathcal R}/\partial\vect p$
+вычисляется центральными разностями с повторными прогнозами.
+Линеаризация даёт ньютоновскую поправку:
+\begin{equation}
+\frac{\partial\vect{\mathcal R}}{\partial\vect p}
+\,\delta\vect p=-\vect{\mathcal R}(\vect p),\qquad
+\vect p_{\mathrm{new}}=\vect p+\eta\,\delta\vect p,
+\quad 0<\eta\le1.
+\label{eq:newton}
+\end{equation}
+После обновления снова рассчитывается вся траектория.
+Если невязка растёт либо параметры нарушают ограничения,
+шаг уменьшается. Итерации продолжаются до выполнения
+допуска в \eqref{eq:residual}; отдельно проверяются
+нагрузки и запас топлива.
+
+\textbf{Пристрелка обеспечивает конечные условия.}
+Максимум остатка топлива или полезной нагрузки требует
+отдельной оптимизации. В примере ищется допустимая программа.
+
+\FloatBarrier
+\input{launch-geometry.tex}
+
+\FloatBarrier
+\input{example.tex}
+
+\FloatBarrier
+
+\begin{thebibliography}{9}
+\addcontentsline{toc}{section}{Литература}
+\bibitem{teofilatto}
+Teofilatto P. \textit{Trajectories of Launch and Reentry Systems}.
+Springer Aerospace Technology. Springer, 2025.
+\href{https://doi.org/10.1007/978-3-031-75760-0}
+{DOI: 10.1007/978-3-031-75760-0}.
+Разд.~1.2, 1.8--1.9, 2.2--2.7, 3.2--3.4:
+ступени, аэродинамика, геометрия запуска,
+атмосферное движение, потери, пассивные участки и довыведение.
+\bibitem{nasa-rocket}
+NASA Glenn Research Center.
+\href{https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/ideal-rocket-equation/}{\textit{Ideal Rocket Equation}};
+\href{https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/dynamic-pressure-2/}{\textit{Dynamic Pressure}}.
+Определения характеристической скорости и скоростного напора.
+\end{thebibliography}
+\end{document}

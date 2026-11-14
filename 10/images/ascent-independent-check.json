@@ -1,0 +1,55 @@
+{
+  "rows": 675,
+  "mass_balance": {
+    "m0_kg": 230000.0,
+    "stage1_mass_flow_kg_s": 1189.6689151409164,
+    "stage1_duration_s": 134.4912,
+    "before_separation_kg": 70000.0,
+    "after_separation_kg": 54000.0,
+    "upper_mass_flow_kg_s": 181.28288230718726,
+    "final_expected_kg": 12245.20333412676,
+    "final_data_kg": 12245.203334125274,
+    "maximum_mass_error_kg": 1.775333657860756e-09
+  },
+  "rocket_equation": {
+    "stage1_km_s": 3.4997503768224925,
+    "stage2_km_s": 6.548217821478052,
+    "total_km_s": 10.047968198300545,
+    "data_km_s": 10.047968198301007
+  },
+  "terminal": {
+    "height_km": 650.00000000012,
+    "speed_km_s": 7.530932907860324,
+    "local_circular_speed_km_s": 7.530932907860036,
+    "radial_speed_km_s": 2.3681600177179675e-13,
+    "transverse_speed_km_s": 7.530932907860324,
+    "eccentricity_vector_norm": 8.263938822184457e-14,
+    "residual_norm": 4.6517912041164804e-14
+  },
+  "coast_invariants": {
+    "energy_range_km2_s2": 6.394884621840902e-14,
+    "energy_relative_range": 1.3118108783761258e-15,
+    "angular_momentum_range_km2_s": 5.820766091346741e-11,
+    "angular_momentum_relative_range": 2.073714615083926e-15,
+    "sample_count": 303
+  },
+  "limits": {
+    "q_recomputed_max_Pa": 31507.655558661594,
+    "q_saved_max_Pa": 31507.655558661594,
+    "n_recomputed_max": 6.661979781984704,
+    "minimum_altitude_km": 0.0,
+    "final_fuel_kg": 3245.2033341267597,
+    "upper_burn_total_s": 230.32950565690447,
+    "upper_burn_available_s": 248.23082812499996
+  },
+  "loss_balance": {
+    "max_abs_error_m_s": 9.769962616701378e-12
+  },
+  "scope": "Independent algebraic recomputation from saved states, not a different force model; extrema are checked on saved time samples.",
+  "runtime": {
+    "python": "3.12.3",
+    "numpy": "1.26.4",
+    "scipy": "1.11.4",
+    "matplotlib": "3.6.3"
+  }
+}
