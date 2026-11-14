@@ -1,0 +1,146 @@
+{
+  "description": "Independent audit: Gaussian disk probability by polar double adaptive quadrature and exact two-body propagation by universal-variable f,g map; no use of example propagation or probability code.",
+  "date": "2026-11-13",
+  "input": "example-results.json",
+  "probability_checks": [
+    {
+      "name": "nominal",
+      "pc_primary": 0.005884042984266753,
+      "pc_polar": 0.005884042984266751,
+      "relative_difference": 2.948182874624228e-16
+    },
+    {
+      "name": "minimum_pc_impulse",
+      "pc_primary": 1.0000000000000236e-05,
+      "pc_polar": 1.0000000000000307e-05,
+      "relative_difference": 7.115076756935904e-15
+    },
+    {
+      "name": "maximum_miss_fixed_cost",
+      "pc_primary": 3.900219377038399e-05,
+      "pc_polar": 3.9002193770384046e-05,
+      "relative_difference": 1.3899246012525369e-15
+    },
+    {
+      "name": "minimum_pc_fixed_cost",
+      "pc_primary": 7.628201647329169e-06,
+      "pc_polar": 7.62820164732923e-06,
+      "relative_difference": 7.994855802437007e-15
+    },
+    {
+      "name": "execution_aware_impulse",
+      "pc_primary": 6.720146687782673e-06,
+      "pc_polar": 6.720146687782718e-06,
+      "relative_difference": 6.680322363512288e-15
+    }
+  ],
+  "probability_max_relative_difference": 7.994855802437007e-15,
+  "propagation_checks": [
+    {
+      "name": "minimum_pc_impulse",
+      "tca_s": 0.026143022203461652,
+      "difference_tca_s": -1.9115299620953152e-12,
+      "miss_m": 348.63749086201517,
+      "difference_miss_m": -3.211175680917222e-08,
+      "b_m": [
+        -80.1281508509926,
+        339.30455268941245
+      ],
+      "difference_b_m": [
+        3.268027626290859e-08,
+        -2.5277586246374995e-08
+      ],
+      "pc_polar_nonlinear": 9.99915889645671e-06,
+      "relative_difference_pc_nonlinear": 6.550333165375165e-10
+    },
+    {
+      "name": "maximum_miss_fixed_cost",
+      "tca_s": -0.03869065401476364,
+      "difference_tca_s": -2.351334404959715e-12,
+      "miss_m": 629.0982148115716,
+      "difference_miss_m": 3.8016423786757514e-08,
+      "b_m": [
+        343.81889334212235,
+        -526.8331163282207
+      ],
+      "difference_b_m": [
+        2.7125054202770116e-08,
+        -2.76937726084725e-08
+      ],
+      "pc_polar_nonlinear": 3.90078551245223e-05,
+      "relative_difference_pc_nonlinear": 5.207104005131643e-10
+    },
+    {
+      "name": "minimum_pc_fixed_cost",
+      "tca_s": 0.02680007555708635,
+      "difference_tca_s": -2.078774652414239e-12,
+      "miss_m": 358.0032171873041,
+      "difference_miss_m": -2.4380483409913722e-08,
+      "b_m": [
+        -83.34732828409611,
+        348.16594661793545
+      ],
+      "difference_b_m": [
+        2.2991088144408423e-08,
+        -1.956550477189012e-08
+      ],
+      "pc_polar_nonlinear": 7.627514516690775e-06,
+      "relative_difference_pc_nonlinear": 3.726638040693795e-10
+    },
+    {
+      "name": "execution_aware_impulse",
+      "tca_s": 0.026988459397434657,
+      "difference_tca_s": -2.031066287377925e-12,
+      "miss_m": 360.57348774250227,
+      "difference_miss_m": -2.0904792563669616e-08,
+      "b_m": [
+        -83.54264837592189,
+        350.76183652890387
+      ],
+      "difference_b_m": [
+        2.885973060529068e-08,
+        -1.4615977761422982e-08
+      ],
+      "pc_polar_nonlinear": 6.719524999317365e-06,
+      "relative_difference_pc_nonlinear": 1.0078967569480498e-09
+    }
+  ],
+  "universal_fg_round_trip_position_error_m": 4.3828303383786924e-08,
+  "universal_fg_round_trip_velocity_error_m_s": 5.958247467771759e-11,
+  "sensitivity_step_m_s": 0.002,
+  "G_universal_fg_s": [
+    [
+      -483.06897122288194,
+      -3321.814647334932,
+      1.4273471293790863e-07
+    ],
+    [
+      2882.9962024017973,
+      4276.692428193443,
+      -256.98375632609236
+    ]
+  ],
+  "G_relative_difference": 1.2778171107873254e-09,
+  "G_absolute_difference_max_s": 7.5153660645810305e-06,
+  "projection_orthonormal_error": 1.9022185261774797e-16,
+  "projection_velocity_error_m_s": 4.6369822304888135e-14,
+  "execution_covariance_probability_checks": [
+    {
+      "name": "minimum_pc_impulse",
+      "pc_with_execution_error_polar": 1.1766214334464389e-05,
+      "pc_primary": 1.1766214334464442e-05,
+      "relative_difference": 4.463291355822239e-15
+    },
+    {
+      "name": "execution_aware_impulse",
+      "pc_with_execution_error_polar": 7.999321035778298e-06,
+      "pc_primary": 7.999321035778286e-06,
+      "relative_difference": 1.4824334726061447e-15
+    }
+  ],
+  "reproduction": {
+    "command": "python3 9/images/verify_example.py",
+    "probability": "Direct polar disk integration with nested scipy.integrate.quad; epsrel=2e-12, radial epsabs=2e-16, angular epsabs=2e-13.",
+    "propagation": "Universal-variable Kepler equation solved by brentq; reconstruct position/velocity with f,g,fdot,gdot; rebuild primary RTN at -lead, apply the exact velocity jump, propagate both objects and refind local TCA on rho dot relative_velocity."
+  }
+}
