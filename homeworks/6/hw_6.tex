@@ -1,0 +1,204 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{iftex}
+\RequirePDFTeX
+\usepackage{cmap}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{PTSerif}
+\usepackage{amsmath,amssymb,microtype}
+\usepackage[a4paper,left=23mm,right=23mm,top=20mm,bottom=21mm]{geometry}
+\usepackage{xcolor,enumitem,fancyhdr,hyperref}
+
+\definecolor{accent}{HTML}{187AA5}
+\definecolor{ink}{HTML}{302B28}
+\definecolor{muted}{HTML}{6D6560}
+\definecolor{tint}{HTML}{EDF4F6}
+\definecolor{rulecolor}{HTML}{A9CADA}
+\hypersetup{unicode=true,colorlinks=true,urlcolor=accent,linkcolor=accent,
+  pdftitle={Домашнее задание 6. Манёвры уклонения от столкновения.},
+  pdfauthor={Чиняев Владимир Николаевич}}
+\urlstyle{same}
+\color{ink}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\linespread{1.08}
+\setlist[enumerate]{leftmargin=*,label=\textcolor{accent}{\arabic*.},
+  itemsep=3pt,topsep=4pt,parsep=0pt}
+\setlist[itemize]{leftmargin=*,itemsep=3pt,topsep=3pt,parsep=0pt}
+\setlength{\emergencystretch}{1em}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\footrule}{\hbox to\headwidth{\color{rulecolor}\leaders\hrule height\footrulewidth\hfill}}
+\fancyfoot[L]{\footnotesize\color{muted}Введение в маневрирование КА\quad /\quad ДЗ 6}
+\fancyfoot[R]{\footnotesize\color{muted}\thepage}
+
+\newcommand{\taskheading}[2]{%
+  \par\vspace{5pt}{\large\bfseries\color{accent}Задание #1. #2}\par\smallskip}
+\newcommand{\hint}[1]{%
+  \par\nobreak\smallskip\noindent
+  \begingroup
+  \setlength{\fboxsep}{7pt}%
+  \setlength{\fboxrule}{0.4pt}%
+  \fcolorbox{rulecolor}{tint}{%
+    \begin{minipage}{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}
+    \small\textbf{\color{accent}Подсказка.} #1\par
+    \end{minipage}}%
+  \endgroup\par\smallskip}
+
+\begin{document}
+
+{\small\color{accent}ВВЕДЕНИЕ В МАНЕВРИРОВАНИЕ КА}\par
+\vspace{3pt}
+{\huge Домашнее задание 6}\par
+{\large Манёвры уклонения от столкновения}\par
+{\small\color{muted}К лекции 9}
+\par{\small\bfseries\color{accent}Срок сдачи: 23 ноября 2026 года, 23:59}
+\vspace{4pt}
+{\color{rulecolor}\hrule}
+\vspace{5pt}
+
+Сравните опасность двух сближений и подберите трансверсальный манёвр
+для одного из них. Оформите решение обоих заданий в предоставленном Jupyter Notebook.
+
+\taskheading{1}{Какие сближения опаснее?}
+
+\begingroup
+\setlength{\fboxsep}{9pt}
+\colorbox{tint}{\begin{minipage}{\dimexpr\linewidth-2\fboxsep\relax}
+\textbf{Исходные данные}
+\par\smallskip
+Рассмотрите два случая номинального сближения без манёвра.
+В опорную эпоху $t=0$ относительные положения в инерциальных осях равны
+\[
+ \boldsymbol\rho_A(0)=\begin{pmatrix}70\\0\\1200\end{pmatrix}\text{м},
+ \qquad
+ \boldsymbol\rho_B(0)=\begin{pmatrix}0\\110\\1800\end{pmatrix}\text{м}.
+\]
+В обоих случаях относительная скорость постоянна:
+\[
+ \boldsymbol v_{\mathrm{rel}}=\begin{pmatrix}0\\0\\-20\end{pmatrix}\text{м/с}.
+\]
+Ошибки положений объектов независимы, имеют гауссово распределение
+с нулевыми математическими ожиданиями. Их ковариации в заданных
+инерциальных осях постоянны:
+\[
+ C_{\mathrm{sc}}=\operatorname{diag}(30^2,60^2,90^2)\ \text{м}^2,
+ \qquad
+ C_{\mathrm{obj}}=\operatorname{diag}(40^2,80^2,120^2)\ \text{м}^2.
+\]
+Примите суммарный радиус столкновения и допустимую вероятность
+\[
+ R_c=1\ \text{м},\qquad P_{\text{доп}}=5\cdot10^{-5}.
+\]
+\end{minipage}}
+\endgroup
+
+Для расчёта вероятности в обоих заданиях используйте приближение
+\[
+ P_c\approx\frac{R_c^2}{2\sqrt{\det C_b}}
+ \exp\!\left(-\frac12\boldsymbol b^\top C_b^{-1}\boldsymbol b\right).
+\]
+
+\begin{enumerate}
+\item Для каждого случая найдите момент наибольшего сближения и минимальное
+расстояние. Оси плоскости сближения направьте вдоль $X,Y$;
+запишите матрицу $P$ и найдите векторы промаха.
+\item Рассчитайте $C_\rho$, $C_b$ и вероятность столкновения для каждого
+случая. Представьте таблицу: время до сближения, минимальное расстояние,
+$P_c$, выполнение ограничения $P_c\leq P_{\text{доп}}$.
+\item На одном рисунке в плоскости сближения постройте границу
+$P_c=P_{\text{доп}}$ и отметьте оба вектора промаха.
+Используйте одинаковый масштаб по осям. Объясните, совпадает ли порядок
+опасности случаев с порядком минимальных расстояний.
+\end{enumerate}
+
+\hint{В прямолинейной модели
+$\boldsymbol\rho(t)=\boldsymbol\rho(0)+\boldsymbol v_{\mathrm{rel}}t$.
+Момент сближения найдите из условия
+$\boldsymbol\rho(t)^\top\boldsymbol v_{\mathrm{rel}}=0$.
+Для построения границы возьмите логарифм заданной формулы вероятности.}
+
+\newpage
+{\small\color{muted}Домашнее задание 6\hfill К лекции 9}\par
+\vspace{5pt}
+
+\taskheading{2}{Когда и в какую сторону выполнять манёвр?}
+
+Для случая \textbf{B} подберите один трансверсальный импульс
+в ОСК управляемого КА.
+Моменты манёвра отсчитываются от той же опорной эпохи $t=0$:
+\[
+ \Delta\boldsymbol V=(0,\Delta V_t,0)^\top,\quad
+ t_{m,1}=t_{\mathrm{ca}}-600\ \text{с},\quad
+ t_{m,2}=t_{\mathrm{ca}}-1800\ \text{с}.
+\]
+Влияние импульса на вектор промаха уже рассчитано:
+\[
+\begin{aligned}
+ \boldsymbol b(\Delta V_t;t_{m,1})
+ &=\boldsymbol b_0+\begin{pmatrix}1200\\600\end{pmatrix}\Delta V_t,\\[4pt]
+ \boldsymbol b(\Delta V_t;t_{m,2})
+ &=\boldsymbol b_0+\begin{pmatrix}3600\\-1200\end{pmatrix}\Delta V_t.
+\end{aligned}
+\]
+Здесь $\boldsymbol b_0$ --- промах случая B без манёвра.
+Коэффициенты имеют размерность секунды; дополнительно умножать их
+на время упреждения не нужно. Ковариацию $C_b$, радиус $R_c$
+и порог вероятности сохраните из задания 1.
+Доступный импульс ограничен:
+\[
+ |\Delta V_t|\leq0{,}006\ \text{м/с}.
+\]
+
+\begin{enumerate}
+\item Для каждого момента получите зависимость $P_c(\Delta V_t)$.
+Найдите обе границы $P_c=P_{\text{доп}}$ и определите наименьший по модулю
+импульс, удовлетворяющий ограничению на вероятность.
+Рассмотрите оба знака импульса. На этом этапе ограничение
+на величину импульса не накладывайте.
+\item Проверьте ограничение на величину импульса и выберите момент
+выполнения манёвра. Для выбранного решения укажите компоненты импульса,
+характеристическую скорость, вектор промаха и вероятность столкновения.
+\item Постройте обе зависимости $P_c(\Delta V_t)$ на одном графике
+при $-0{,}04\leq\Delta V_t\leq0{,}04$~м/с. Нанесите порог вероятности,
+границы доступного импульса и выбранное решение. Объясните,
+как время манёвра повлияло на его величину и знак.
+\end{enumerate}
+
+\hint{Подставьте линейную зависимость $\boldsymbol b(\Delta V_t)$
+в формулу вероятности и возьмите логарифм равенства
+$P_c=P_{\text{доп}}$. Получится квадратное уравнение.
+Из двух граничных значений выберите ближайшее к нулю,
+затем проверьте ограничение $|\Delta V_t|\leq0{,}006$~м/с.}
+
+\vspace{4pt}
+\textbf{Работа с ноутбуком и самопроверка}
+
+В \texttt{hw\_6.ipynb} готовы константы, функции для таблиц и графиков,
+чекеры \texttt{check\_task1} и \texttt{check\_task2}.
+Заполните отмеченные переменные и текстовые ячейки своими решениями.
+Использование чекеров и сохранение результатов их вызова не требуются.
+Расчёты выполняйте без промежуточного округления:
+положения --- в метрах, время --- в секундах, импульсы --- в м/с.
+
+\vspace{5pt}
+{\color{rulecolor}\hrule}
+\vspace{5pt}
+\textbf{Что представить}
+
+Сдайте один ноутбук с полными решениями обоих заданий:
+расчётными формулами, таблицами, обоими рисунками, выбранным манёвром
+и объяснениями результатов.
+
+Формулы и рассуждения оформите в текстовых ячейках, расчёты и рисунки ---
+в кодовых. Перед отправкой перезапустите ядро, выполните ячейки решения по порядку
+и сохраните ноутбук с результатами.
+
+Название файла: \texttt{hw\_6\_name\_surname.ipynb}.
+Вместо \texttt{name\_surname} укажите свои имя и фамилию латиницей.
+
+\end{document}
