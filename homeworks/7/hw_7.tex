@@ -1,0 +1,195 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{iftex}
+\RequirePDFTeX
+\usepackage{cmap}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{PTSerif}
+\usepackage{amsmath,amssymb,microtype}
+\usepackage[a4paper,left=23mm,right=23mm,top=20mm,bottom=21mm]{geometry}
+\usepackage{xcolor,enumitem,fancyhdr,hyperref}
+
+\definecolor{accent}{HTML}{187AA5}
+\definecolor{ink}{HTML}{302B28}
+\definecolor{muted}{HTML}{6D6560}
+\definecolor{tint}{HTML}{EDF4F6}
+\definecolor{rulecolor}{HTML}{A9CADA}
+\hypersetup{unicode=true,colorlinks=true,urlcolor=accent,linkcolor=accent,
+  pdftitle={Домашнее задание 7. Задача выведения КА на орбиту},
+  pdfauthor={Чиняев Владимир Николаевич}}
+\urlstyle{same}
+\color{ink}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\linespread{1.08}
+\setlist[enumerate]{leftmargin=*,label=\textcolor{accent}{\arabic*.},
+  itemsep=3pt,topsep=4pt,parsep=0pt}
+\setlist[itemize]{leftmargin=*,itemsep=3pt,topsep=3pt,parsep=0pt}
+\setlength{\emergencystretch}{1em}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\footrule}{\hbox to\headwidth{\color{rulecolor}\leaders\hrule height\footrulewidth\hfill}}
+\fancyfoot[L]{\footnotesize\color{muted}Введение в маневрирование КА\quad /\quad ДЗ 7}
+\fancyfoot[R]{\footnotesize\color{muted}\thepage}
+
+\newcommand{\taskheading}[2]{%
+  \par\vspace{5pt}{\large\bfseries\color{accent}Задание #1. #2}\par\smallskip}
+\newcommand{\hint}[1]{%
+  \par\nobreak\smallskip\noindent
+  \begingroup
+  \setlength{\fboxsep}{7pt}%
+  \setlength{\fboxrule}{0.4pt}%
+  \fcolorbox{rulecolor}{tint}{%
+    \begin{minipage}{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}
+    \small\textbf{\color{accent}Подсказка.} #1\par
+    \end{minipage}}%
+  \endgroup\par\smallskip}
+
+\begin{document}
+
+{\small\color{accent}ВВЕДЕНИЕ В МАНЕВРИРОВАНИЕ КА}\par
+\vspace{3pt}
+{\huge Домашнее задание 7}\par
+{\large Задача выведения КА на орбиту}\par
+{\small\color{muted}К лекции 10}
+\par{\small\bfseries\color{accent}Срок сдачи: 30 ноября 2026 года, 23:59}
+\vspace{4pt}
+{\color{rulecolor}\hrule}
+\vspace{5pt}
+
+Рассчитайте характеристическую скорость двухступенчатой ракеты
+и исследуйте влияние широты космодрома на геометрию запуска.
+Оформите решение обоих заданий в предоставленном Jupyter Notebook.
+
+\taskheading{1}{Характеристическая скорость двухступенчатой ракеты}
+
+\begingroup
+\setlength{\fboxsep}{9pt}
+\colorbox{tint}{\begin{minipage}{\dimexpr\linewidth-2\fboxsep\relax}
+\textbf{Исходные данные}
+\par\smallskip
+Масса полезной нагрузки --- $5$~т. Характеристики ступеней:
+\begin{center}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}{lrr}
+\hline
+Параметр & Первая ступень & Верхняя ступень\\\hline
+Масса топлива, т & $160$ & $45$\\
+Сухая масса, т & $16$ & $4$\\
+Тяга, МН & $3{,}5$ & $0{,}8$\\
+Удельный импульс, с & $300$ & $450$\\\hline
+\end{tabular}
+\end{center}
+\vspace{-3pt}
+Примите $g_0=9{,}80665$~м/с$^2$. Тяга и удельный импульс постоянны.
+Первая ступень расходует всё топливо и отделяется; сразу после этого
+включается верхняя ступень, которая также расходует всё топливо.
+Начало работы первой ступени соответствует $t=0$.
+\end{minipage}}
+\endgroup
+
+\begin{enumerate}
+\item Найдите массу ракеты при старте, перед разделением,
+после разделения и после окончания работы верхней ступени.
+\item Рассчитайте длительности работы двигателей,
+характеристические скорости обеих ступеней и их сумму.
+\item Постройте на общей временной шкале два графика:
+массу $m(t)$ и накопленную характеристическую скорость
+$\Delta V_{\mathrm{th}}(t)$. Отметьте момент разделения.
+Объясните, какая из величин испытывает скачок и почему.
+\item Повторите расчёт суммарной характеристической скорости для случая,
+когда отработавшая первая ступень \textbf{не отделяется}.
+Остальные данные сохраните. Сравните результаты и объясните,
+почему отделение повышает возможности ракеты,
+хотя само по себе не создаёт скачка скорости.
+\end{enumerate}
+
+\hint{Полная масса включает топливо, конструкции обеих ступеней и нагрузку.
+Для активного участка используйте $c=g_0I_{\mathrm{sp}}$,
+$\dot m=-F/c$ и $\Delta V_{\mathrm{th}}=c\ln(m_b/m_e)$.
+Верхняя ступень начинает работу с массы после разделения;
+накопленная характеристическая скорость содержит вклад предыдущего участка.
+Если первая ступень остаётся, её сухая масса входит и в начальную,
+и в конечную массу верхнего активного участка.}
+
+\newpage
+{\small\color{muted}Домашнее задание 7\hfill К лекции 10}\par
+\vspace{5pt}
+
+\taskheading{2}{Широта космодрома и азимут запуска}
+
+\begingroup
+\setlength{\fboxsep}{9pt}
+\colorbox{tint}{\begin{minipage}{\dimexpr\linewidth-2\fboxsep\relax}
+\textbf{Исходные данные}
+\par\smallskip
+Требуется прямое выведение на орбиту с наклонением $i=51{,}6^\circ$,
+без манёвра изменения плоскости. Рассмотрите условные космодромы:
+\[
+ \phi=0^\circ,\quad28{,}5^\circ,\quad45^\circ,\quad60^\circ.
+\]
+Используйте сферическую модель Земли:
+\[
+ R_E=6378{,}137\ \text{км},\qquad
+ \omega_E=7{,}2921159\cdot10^{-5}\ \text{рад/с}.
+\]
+Азимут $A$ --- азимут \textbf{инерциальной} горизонтальной скорости,
+отсчитываемый от севера к востоку.
+Оценку выполняйте по геометрии запуска, рассмотренной на лекции.
+\end{minipage}}
+\endgroup
+
+\begin{enumerate}
+\item Для каждого космодрома найдите начальную инерциальную скорость
+площадки, обусловленную вращением Земли. Представьте её модуль в м/с
+и укажите направление.
+\item Из соотношения $\cos i=\cos\phi\sin A$ получите условие существования
+геометрически допустимого запуска. Для каждого космодрома найдите
+все азимуты $0^\circ\leq A\leq180^\circ$ либо укажите отсутствие решения.
+Составьте таблицу результатов.
+\item Постройте обе ветви зависимости $A(\phi)$ при
+$0^\circ\leq\phi\leq70^\circ$.
+Недопустимые широты пропускайте;
+отметьте границу области существования решения.
+\item Объясните различие двух найденных азимутов.
+Какое наклонение получается при запуске строго на восток
+и почему оно является минимальным для прямого запуска с данной широты?
+\end{enumerate}
+
+\hint{Скорость площадки равна
+$V_{E,0}=\lVert\boldsymbol V_0\rVert=\omega_E R_E\cos\phi$
+и направлена на восток.
+При решении уравнения для азимута сначала проверьте допустимость
+значения $\sin A$, затем учтите обе ветви синуса на $[0,\pi]$.
+Недопустимые точки графика обозначайте \texttt{np.nan},
+не заменяйте их граничным значением.
+В граничной допустимой точке две ветви совпадают.}
+
+\vspace{4pt}
+\textbf{Работа с ноутбуком и самопроверка}
+
+В \texttt{hw\_7.ipynb} готовы константы, функции для таблиц и графиков,
+чекеры \texttt{check\_task1} и \texttt{check\_task2}.
+Заполните отмеченные переменные, расчётные функции и текстовые ячейки.
+Использование чекеров и сохранение результатов их вызова не требуются.
+В коде используйте килограммы, ньютоны, секунды, метры и радианы;
+в таблицах и на графиках массы приводите в тоннах, углы --- в градусах.
+Не округляйте промежуточные результаты.
+
+\vspace{5pt}
+{\color{rulecolor}\hrule}
+\vspace{5pt}
+\textbf{Что представить}
+
+Сдайте один ноутбук с решениями обоих заданий: расчётными формулами,
+таблицами, графиками и объяснениями.
+Перед отправкой перезапустите ядро, выполните ячейки по порядку
+и сохраните ноутбук с результатами.
+Название файла: \texttt{hw\_7\_name\_surname.ipynb};
+вместо \texttt{name\_surname} укажите имя и фамилию латиницей.
+
+\end{document}
