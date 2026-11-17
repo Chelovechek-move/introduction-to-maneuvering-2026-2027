@@ -68,27 +68,29 @@ def pc_polar(b, sigma, radius):
 
 
 def geometry():
-    fig, axes = plt.subplots(1, 2, figsize=(10.7, 4.0))
+    fig, axes = plt.subplots(1, 2, figsize=(10.7, 4.0),
+                             gridspec_kw={'width_ratios':[1.18,1.]})
     ax = axes[0]
     ax.set_title('а) Относительное движение', pad=17)
     ax.axvline(0, color=BLUE, alpha=.28, lw=7)
     ax.plot([-175, 170], [100, 100], color=GREEN, lw=2.2)
-    ax.annotate('', xy=(145, 100), xytext=(95, 100),
+    ax.annotate('', xy=(100, 100), xytext=(0, 100),
                 arrowprops={'arrowstyle':'-|>', 'color':GREEN, 'lw':2})
-    ax.text(112, 114, r'$\mathbf{v}_{\rm rel}$', color=GREEN)
+    ax.text(40, 116, r'$\mathbf{v}_{\rm rel}(t_{\rm ca})$', color=GREEN)
     ax.plot(-120, 100, 'o', color=GREEN, ms=6)
-    ax.text(-170, 120, r'$t_0$', color=GREEN)
+    ax.text(-135, 116, r'$t$', color=GREEN)
     ax.plot(0, 100, 'o', color=BLUE, ms=7)
-    ax.text(12, 113, r'$t_{\rm ca}$', color=BLUE)
+    ax.text(-32, 113, r'$t_{\rm ca}$', color=BLUE)
     ax.annotate('', xy=(-120, 100), xytext=(0, 0),
                 arrowprops={'arrowstyle':'-|>', 'color':GRAY, 'lw':1.5})
-    ax.text(-118, 48, r'$\rho(t_0)$', color=GRAY)
+    ax.text(-118, 48, r'$\rho(t)$', color=GRAY)
     ax.annotate('', xy=(0, 100), xytext=(0, 0),
                 arrowprops={'arrowstyle':'-|>', 'color':BLUE, 'lw':2})
-    ax.text(11, 48, r'$\|\mathbf{b}\|$', color=BLUE)
+    ax.text(10, 43, r'$\rho(t_{\rm ca})$', color=BLUE)
+    ax.plot([0,10,10],[90,90,100], color=INK, lw=.9)
     ax.add_patch(Circle((0, 0), 10, color=ORANGE, alpha=.55))
     ax.plot(0, 0, 'o', color=INK, ms=4)
-    ax.text(20, -10, 'Первый объект', fontsize=13)
+    ax.text(20, -10, 'Управляемый КА', fontsize=12.5)
     ax.set_xlim(-185, 185); ax.set_ylim(-30, 150)
     ax.set_xlabel(r'Продольная координата $s$, м')
     ax.set_ylabel('Поперечное расстояние, м')
@@ -140,25 +142,36 @@ def risk():
 
 def dilution():
     radius, b = 10., np.array([100.,0.])
-    sigmas=np.geomspace(5,2000,240)
+    sigmas=np.geomspace(1,2000,260)
     probabilities=np.array([pc_diagonal(b,(s,s),radius,True) for s in sigmas])
+    zero_probabilities=-np.expm1(-radius**2/(2*sigmas**2))
     result=minimize_scalar(lambda s:-pc_diagonal(b,(s,s),radius,True),
                            bounds=(10,500),method='bounded',options={'xatol':1e-8})
     smax,pmax=float(result.x),float(-result.fun)
-    fig,ax=plt.subplots(figsize=(8.3,3.6))
+    fig,axes=plt.subplots(1,2,figsize=(10.7,4.2),sharex=True)
+    ax=axes[0]
+    ax.semilogx(sigmas,zero_probabilities,color=GREEN,lw=2.2)
+    ax.set_title(r'а) $\|\mathbf{b}\|=0$',pad=10)
+    ax.set_ylim(0,1.04)
+    ax.set_ylabel(r'$P_c$')
+    ax=axes[1]
     ax.semilogx(sigmas,1000*probabilities,color=BLUE,lw=2.2)
     ax.axvline(smax,color=ORANGE,ls='--',lw=1.1)
     ax.plot(smax,1000*pmax,'o',color=ORANGE,ms=5)
-    ax.text(smax*1.13,1000*pmax*.94, rf'$\sigma={smax:.1f}$ м',color=ORANGE)
-    ax.text(.97,.93,r'$\|\mathbf{b}\|=100$ м, $R_c=10$ м',transform=ax.transAxes,
-            ha='right',va='top',bbox={'facecolor':'white','edgecolor':'none'})
-    ax.set_xlabel(r'Среднеквадратическая ошибка $\sigma$, м')
+    ax.text(smax*1.16,1000*pmax*.89, rf'$\sigma={smax:.1f}$ м',color=ORANGE,fontsize=12)
+    ax.set_title(r'б) $\|\mathbf{b}\|=100$ м',pad=10)
     ax.set_ylabel(r'$P_c\cdot10^3$')
-    ax.set_ylim(0,pmax*1180);ax.set_xlim(5,2000)
-    fig.tight_layout()
+    ax.set_ylim(0,pmax*1180)
+    for ax in axes:
+        ax.set_xlim(1,2000)
+        ax.set_xlabel(r'Ошибка $\sigma$, м')
+        ax.text(.97,.95,r'$R_c=10$ м',transform=ax.transAxes,
+                ha='right',va='top',bbox={'facecolor':'white','edgecolor':'none'},fontsize=12)
+    fig.tight_layout(w_pad=2.4)
     save(fig,'concept-dilution')
     return {'radius_m':radius,'b_m':b.tolist(),'sigma_m':sigmas.tolist(),
-            'pc':probabilities.tolist(),'maximum_sigma_m':smax,'maximum_pc':pmax,
+            'pc':probabilities.tolist(),'zero_miss_pc':zero_probabilities.tolist(),
+            'maximum_sigma_m':smax,'maximum_pc':pmax,
             'pc_sigma_20':pc_diagonal(b,(20,20),radius,True),
             'pc_sigma_500':pc_diagonal(b,(500,500),radius,True)}
 

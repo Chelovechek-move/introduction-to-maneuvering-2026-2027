@@ -342,16 +342,33 @@ def compute():
        'delta_i_deg':np.rad2deg(element_change[3]),
        'delta_Omega_deg':np.rad2deg(element_change[4]),
        'delta_M_deg_at_original_tca':np.rad2deg(element_change[5])}
-    leads=np.linspace(.1,2.,97)*PERIOD
+    selected_fractions=np.array([.25,.4,.5,1.,2.])
+    # Include the highlighted epochs in the actual optimization grid. The
+    # diamond markers and the free-direction curve use the same candidates.
+    lead_fractions=np.unique(np.round(np.r_[np.linspace(.1,2.,97),
+                                            selected_fractions],12))
+    leads=lead_fractions*PERIOD
     gs=np.array([sensitivity(t) for t in leads])
     axisamps=np.array([[first_axis_solution(g[:,j]) for j in range(3)] for g in gs])
+    unit_impulse=1.0  # m/s, positive component along each of the three RTN axes
+    axis_unit_miss=np.linalg.norm(B0[None,:,None]+unit_impulse*gs,axis=1)
+    free_dvs=[];free_runs=[]
+    for lead,gg in zip(leads,gs):
+        oo,ll=minimum_impulse(gg,starts=18)
+        free_dvs.append(oo)
+        free_runs.append(ll)
+    free_dvs=np.array(free_dvs)
+    free_norms=np.linalg.norm(free_dvs,axis=1)
+    free_b=B0+np.einsum('nij,nj->ni',gs,free_dvs)
+    free_pc=PC(free_b)
     selected=[]
-    for frac in [.25,.4,.5,1.,2.]:
-        lead=frac*PERIOD; gg=sensitivity(lead)
-        oo,ll=minimum_impulse(gg,starts=10)
+    for frac in selected_fractions:
+        idx=int(np.flatnonzero(lead_fractions==frac)[0])
+        lead=leads[idx]; gg=gs[idx];oo=free_dvs[idx];ll=free_runs[idx]
         selected.append({'lead_periods':frac,'lead_s':lead,'G_s':gg,
           'best':solution_record(gg,oo,lead),
-          'axis_signed_m_s':[first_axis_solution(gg[:,j]) for j in range(3)],
+          'axis_signed_m_s':axisamps[idx],
+          'sweep_index':idx,
           'optimization':ll})
     amplitudes=np.linspace(-.18,.18,241)
     pp=np.array([PC(B0+amplitudes[:,None]*g[:,1]) for g in gs])
@@ -395,6 +412,21 @@ def compute():
       'secondary_R_tca_km':RB0,'secondary_V_tca_km_s':VB0,
       'G_main_s':G,'fixed_cost_dv_m_s':FIXED_DV,'axis_solutions':axis,
       'solutions':records,'lead_time_comparison':selected,
+      'lead_time_sweep':{
+         'lead_periods':lead_fractions,'lead_s':leads,
+         'highlighted_lead_periods':selected_fractions,
+         'positive_axis_impulse_m_s':unit_impulse,
+         'axis_miss_definition':'norm(b0 + G(t_m) e_j * 1 m/s), j=r,t,n; m',
+         'axis_unit_miss_m':axis_unit_miss,
+         'free_direction_method':'SLSQP minimum norm under exact Gaussian-disk Pc constraint, multistart',
+         'free_direction_extra_sphere_starts':18,
+         'free_direction_axis_starts':6,
+         'SLSQP_ftol':1e-13,'SLSQP_maxiter':180,
+         'free_direction_dv_m_s':free_dvs,
+         'free_direction_norm_m_s':free_norms,
+         'free_direction_b_m':free_b,'free_direction_pc':free_pc,
+         'optimizer_valid_run_counts':[sum(run['valid'] for run in rr) for rr in free_runs],
+         'optimizer_total_run_counts':[len(rr) for rr in free_runs]},
       'execution_error_sigma_m_s':EXECUTION_SIGMA,
       'execution_aware_design_pc_target':design_limit,
       'C_b_with_execution_error_m2':cexec,
@@ -405,6 +437,9 @@ def compute():
          'max_pc_relative_change_adaptive_quad':float(np.max(np.abs(quad_repeat-p64)/np.maximum(quad_repeat,1e-280))),
          'maximum_miss_independent_secular_dv_difference_m_s':float(np.linalg.norm(dvgeo_check-dv_geo)),
          'maximum_miss_independent_secular_norm_difference_m':float(abs(np.linalg.norm(B0+G@dvgeo_check)-np.linalg.norm(B0+G@dv_geo))),
+         'lead_sweep_max_free_pc':float(np.max(free_pc)),
+         'lead_sweep_max_free_minus_best_axis_dv_m_s':float(np.max(free_norms-np.nanmin(abs(axisamps),axis=1))),
+         'lead_sweep_marker_curve_max_difference_m_s':float(max(abs(z['best']['dv_norm_m_s']-free_norms[z['sweep_index']]) for z in selected)),
          'nominal_tca':tca_for_jump(LEAD_MAIN,np.zeros(3)),
          'SLSQP_min_impulse_runs':logs,'SLSQP_execution_aware_runs':safelogs},
       'limitations':['Covariance is specified at encounter, not propagated from orbit determination.',
@@ -416,7 +451,10 @@ def compute():
       'runtime_s':time.time()-started}
     (BASE/'example-results.json').write_text(json.dumps(jsonable(result),ensure_ascii=False,indent=2)+'\n')
     np.savez_compressed(BASE/'example-data.npz',lead_s=leads,G=gs,
-          axis_signed_dv_m_s=axisamps,map_amplitudes_m_s=amplitudes,map_pc=pp)
+          axis_signed_dv_m_s=axisamps,map_amplitudes_m_s=amplitudes,map_pc=pp,
+          positive_axis_impulse_m_s=unit_impulse,axis_unit_miss_m=axis_unit_miss,
+          free_direction_dv_m_s=free_dvs,free_direction_norm_m_s=free_norms,
+          free_direction_pc=free_pc,free_direction_b_m=free_b)
     write_tex(result)
     print(json.dumps({'nominal_pc':result['nominal_pc'],'G':G.tolist(),
        'opt_dv_m_s':opt.tolist(),'opt_norm':float(np.linalg.norm(opt)),
@@ -468,17 +506,16 @@ def write_tex(r):
         rows.append(f'{name}&${texnum(signed,6)}$&${texnum(z["miss_linear_m"],2)}$'+row_end)
     (BASE/'example-axis-table.tex').write_text(
       '\\begin{tabular}{@{}lrr@{}}\\toprule\n'
-      'Направление&Компонента импульса, м/с&Промах, м\\\\\\midrule\n'
+      'Направление&Компонента импульса, м/с&Промах $\\norm{\\vect b}$, м\\\\\\midrule\n'
       +''.join(rows)+'\\bottomrule\\end{tabular}\n')
     rows=[]
     for name,key in [('Максимальный промах','maximum_miss_fixed_cost'),
-                     ('Минимальная вероятность','minimum_pc_fixed_cost'),
                      ('Минимальный импульс','minimum_pc_impulse')]:
         z=sol[key]
         rows.append(name+f'&${texnum(z["dv_norm_m_s"],6)}$&${texnum(z["miss_linear_m"],2)}$&${scientific(z["pc_linear"])}$'+row_end)
     (BASE/'example-comparison-table.tex').write_text(
       '\\begin{tabular}{@{}lrrr@{}}\\toprule\n'
-      'Задача&$\\Delta V$, м/с&Промах, м&$P_c$\\\\\\midrule\n'
+      'Задача&$\\Delta V$, м/с&Промах $\\norm{\\vect b}$, м&$P_c$\\\\\\midrule\n'
       +''.join(rows)+'\\bottomrule\\end{tabular}\n')
     rows=[]
     for name,q in [('Управляемый КА',Q0),('Опасный объект',QB0)]:
@@ -504,6 +541,16 @@ def write_tex(r):
         f.write('lead_periods,lead_s,minimum_found_dv_m_s,radial_signed_m_s,tangential_signed_m_s,normal_signed_m_s,nonlinear_pc\n')
         for z in r['lead_time_comparison']:
             raw=[z['lead_periods'],z['lead_s'],z['best']['dv_norm_m_s'],*z['axis_signed_m_s'],z['best']['nonlinear']['pc']]
+            f.write(','.join('' if v is None or not np.isfinite(v) else f'{v:.12g}' for v in raw)+'\n')
+    sweep=r['lead_time_sweep']
+    with (BASE/'example-lead-sweep.csv').open('w') as f:
+        f.write('lead_periods,lead_s,radial_plus_1m_s_miss_m,tangential_plus_1m_s_miss_m,normal_plus_1m_s_miss_m,radial_signed_minimum_m_s,tangential_signed_minimum_m_s,normal_signed_minimum_m_s,free_dv_r_m_s,free_dv_t_m_s,free_dv_n_m_s,free_dv_norm_m_s,free_pc,free_b1_m,free_b2_m\n')
+        npz=np.load(BASE/'example-data.npz')
+        for j,frac in enumerate(sweep['lead_periods']):
+            raw=[frac,sweep['lead_s'][j],*sweep['axis_unit_miss_m'][j],
+                 *npz['axis_signed_dv_m_s'][j],*sweep['free_direction_dv_m_s'][j],
+                 sweep['free_direction_norm_m_s'][j],sweep['free_direction_pc'][j],
+                 *sweep['free_direction_b_m'][j]]
             f.write(','.join('' if v is None or not np.isfinite(v) else f'{v:.12g}' for v in raw)+'\n')
 
 
@@ -588,7 +635,6 @@ def figures(r):
     ax.add_patch(Circle((0,0),HBR,color=PALETTE[4],alpha=.65))
     ax.scatter(*B0,color='black',s=40,label='Без манёвра',zorder=5)
     for name,key,color,marker in [('Максимальный промах','maximum_miss_fixed_cost',PALETTE[0],'o'),
-        ('Минимальная вероятность','minimum_pc_fixed_cost',PALETTE[1],'s'),
         ('Минимальный импульс','minimum_pc_impulse',PALETTE[3],'^')]:
         z=solutions[key];b=np.array(z['b_linear_m'])
         ax.annotate('',b,B0,arrowprops={'arrowstyle':'->','color':color,'lw':1.7})
@@ -597,22 +643,23 @@ def figures(r):
     ax.legend(loc='upper left',framealpha=.94)
     fig.tight_layout();savefig(fig,'example-bplane')
 
-    # Matrix column norms compare effects per 1 m/s without asserting risk.
+    # Actual affine miss for a positive 1 m/s impulse along each RTN axis.
     fig,axs=plt.subplots(2,1,figsize=(9.6,7.1),sharex=True)
     ff=data['lead_s']/PERIOD
     for j,(name,color) in enumerate(zip(['Радиальный','Трансверсальный','Нормальный'],PALETTE)):
-        axs[0].plot(ff,np.linalg.norm(data['G'][:,:,j],axis=1)/1000.,color=color,label=name)
+        axs[0].plot(ff,data['axis_unit_miss_m'][:,j]/1000.,color=color,label=name)
         vals=np.abs(data['axis_signed_dv_m_s'][:,j])
         vals=np.where(vals<10.,vals,np.nan)
         axs[1].plot(ff,vals,color=color)
-    axs[0].set_ylabel('Смещение от 1 м/с, км')
+    axs[0].set_ylabel('Промах $\\|\\mathbf{b}\\|$, км')
     axs[1].set(ylabel='Достаточный $|\\Delta V|$, м/с',xlabel='Время упреждения, доли периода',ylim=(.005,10.))
     axs[1].set_yscale('log')
     selected=r['lead_time_comparison']
+    axs[1].plot(ff,data['free_direction_norm_m_s'],color=PALETTE[3],
+      lw=1.8,label='Свободное направление')
     axs[1].scatter([z['lead_periods'] for z in selected],
-      [z['best']['dv_norm_m_s'] for z in selected],
-      color=PALETTE[3],marker='D',s=45,zorder=5,
-      label='Свободное направление')
+      [data['free_direction_norm_m_s'][z['sweep_index']] for z in selected],
+      color=PALETTE[3],marker='D',s=45,zorder=5)
     axs[1].legend(loc='upper right',fontsize=10.5)
     axs[0].legend(ncol=3,loc='upper left',fontsize=10.5)
     axs[0].axvline(.4,color='#999999',ls=':',lw=1)
