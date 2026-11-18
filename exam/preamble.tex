@@ -1,0 +1,55 @@
+\usepackage{iftex}
+\RequirePDFTeX
+\usepackage{cmap}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{PTSerif}
+\usepackage{amsmath,amssymb,microtype}
+\usepackage[a4paper,left=23mm,right=23mm,top=20mm,bottom=21mm]{geometry}
+\usepackage{xcolor,enumitem,fancyhdr,hyperref}
+
+\definecolor{accent}{HTML}{187AA5}
+\definecolor{ink}{HTML}{302B28}
+\definecolor{muted}{HTML}{6D6560}
+\definecolor{tint}{HTML}{EDF4F6}
+\definecolor{rulecolor}{HTML}{A9CADA}
+\hypersetup{unicode=true,colorlinks=true,urlcolor=accent,linkcolor=accent,
+  pdftitle={\examtitle},pdfauthor={Чиняев Владимир Николаевич}}
+\color{ink}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\linespread{1.08}
+\setlist[enumerate]{leftmargin=*,label=\textcolor{accent}{\arabic*.},
+  widest=99,itemsep=3pt,topsep=4pt,parsep=0pt}
+\setlength{\emergencystretch}{1em}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\footrule}{\hbox to\headwidth{\color{rulecolor}\leaders\hrule height\footrulewidth\hfill}}
+\fancyfoot[L]{\footnotesize\color{muted}Введение в маневрирование КА\quad /\quad \examtitle}
+\fancyfoot[R]{\footnotesize\color{muted}\thepage}
+
+\newcommand{\examheading}[1]{%
+  {\small\color{accent}ВВЕДЕНИЕ В МАНЕВРИРОВАНИЕ КА}\par
+  \vspace{3pt}
+  {\huge\examtitle}\par
+  {\small\color{muted}#1}\par
+  \vspace{4pt}
+  {\color{rulecolor}\hrule}
+  \vspace{5pt}}
+
+\newcommand{\examnote}[1]{%
+  \par\smallskip\noindent
+  \begingroup
+  \setlength{\fboxsep}{7pt}%
+  \setlength{\fboxrule}{0.4pt}%
+  \fcolorbox{rulecolor}{tint}{%
+    \begin{minipage}{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}
+      \small #1\par
+    \end{minipage}}%
+  \endgroup\par\smallskip}
+
+\newcommand{\topicheading}[1]{%
+  \par\vspace{5pt}{\large\bfseries\color{accent}#1}\par\nobreak\smallskip}
