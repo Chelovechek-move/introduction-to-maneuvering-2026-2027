@@ -1,0 +1,17 @@
+{
+  "mu_km3_s2": 398600.4418,
+  "rp_km": 7000.0,
+  "ra_km": 42164.0,
+  "D_m_s": 100.0,
+  "true_pointing_error_deg": 1.0,
+  "estimated_pointing_error_deg": 0.7,
+  "speeds_perigee_apogee_m_s": [
+    9882.849072493744,
+    1640.7348332097579
+  ],
+  "plane_angle_perigee_apogee_deg": [
+    0.010016687013341179,
+    0.057444570313785734
+  ],
+  "note": "Separate 100 m/s manoeuvres; same initial orbit and normal pointing error. All vectors on left share the same origin. Sensor estimate is illustrative."
+}

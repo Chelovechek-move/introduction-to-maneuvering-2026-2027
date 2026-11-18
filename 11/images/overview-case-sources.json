@@ -1,0 +1,64 @@
+{
+  "accessed": "2026-11-17",
+  "media_download": {
+    "status": "unavailable in this authoring environment",
+    "reason": "urllib DNS resolution failed; no escalation requested for optional photos",
+    "local_media_files": [],
+    "fallback": "overview-akatsuki.pdf is an original conceptual historical diagram, not a photo"
+  },
+  "akatsuki": {
+    "facts": [
+      "2010 orbit insertion did not achieve the planned orbit",
+      "2015 orbit insertion used attitude-control thrusters",
+      "The achieved orbit was confirmed by measurement on 9 December 2015"
+    ],
+    "sources": [
+      {
+        "title": "Venus Climate Orbiter AKATSUKI Venus Observation Orbit Injection result",
+        "date": "2010-12-08",
+        "url": "https://www.jaxa.jp/press/2010/12/20101208_akatsuki_e.html"
+      },
+      {
+        "title": "Attitude-control thruster firing result",
+        "date": "2015-12-07",
+        "url": "https://www.jaxa.jp/press/2015/12/20151207_akatsuki_j.html"
+      },
+      {
+        "title": "AKATSUKI inserted into Venus' orbit",
+        "date": "2015-12-09",
+        "url": "https://global.jaxa.jp/press/2015/12/20151209_akatsuki.html"
+      },
+      {
+        "title": "JAXA/ISAS status report, 2015 results",
+        "url": "https://jaxa.repo.nii.ac.jp/record/39625/files/SA6100002000.pdf"
+      }
+    ],
+    "available_official_image": {
+      "description": "Official 2015 orbit-pattern diagram, not a spacecraft photograph",
+      "image_url": "https://global.jaxa.jp/press/2015/12/images/20151209_akatsuki_1.jpg",
+      "source_page": "https://global.jaxa.jp/press/2015/12/20151209_akatsuki.html",
+      "credit": "JAXA",
+      "downloaded": false
+    },
+    "available_spacecraft_images_page": {
+      "url": "https://akatsuki.isas.jaxa.jp/en/mission/spacecraft/",
+      "credit": "JAXA",
+      "description": "Official spacecraft/instrument views, no local download"
+    }
+  },
+  "galileo": {
+    "source_page": "https://www.esa.int/Newsroom/Press_Releases/Galileo_satellite_recovered_and_transmitting_navigation_signals",
+    "available_official_image": {
+      "source_page": "https://www.esa.int/ESA_Multimedia/Images/2014/11/Galileo_satellite_s_revised_orbit",
+      "description": "Official revised-orbit illustration; not a spacecraft photograph",
+      "credit": "ESA",
+      "licence": "ESA Standard Licence",
+      "downloaded": false,
+      "date_caution": "Image-page metadata says 03/11/2014, but the text describes later November events; use 03 December press release to date the historical facts."
+    },
+    "facts": [
+      "The fifth satellite underwent 11 maneuvers over 17 days in November 2014",
+      "The revised orbit allowed continuous Earth-sensor operation and reduced radiation exposure"
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "earth_radius_km": 6378.1363,
+  "initial_heights_km": [
+    13713.0,
+    25900.0
+  ],
+  "recovered_heights_km": [
+    17200.0,
+    25900.0
+  ],
+  "nominal_circular_height_km": 23222.0,
+  "orientation": "common arbitrary apsidal direction; no inclination information",
+  "note": "Heights from two ESA summaries, rounded and not a single fitted epoch.",
+  "sources": [
+    {
+      "title": "Galileo satellite recovered and transmitting navigation signals",
+      "date": "2014-12-03",
+      "url": "https://www.esa.int/Newsroom/Press_Releases/Galileo_satellite_recovered_and_transmitting_navigation_signals"
+    },
+    {
+      "title": "Galileo: Facts and figures",
+      "accessed": "2026-11-17",
+      "url": "https://www.esa.int/Applications/Satellite_navigation/Galileo/Facts_and_figures"
+    }
+  ]
+}
